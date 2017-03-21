@@ -7,3 +7,7 @@
 `npm start`
 
 ## Dependency :
+
+- material-ui
+- react-router-dom
+- react-tap-event-plugin
