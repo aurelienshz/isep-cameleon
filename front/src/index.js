@@ -8,6 +8,8 @@ import Layout from './layout/layout';
 // Material UI setup
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
+import './index.css'; //TODO Change .CSS --> .SCSS
+
 const App = () => (
   <MuiThemeProvider>
     <Router>

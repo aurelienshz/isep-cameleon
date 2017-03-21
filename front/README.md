@@ -2,6 +2,8 @@
 
 ## Installation :
 
+You need install node.js
+
 `npm install`
 
 `npm start`
