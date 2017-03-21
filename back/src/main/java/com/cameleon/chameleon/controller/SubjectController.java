@@ -2,21 +2,40 @@ package com.cameleon.chameleon.controller;
 
 import com.cameleon.chameleon.data.entity.Subject;
 import com.cameleon.chameleon.data.repository.SubjectRepository;
+import com.cameleon.chameleon.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(name="/subject")
+@RequestMapping("/subject")
 public class SubjectController {
     @Autowired
-    private SubjectRepository subjectsRepository;
+    private SubjectService subjectService;
 
-    @RequestMapping(name="/", method = RequestMethod.GET)
+    @GetMapping
     public List<Subject> getSubjectsList() {
-        return subjectsRepository.findAll();
+        return subjectService.findAllSubjects();
+    }
+
+    @GetMapping("/{id}")
+    public Subject getSubjectById(@PathVariable Long id) {
+        return subjectService.getById(id);
+    }
+
+    @PostMapping
+    public Subject createSubject(@RequestBody Subject subject) {
+        return subjectService.createSubject(subject);
+    }
+
+    @PostMapping("/{id}")
+    public Subject editSubject(@PathVariable Long id, @RequestBody Subject subject) {
+        return subjectService.updateSubject(id, subject);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteSubject(@PathVariable Long id) {
+        subjectService.deleteSubjectById(id);
     }
 }
