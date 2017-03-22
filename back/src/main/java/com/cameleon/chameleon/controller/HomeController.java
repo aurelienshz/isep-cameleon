@@ -9,6 +9,6 @@ public class HomeController {
     @GetMapping("/home")
     @ResponseBody
     public String homeController() {
-        return "<h1>Chameleon web service !</h1>";
+        return "<h1>Chameleon web service !</h1><h2>Now with automatic deployment !</h2>";
     }
 }
