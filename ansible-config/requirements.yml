@@ -1,0 +1,11 @@
+##
+# Ansible Galaxy requirements
+# Run ansible-galaxy install -r requirements.yml to install them
+##
+
+- src: jdauphant.nginx
+- src: geerlingguy.jenkins
+- src: git+https://github.com/Oefenweb/ansible-nodejs.git
+  name: node
+- src: gantsign.maven
+  name: maven
