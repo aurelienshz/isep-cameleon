@@ -10,7 +10,7 @@ export default function layout(props) {
     <AppBar
       title="Caméléon"
       iconElementLeft={<img style={{height: '50px',}} src="img/favicon.ico" alt="Logo" />}
-      iconElementRight={<FlatButton label="login" />}
+      iconElementRight={(<FlatButton label="login" />, <FlatButton label="test" />)}
     />
   )
 }
