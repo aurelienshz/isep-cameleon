@@ -4,7 +4,7 @@ import { getJson, postJson, deleteJson } from './helpers/request';
 
 const REQUEST_PATH_PREFIX = '/subject';
 
-type Subject = {
+export type Subject = {
   name: string,
   description: string,
   number: number,
@@ -18,11 +18,11 @@ export async function getSubject(id: number): Subject {
   return await getJson(REQUEST_PATH_PREFIX + `${id}`);
 }
 
-export async function createSubject(subject: Subject) {
+export async function createSubject(subject: Subject): Subject {
   return await postJson(REQUEST_PATH_PREFIX, subject);
 }
 
-export async function updateSubject(id: number, subject: Subject) {
+export async function updateSubject(id: number, subject: Subject): Subject {
   return await postJson(REQUEST_PATH_PREFIX + `/${id}`, subject);
 }
 
