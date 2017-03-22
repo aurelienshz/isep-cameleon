@@ -1,11 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import {Route} from 'react-router-dom';
 
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 
-export default function layout(props) {
+export default function layout() {
   return (
     <AppBar
       title="Caméléon"
