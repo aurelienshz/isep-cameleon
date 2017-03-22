@@ -1,6 +1,7 @@
 // @flow
 
 import { getJson, postJson, deleteJson } from './helpers/request';
+import type { Subject } from './subjects';
 
 const REQUEST_PATH_PREFIX = '/project';
 
