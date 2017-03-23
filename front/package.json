@@ -15,12 +15,14 @@
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
+    "flow-bin": "^0.42.0",
     "react-scripts": "0.9.5"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
+    "flow": "flow",
     "eject": "react-scripts eject"
   }
 }
