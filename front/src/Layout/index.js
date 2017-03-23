@@ -32,8 +32,8 @@ const styleSheet = createStyleSheet('ButtonAppBar', () => ({
     flex: 1,
   },
   avatar: {
-  margin: 10,
-  border: '2px solid white',
+    margin: 10,
+    border: '2px solid white',
   },
   row: {
     display: 'flex',
