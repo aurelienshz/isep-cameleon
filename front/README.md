@@ -13,3 +13,5 @@ You need install node.js
 - material-ui
 - react-router-dom
 - react-tap-event-plugin
+- eslint
+- redux

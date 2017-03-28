@@ -13,7 +13,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
-import './index.css'; //TODO Change .CSS --> .SCSS
+import './index.css'; //TODO delete this file
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
@@ -25,7 +25,7 @@ const muiTheme = getMuiTheme({
   palette: {
     primary1Color: colors.ISEP_PRIMARY,
     primary2Color: colors.ISEP_SECONDARY,
-    accent1Color: colors.ISEP_TERTIARY,
+    primary3Color: colors.ISEP_TERTIARY,
   },
 });
 
