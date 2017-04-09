@@ -13,6 +13,8 @@ import Avatar from 'material-ui/Avatar';
 
 import {Route, Link} from 'react-router-dom';
 
+import colors from '../colors';
+
 // pages :
 import Admin from '../pages/admin';
 import Client from '../pages/client';
@@ -31,10 +33,42 @@ const styleSheet = createStyleSheet('ButtonAppBar', () => ({
   },
   avatar: {
   margin: 10,
+  border: '2px solid white',
   },
   row: {
     display: 'flex',
     justifyContent: 'center',
+  },
+  link: {
+    textDecoration: 'none',
+  },
+  group: {
+    display: 'flex',
+  },
+  detail: {
+    height: '100%',
+    marginRight: '5px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    flexDirection: 'column',
+  },
+  name: {
+    fontSize: '20px',
+    display: 'block',
+    textAlign: 'right',
+    textTransform: 'capitalize',
+  },
+  badge: {
+    display: 'block',
+    fontSize: '10px',
+    padding: '3px 5px',
+    fontWeight: 'bold',
+    background: 'white',
+    color: colors.ISEP_PRIMARY,
+    borderRadius: '3px',
+    margin: '3px',
+    verticalAlign: 'baseline',
   },
 }));
 
@@ -49,14 +83,24 @@ export default function ButtonAppBar(props, context) {
             <MenuIcon />
           </IconButton>
           <Text type="title" colorInherit className={classes.flex}>Cameleon</Text>
-          <Link to="/admin"><Button contrast>Admin</Button></Link>
-          <Link to="/client"><Button contrast>Client</Button></Link>
-          <Link to="/etudiant"><Button contrast>Étudiant</Button></Link>
+          <Link className={classes.link} to="/admin"><Button contrast>Admin</Button></Link>
+          <Link className={classes.link} to="/client"><Button contrast>Client</Button></Link>
+          <Link className={classes.link} to="/etudiant"><Button contrast>Étudiant</Button></Link>
           <Button contrast>S'inscrire</Button>
           <Button contrast>Se connecter</Button>
           <Route path="/admin" component={Admin} />
           <Route path="/client" component={Client} />
           <Route path="/etudiant" component={Etudiant} />
+          <div className={classes.group}>
+            <div className={classes.detail}>
+              <div className={classes.name}>
+                Victor ELY
+              </div>
+              <div className={classes.badge}>
+                SysAdmin
+              </div>
+            </div>
+          </div>
           <div className={classes.row}>
             <Avatar
               alt="Jono Hunt"
