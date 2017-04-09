@@ -76,40 +76,42 @@ export default function ButtonAppBar(props, context) {
 
   const classes = context.styleManager.render(styleSheet);
   return (
-    <div className={classes.root}>
-      <AppBar className={classes.appBar}>
-        <Toolbar>
-          <IconButton contrast>
-            <MenuIcon />
-          </IconButton>
-          <Text type="title" colorInherit className={classes.flex}>Cameleon</Text>
-          <Link className={classes.link} to="/admin"><Button contrast>Admin</Button></Link>
-          <Link className={classes.link} to="/client"><Button contrast>Client</Button></Link>
-          <Link className={classes.link} to="/etudiant"><Button contrast>Étudiant</Button></Link>
-          <Button contrast>S'inscrire</Button>
-          <Button contrast>Se connecter</Button>
-          <Route path="/admin" component={Admin} />
-          <Route path="/client" component={Client} />
-          <Route path="/etudiant" component={Etudiant} />
-          <div className={classes.group}>
-            <div className={classes.detail}>
-              <div className={classes.name}>
-                Victor ELY
-              </div>
-              <div className={classes.badge}>
-                SysAdmin
+    <div>
+      <div className={classes.root}>
+        <AppBar className={classes.appBar}>
+          <Toolbar>
+            <IconButton contrast>
+              <MenuIcon />
+            </IconButton>
+            <Text type="title" colorInherit className={classes.flex}>Cameleon</Text>
+            <Link className={classes.link} to="/admin"><Button contrast>Admin</Button></Link>
+            <Link className={classes.link} to="/client"><Button contrast>Client</Button></Link>
+            <Link className={classes.link} to="/etudiant"><Button contrast>Étudiant</Button></Link>
+            <Button contrast>S'inscrire</Button>
+            <Button contrast>Se connecter</Button>
+            <div className={classes.group}>
+              <div className={classes.detail}>
+                <div className={classes.name}>
+                  Victor ELY
+                </div>
+                <div className={classes.badge}>
+                  SysAdmin
+                </div>
               </div>
             </div>
-          </div>
-          <div className={classes.row}>
-            <Avatar
-              alt="Victor ELY"
-              src="img/ely.jpg"
-              className={classes.avatar}
-            />
-          </div>
-        </Toolbar>
-      </AppBar>
+            <div className={classes.row}>
+              <Avatar
+                alt="Victor ELY"
+                src="img/ely.jpg"
+                className={classes.avatar}
+              />
+            </div>
+          </Toolbar>
+        </AppBar>
+      </div>
+      <Route path="/admin" component={Admin} />
+      <Route path="/client" component={Client} />
+      <Route path="/etudiant" component={Etudiant} />
     </div>
   );
 }
