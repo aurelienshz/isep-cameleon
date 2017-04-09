@@ -64,7 +64,7 @@ const styleSheet = createStyleSheet('ButtonAppBar', () => ({
     fontSize: '10px',
     padding: '3px 5px',
     fontWeight: 'bold',
-    background: 'white',
+    background: colors.ISEP_TERTIARY,
     color: colors.ISEP_PRIMARY,
     borderRadius: '3px',
     margin: '3px',
@@ -103,7 +103,7 @@ export default function ButtonAppBar(props, context) {
           </div>
           <div className={classes.row}>
             <Avatar
-              alt="Jono Hunt"
+              alt="Victor ELY"
               src="img/ely.jpg"
               className={classes.avatar}
             />

@@ -1,9 +1,8 @@
 import React from 'react';
 import {Switch, Route} from 'react-router-dom';
 
-const page = () => {
-  return <div>Coucou</div>
-};
+import Equipe from './equipe';
+import Sujet from './sujet';
 
 export default class Admin extends React.Component {
   render() {
@@ -12,8 +11,8 @@ export default class Admin extends React.Component {
     return (
       <div>
         <Switch>
-          <Route path={`${match.url}/sujet`} component={page} />
-          <Route path={`${match.url}/equipe`} component={page} />
+          <Route path={`${match.url}/sujet`} component={Sujet} />
+          <Route path={`${match.url}/equipe`} component={Equipe} />
         </Switch>
       </div>
     );
