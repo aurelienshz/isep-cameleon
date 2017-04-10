@@ -10,9 +10,12 @@ import Layout from './layout/layout';
 
 // Material UI setup
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+//import injectTapEventPlugin from 'react-tap-event-plugin';
 //import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 import './index.css'; //TODO delete this file
+
+//injectTapEventPlugin();
 
 // Change colors for material-ui
 /*const muiTheme = getMuiTheme({
