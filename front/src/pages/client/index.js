@@ -26,29 +26,44 @@ const styleSheet = createStyleSheet('ScrollableTabsButtonForce', () => ({
     width: '100%',
   },
   appBar: {
-    backgroundColor: colors.ISEP_PRIMARY_Lighter,
+    backgroundColor: colors.ISEP_PRIMARY_LIGHTER,
   },
   white: {
     color: colors.ISEP_TERTIARY,
   },
 }));
 
+const tabs = [
+  {
+    label: "Sujet",
+    path: "/subject",
+    icon: PhoneIcon,
+  },
+  {
+    label: "Équipe",
+    path: "/team",
+    icon: FavoriteIcon,
+  },
+];
+
 export default class ScrollableTabsButtonForce extends Component {
   state = {
     index: 0,
   };
 
-  handleChange = (event, index) => {
-    this.setState({ index });
+  componentDidMount() {
+    this.transitionTo(tabs[this.state.index].path); // TODO with a redirect exact plz
   }
 
-  // Returns an event handler :
+  handleChange = (event, index) => {
+    this.transitionTo(tabs[index].path);
+    this.setState({ index });
+  };
+
   transitionTo = (path) => {
-    return () => {
-      const {url} = this.props.match;
-      this.props.history.push(url + path); // TODO urljoin
-    }
-  }
+    const {url} = this.props.match;
+    this.props.history.push(url + path); // TODO urljoin
+  };
 
   render() {
     const {match} = this.props;
@@ -59,17 +74,28 @@ export default class ScrollableTabsButtonForce extends Component {
         <Paper className={classes.root}>
           <div className={classes.appBar}>
             <Tabs
+              indicatorColor={ colors.ISEP_SECONDARY }
               index={this.state.index}
               onChange={this.handleChange}
               scrollable
               scrollButtons="on"
-              textColor="accent"
-            >
-              <Tab className={classes.white} label="Sujet" icon={<PhoneIcon />} onClick={this.transitionTo("/subject")}/>
-              <Tab className={classes.white} label="Equipe" icon={<FavoriteIcon onClick={this.transitionTo("/team")}/>} />
+              textColor="accent">
+              {
+                tabs.map((tab, index) => {
+                  const { label, icon: Icon } = tab;
+                  return (
+                    <Tab
+                      key={index}
+                      className={classes.white}
+                      label={label}
+                      icon={<Icon />} />
+                  );
+                })
+              }
             </Tabs>
           </div>
         </Paper>
+
         <Switch>
           <Route path={`${match.url}/subject`} component={Sujet} />
           <Route path={`${match.url}/team`} component={Equipe} />
