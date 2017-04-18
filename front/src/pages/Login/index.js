@@ -1,5 +1,6 @@
 import React from "react";
 import {createStyleSheet} from 'jss-theme-reactor';
+import { Redirect } from "react-router";
 
 import customPropTypes from 'material-ui/utils/customPropTypes';
 import Paper from 'material-ui/Paper';
@@ -8,6 +9,8 @@ import Text from 'material-ui/Text';
 import Divider from 'material-ui/Divider';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
+
+import { isAuthenticated } from "../../services/auth";
 
 const styleSheet = createStyleSheet('GuttersLayout', () => {
   return {
@@ -53,6 +56,9 @@ export default class LoginPage extends React.Component {
   render() {
     const classes = this.context.styleManager.render(styleSheet);
 
+    if (isAuthenticated()) {
+      return <Redirect to="/teacher" />
+    }
     return (
       <Layout container gutter={40} align="center" justify="center" className={classes.root}>
         <Layout item xs={12} sm={6}>

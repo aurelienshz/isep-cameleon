@@ -38,9 +38,10 @@ export default class Teacher extends React.Component {
   }
 
   render() {
-    const {match} = this.props;
+    const { match } = this.props;
+    const { index } = this.state;
     const classes = this.context.styleManager.render(styleSheet);
-    const {index} = this.state;
+
 
     return (
       <div>

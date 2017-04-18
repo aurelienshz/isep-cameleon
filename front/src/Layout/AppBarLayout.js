@@ -16,13 +16,9 @@ import AuthenticatedRoute from "./AuthenticatedRoute";
 
 import colors from '../colors';
 
-// pages :
-import Login from '../pages/Login';
-import Teacher from '../pages/teacher';
-import Client from '../pages/client';
-import Etudiant from '../pages/etudiant';
+import { isAuthenticated } from '../services/auth';
 
-const styleSheet = createStyleSheet('ButtonAppBar', () => ({
+const styleSheet = createStyleSheet('AuthenticatedLayout', () => ({
   root: {
     position: 'relative',
     width: '100%',
@@ -46,6 +42,11 @@ const styleSheet = createStyleSheet('ButtonAppBar', () => ({
     textDecoration: 'none',
   },
   group: {
+    flex: '0 0 1',
+    alignItems: 'center',
+    display: 'flex',
+  },
+  subGroup: {
     display: 'flex',
   },
   detail: {
@@ -75,51 +76,55 @@ const styleSheet = createStyleSheet('ButtonAppBar', () => ({
   },
 }));
 
-export default function ButtonAppBar(props, context) {
+
+// TODO ASC more factorizing between this component and AppBarLayout
+export default function AuthenticatedLayout(props, context) {
   const classes = context.styleManager.render(styleSheet);
+
+  console.log(props);
+
   return (
     <div style={{ height: '100%', width: '100%' }}>
       <div className={classes.root}>
         <AppBar className={classes.appBar}>
           <Toolbar>
-            <IconButton contrast>
-              <MenuIcon />
-            </IconButton>
             <Text type="title" colorInherit className={classes.flex}>Cameleon</Text>
-            <Link className={classes.link} to="/teacher"><Button contrast>Professeur</Button></Link>
-            <Link className={classes.link} to="/client"><Button contrast>Client</Button></Link>
-            <Link className={classes.link} to="/etudiant"><Button contrast>Étudiant</Button></Link>
-            <div className={classes.group}>
-              <div className={classes.detail}>
-                <div className={classes.name}>
-                  Victor ELY
+
+            { isAuthenticated() &&
+              <div className={classes.group}>
+                <Link className={classes.link} to="/teacher"><Button contrast>Professeur</Button></Link>
+                <Link className={classes.link} to="/client"><Button contrast>Client</Button></Link>
+                <Link className={classes.link} to="/etudiant"><Button contrast>Étudiant</Button></Link>
+                <div className={classes.subGroup}>
+                  <div className={classes.detail}>
+                    <div className={classes.name}>
+                      Victor ELY
+                    </div>
+                    <div className={classes.badge}>
+                      Grand vizir
+                    </div>
+                  </div>
                 </div>
-                <div className={classes.badge}>
-                  Grand vizir
+                <div className={classes.row}>
+                  <Avatar
+                    alt="Victor ELY"
+                    src="img/ely.jpg"
+                    className={classes.avatar}
+                  />
                 </div>
               </div>
-            </div>
-            <div className={classes.row}>
-              <Avatar
-                alt="Victor ELY"
-                src="img/ely.jpg"
-                className={classes.avatar}
-              />
-            </div>
+            }
+
           </Toolbar>
         </AppBar>
       </div>
 
-      <Route path="/login" component={Login} />
-
-      <AuthenticatedRoute path="/teacher" component={Teacher} />
-      <AuthenticatedRoute path="/client" component={Client} />
-      <AuthenticatedRoute path="/etudiant" component={Etudiant} />
+      { props.children }
 
     </div>
   );
 }
 
-ButtonAppBar.contextTypes = {
+AuthenticatedLayout.contextTypes = {
   styleManager: customPropTypes.muiRequired,
 };
