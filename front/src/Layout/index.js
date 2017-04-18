@@ -1,4 +1,4 @@
-// @flow weak
+// @flow
 
 import React from 'react';
 import { createStyleSheet } from 'jss-theme-reactor';
@@ -11,11 +11,13 @@ import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
 import Avatar from 'material-ui/Avatar';
 
-import {Route, Link} from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
+import AuthenticatedRoute from "./AuthenticatedRoute";
 
 import colors from '../colors';
 
 // pages :
+import Login from '../pages/Login';
 import Teacher from '../pages/teacher';
 import Client from '../pages/client';
 import Etudiant from '../pages/etudiant';
@@ -74,10 +76,9 @@ const styleSheet = createStyleSheet('ButtonAppBar', () => ({
 }));
 
 export default function ButtonAppBar(props, context) {
-
   const classes = context.styleManager.render(styleSheet);
   return (
-    <div>
+    <div style={{ height: '100%', width: '100%' }}>
       <div className={classes.root}>
         <AppBar className={classes.appBar}>
           <Toolbar>
@@ -108,9 +109,13 @@ export default function ButtonAppBar(props, context) {
           </Toolbar>
         </AppBar>
       </div>
-      <Route path="/teacher" component={Teacher} />
-      <Route path="/client" component={Client} />
-      <Route path="/etudiant" component={Etudiant} />
+
+      <Route path="/login" component={Login} />
+
+      <AuthenticatedRoute path="/teacher" component={Teacher} />
+      <AuthenticatedRoute path="/client" component={Client} />
+      <AuthenticatedRoute path="/etudiant" component={Etudiant} />
+
     </div>
   );
 }
