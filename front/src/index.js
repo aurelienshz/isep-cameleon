@@ -7,10 +7,6 @@ import {HashRouter as Router, Route} from 'react-router-dom';
 // layout :
 import Layout from './Layout';
 
-// pages :
-import Project from './Project';
-import Subject from './Subject';
-
 // color :
 //import colors from './colors';
 
@@ -36,10 +32,7 @@ import './index.css'; //TODO delete this file
 const App = () => (
   <MuiThemeProvider /*muiTheme={muiTheme}*/>
     <Router>
-      <Layout>
-        <Route path="/project" component={Project} />
-        <Route path="/subject" component={Subject} />
-      </Layout>
+      <Layout />
     </Router>
   </MuiThemeProvider>
 );
