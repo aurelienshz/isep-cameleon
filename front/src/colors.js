@@ -1,3 +1,5 @@
+// @flow
+
 const colors = {
   ISEP_PRIMARY: '#005580',
   ISEP_SECONDARY: '#ff9800',
