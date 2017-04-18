@@ -24,8 +24,18 @@ export default class Admin extends React.Component {
   };
 
   handleChange = (event, index) => {
-    this.setState({ index });
+    this.setState({
+      index
+    });
   };
+
+  // Returns an event handler :
+  transitionTo = (path) => {
+    return () => {
+      const {url} = this.props.match;
+      this.props.history.push(url + path); // TODO urljoin
+    }
+  }
 
   render() {
     const {match} = this.props;
@@ -36,23 +46,24 @@ export default class Admin extends React.Component {
       <div>
         <div className={classes.root}>
           <BottomNavigation
+
             index={index}
             onChange={this.handleChange}
-            showLabels
-          >
+            showLabels>
             <BottomNavigationButton
-              label="Sujet"
+              label="Sujets"
+              onClick={this.transitionTo("/subject")}
               icon={<RestoreIcon />}
             />
             <BottomNavigationButton
-              label="Equipe"
-              icon={<FavoriteIcon />}
-            />
+              label="Équipes"
+              onClick={this.transitionTo("/team")}
+              icon={<FavoriteIcon />} />
           </BottomNavigation>
         </div>
         <Switch>
-          <Route path={`${match.url}/sujet`} component={Sujet} />
-          <Route path={`${match.url}/equipe`} component={Equipe} />
+          <Route path={`${match.url}/subject`} component={Sujet} />
+          <Route path={`${match.url}/team`} component={Equipe} />
         </Switch>
       </div>
     );
