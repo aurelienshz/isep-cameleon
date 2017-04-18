@@ -7,12 +7,9 @@ import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Text from 'material-ui/Text';
 import Button from 'material-ui/Button';
-import IconButton from 'material-ui/IconButton';
-import MenuIcon from 'material-ui-icons/Menu';
 import Avatar from 'material-ui/Avatar';
 
-import { Route, Link } from 'react-router-dom';
-import AuthenticatedRoute from "./AuthenticatedRoute";
+import { Link } from 'react-router-dom';
 
 import colors from '../colors';
 

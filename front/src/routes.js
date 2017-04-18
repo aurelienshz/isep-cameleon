@@ -1,13 +1,10 @@
 // @flow
 
 import React from 'react';
-import { Route, Link } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
 import AppBarLayout from './Layout/AppBarLayout';
-import { isAuthenticated } from './services/auth';
 import AuthenticatedRoute from "./Layout/AuthenticatedRoute";
-
-import colors from './colors';
 
 // pages :
 import Login from './pages/Login';

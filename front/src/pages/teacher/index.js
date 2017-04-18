@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import {Switch, Route} from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import {createStyleSheet} from 'jss-theme-reactor';
 import customPropTypes from 'material-ui/utils/customPropTypes';
 import {BottomNavigation, BottomNavigationButton} from 'material-ui/BottomNavigation';
