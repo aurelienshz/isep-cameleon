@@ -18,7 +18,7 @@ const styleSheet = createStyleSheet('BottomNavigation', () => ({
   },
 }));
 
-export default class Admin extends React.Component {
+export default class Teacher extends React.Component {
   state = {
     index: 0,
   };
@@ -69,6 +69,6 @@ export default class Admin extends React.Component {
   }
 }
 
-Admin.contextTypes = {
+Teacher.contextTypes = {
   styleManager: customPropTypes.muiRequired,
 };

@@ -16,7 +16,7 @@ import {Route, Link} from 'react-router-dom';
 import colors from '../colors';
 
 // pages :
-import Admin from '../pages/admin';
+import Teacher from '../pages/teacher';
 import Client from '../pages/client';
 import Etudiant from '../pages/etudiant';
 
@@ -85,18 +85,16 @@ export default function ButtonAppBar(props, context) {
               <MenuIcon />
             </IconButton>
             <Text type="title" colorInherit className={classes.flex}>Cameleon</Text>
-            <Link className={classes.link} to="/admin"><Button contrast>Admin</Button></Link>
+            <Link className={classes.link} to="/teacher"><Button contrast>Professeur</Button></Link>
             <Link className={classes.link} to="/client"><Button contrast>Client</Button></Link>
             <Link className={classes.link} to="/etudiant"><Button contrast>Étudiant</Button></Link>
-            <Button contrast>S'inscrire</Button>
-            <Button contrast>Se connecter</Button>
             <div className={classes.group}>
               <div className={classes.detail}>
                 <div className={classes.name}>
                   Victor ELY
                 </div>
                 <div className={classes.badge}>
-                  SysAdmin
+                  Grand vizir
                 </div>
               </div>
             </div>
@@ -110,7 +108,7 @@ export default function ButtonAppBar(props, context) {
           </Toolbar>
         </AppBar>
       </div>
-      <Route path="/admin" component={Admin} />
+      <Route path="/teacher" component={Teacher} />
       <Route path="/client" component={Client} />
       <Route path="/etudiant" component={Etudiant} />
     </div>
