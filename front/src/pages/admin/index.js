@@ -1,7 +1,7 @@
 // @flow
 
-import React, {Component} from 'react';
-import {Switch, Route, Link} from 'react-router-dom';
+import React from 'react';
+import {Switch, Route} from 'react-router-dom';
 import {createStyleSheet} from 'jss-theme-reactor';
 import customPropTypes from 'material-ui/utils/customPropTypes';
 import {BottomNavigation, BottomNavigationButton} from 'material-ui/BottomNavigation';
@@ -46,7 +46,6 @@ export default class Admin extends React.Component {
       <div>
         <div className={classes.root}>
           <BottomNavigation
-
             index={index}
             onChange={this.handleChange}
             showLabels>

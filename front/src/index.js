@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {HashRouter as Router, Route} from 'react-router-dom';
+import {HashRouter as Router} from 'react-router-dom';
 
 // layout :
 import Layout from './Layout';

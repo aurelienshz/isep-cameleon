@@ -27,6 +27,7 @@ const styleSheet = createStyleSheet('ButtonAppBar', () => ({
   },
   appBar: {
     position: 'relative',
+    backgroundColor: colors.ISEP_PRIMARY,
   },
   flex: {
     flex: 1,
