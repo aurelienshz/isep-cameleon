@@ -5,6 +5,7 @@ import thunk from 'redux-thunk';
 
 // import reducers :
 import users from './data/users/reducer';
+import equipesReducer from './pages/teacher/teacher';
 
 // PLEASE READ ME
 // Don't forget to define, in your reducer's file, a getLocalState function that maps to the
@@ -14,6 +15,7 @@ import users from './data/users/reducer';
 // to move the reducer without having to update everywhere the state is used.
 const reducers = combineReducers({
   users,
+  equipes: equipesReducer,
 });
 
 export default function createChameleonStore() {

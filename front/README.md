@@ -1,4 +1,4 @@
-# Cameleon front
+# Cameleon front with React
 
 ## Installation :
 
@@ -15,3 +15,6 @@ You need install node.js
 - react-tap-event-plugin
 - eslint
 - redux
+- flow
+- url-join
+- whatwg-fetch
