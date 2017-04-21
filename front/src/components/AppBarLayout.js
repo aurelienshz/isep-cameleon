@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react';
+import { connect } from 'react-redux';
 import { createStyleSheet } from 'jss-theme-reactor';
 import customPropTypes from 'material-ui/utils/customPropTypes';
 import AppBar from 'material-ui/AppBar';
@@ -13,7 +14,7 @@ import { Link } from 'react-router-dom';
 
 import colors from '../colors';
 
-import { isAuthenticated } from '../services/auth';
+import { getLocalState as getUsersState } from '../data/users/reducer';
 
 const styleSheet = createStyleSheet('AuthenticatedLayout', () => ({
   root: {
@@ -74,11 +75,10 @@ const styleSheet = createStyleSheet('AuthenticatedLayout', () => ({
 }));
 
 
-// TODO ASC more factorizing between this component and AppBarLayout
-export default function AuthenticatedLayout(props, context) {
+function AppBarLayout(props, context) {
   const classes = context.styleManager.render(styleSheet);
 
-  console.log(props);
+  const authenticated = Boolean(props.accessToken);
 
   return (
     <div style={{ height: '100%', width: '100%' }}>
@@ -87,7 +87,7 @@ export default function AuthenticatedLayout(props, context) {
           <Toolbar>
             <Text type="title" colorInherit className={classes.flex}>Cameleon</Text>
 
-            { isAuthenticated() &&
+            { authenticated &&
               <div className={classes.group}>
                 <Link className={classes.link} to="/teacher"><Button contrast>Professeur</Button></Link>
                 <Link className={classes.link} to="/client"><Button contrast>Client</Button></Link>
@@ -122,6 +122,13 @@ export default function AuthenticatedLayout(props, context) {
   );
 }
 
-AuthenticatedLayout.contextTypes = {
+AppBarLayout.contextTypes = {
   styleManager: customPropTypes.muiRequired,
 };
+
+export default connect((state) => {
+  const usersState = getUsersState(state);
+  return {
+    accessToken: usersState.accessToken,
+  };
+})(AppBarLayout);

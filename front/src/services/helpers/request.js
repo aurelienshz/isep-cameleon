@@ -3,7 +3,7 @@
 import 'whatwg-fetch'
 import urljoin from 'url-join';
 
-const API_URL = process.env.REACT_APP_BACKEND_URL;
+export const API_URL = process.env.REACT_APP_BACKEND_URL;
 
 type RequestOptions = {
   method: string,

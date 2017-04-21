@@ -1,10 +1,9 @@
+// @flow
+
 import React from 'react';
 import { Route, Redirect } from 'react-router';
 
-import { isAuthenticated } from "../services/auth";
-
-const AuthenticatedRoute = ({ component: Component, ...rest }) => {
-  const authenticated = isAuthenticated();
+const AuthenticatedRoute = ({ component: Component, authenticated, ...rest }) => {
   return (
     <Route {...rest} render={props => (
       authenticated ? (

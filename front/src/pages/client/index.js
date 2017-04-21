@@ -21,7 +21,7 @@ import colors from '../../colors.js';
 import Equipe from './equipe';
 import Sujet from './sujet';
 
-const styleSheet = createStyleSheet('ScrollableTabsButtonForce', () => ({
+const styleSheet = createStyleSheet('ClientPage', () => ({
   root: {
     width: '100%',
   },
@@ -46,7 +46,7 @@ const tabs = [
   },
 ];
 
-export default class ScrollableTabsButtonForce extends Component {
+export default class ClientPage extends Component {
   state = {
     index: 0,
   };
@@ -66,6 +66,8 @@ export default class ScrollableTabsButtonForce extends Component {
   };
 
   render() {
+    console.log("I was rendered");
+
     const {match} = this.props;
     const classes = this.context.styleManager.render(styleSheet);
 
@@ -105,6 +107,6 @@ export default class ScrollableTabsButtonForce extends Component {
   }
 }
 
-ScrollableTabsButtonForce.contextTypes = {
+ClientPage.contextTypes = {
   styleManager: customPropTypes.muiRequired,
 };

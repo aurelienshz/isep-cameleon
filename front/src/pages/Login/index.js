@@ -1,6 +1,9 @@
-import React from "react";
+// @flow
+
+import React from 'react';
+import {connect} from 'react-redux';
 import {createStyleSheet} from 'jss-theme-reactor';
-import { Redirect } from "react-router";
+import {Redirect} from 'react-router';
 
 import customPropTypes from 'material-ui/utils/customPropTypes';
 import Paper from 'material-ui/Paper';
@@ -10,7 +13,7 @@ import Divider from 'material-ui/Divider';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 
-import { isAuthenticated } from "../../services/auth";
+import {submitLoginAction, getLocalState as getUsersState} from '../../data/users/reducer';
 
 const styleSheet = createStyleSheet('GuttersLayout', () => {
   return {
@@ -31,7 +34,7 @@ const styleSheet = createStyleSheet('GuttersLayout', () => {
   };
 });
 
-export default class LoginPage extends React.Component {
+class LoginPage extends React.Component {
   static contextTypes = {
     styleManager: customPropTypes.muiRequired,
   }
@@ -45,7 +48,7 @@ export default class LoginPage extends React.Component {
 
   submitIsepLogin = () => {
     const {isepLogin, isepPassword} = this.state;
-    console.log(isepLogin, isepPassword);
+    this.props.submitLogin(isepLogin, isepPassword);
   };
 
   submitExternalLogin = () => {
@@ -56,8 +59,12 @@ export default class LoginPage extends React.Component {
   render() {
     const classes = this.context.styleManager.render(styleSheet);
 
-    if (isAuthenticated()) {
-      return <Redirect to="/teacher" />
+    const { awaitingToken, error, accessToken } = this.props;
+
+    const authenticated = Boolean(accessToken);
+
+    if (authenticated) {
+      return <Redirect to="/teacher"/>
     }
     return (
       <Layout container gutter={40} align="center" justify="center" className={classes.root}>
@@ -71,22 +78,34 @@ export default class LoginPage extends React.Component {
                 Utilisez ce formulaire pour vous connecter si vous possédez des identifiants ISEP.
               </Text>
 
+              {
+                error &&
+                <Text type="body1">
+                  {error.message}
+                </Text>
+              }
+
               <Divider/>
 
-              <TextField
-                label="Login ISEP"
-                value={this.state.isepLogin}
-                onChange={(event) => this.setState({isepLogin: event.target.value})}
-              />
-
-              <TextField
-                label="Mot de passe ISEP"
-                type="password"
-                value={this.state.isepPassword}
-                onChange={(event) => this.setState({isepPassword: event.target.value})}
-              />
-
-              <Button raised primary onClick={this.submitIsepLogin}>Valider</Button>
+              {
+                awaitingToken ?
+                  <Layout>
+                    <Text>Chargement...</Text>
+                  </Layout>
+                  :
+                  <Layout>
+                    <TextField
+                      label="Login ISEP"
+                      value={this.state.isepLogin}
+                      onChange={(event) => this.setState({isepLogin: event.target.value})} />
+                    <TextField
+                      label="Mot de passe ISEP"
+                      type="password"
+                      value={this.state.isepPassword}
+                      onChange={(event) => this.setState({isepPassword: event.target.value})} />
+                    <Button raised primary onClick={this.submitIsepLogin}>Valider</Button>
+                  </Layout>
+              }
             </Layout>
           </Paper>
         </Layout>
@@ -122,3 +141,20 @@ export default class LoginPage extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  const usersState = getUsersState(state);
+  const { awaitingToken, accessToken, error } = usersState;
+  return {
+    awaitingToken,
+    accessToken,
+    error,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    submitLogin: (login, password) => dispatch(submitLoginAction({login, password}))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage)
