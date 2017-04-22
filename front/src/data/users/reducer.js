@@ -1,5 +1,6 @@
 // @flow
-import { requestToken } from './auth';
+
+import { requestToken, ACCESS_TOKEN_LOCALSTORAGE_KEY } from './auth';
 
 const REQUEST_AUTH_TOKEN = 'users/REQUEST_AUTH_TOKEN';
 const RECEIVE_AUTH_TOKEN = 'users/RECEIVE_AUTH_TOKEN';
@@ -57,13 +58,14 @@ export const submitLoginAction = (credentials: {login: string, password: string}
       if (authResponse.access_token) {
         const accessToken = authResponse.access_token;
 
-        // store token in localStorage :
-        localStorage.setItem('access_token', accessToken);
-
         dispatch({
           type: RECEIVE_AUTH_TOKEN,
           accessToken,
         });
+
+        localStorage.setItem(ACCESS_TOKEN_LOCALSTORAGE_KEY, accessToken);
+
+
       } else {
         throw new Error('No access token in auth server response');
       }

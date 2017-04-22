@@ -2,8 +2,10 @@
 
 import React from 'react';
 import { Route, Redirect } from 'react-router';
+import { isAuthenticated } from "../data/users/auth";
 
-const AuthenticatedRoute = ({ component: Component, authenticated, ...rest }) => {
+const AuthenticatedRoute = ({ component: Component, ...rest }) => {
+  const authenticated = isAuthenticated();
   return (
     <Route {...rest} render={props => (
       authenticated ? (

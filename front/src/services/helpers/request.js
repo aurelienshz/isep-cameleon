@@ -3,6 +3,8 @@
 import 'whatwg-fetch'
 import urljoin from 'url-join';
 
+import { isAuthenticated, getToken } from '../../data/users/auth';
+
 export const API_URL = process.env.REACT_APP_BACKEND_URL;
 
 type RequestOptions = {
@@ -21,10 +23,11 @@ const attemptRequestOrThrow = async (method: string, url: string, body: ?Object)
   };
 
   // Handle authenticated requests :
-  // if (/* there is an authentication token */) {
-  //   // Authorization using oAuth token :
-  //   options.headers.set('Authorization', `Bearer ${servicesState.accessToken}`);
-  // }
+  if (isAuthenticated()) {
+    // Authorization using oAuth token :
+    const token = getToken();
+    options.headers.set('Authorization', `Bearer ${token}`);
+  }
 
   // $FlowFixMe https://github.com/facebook/flow/issues/2164
   const res = await fetch(urljoin(API_URL, url), options);

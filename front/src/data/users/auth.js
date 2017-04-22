@@ -3,6 +3,28 @@ import urljoin from 'url-join';
 
 import { API_URL } from '../../services/helpers/request';
 
+export const ACCESS_TOKEN_LOCALSTORAGE_KEY = "chameleon_access_token";
+
+export const isAuthenticated = () => {
+  return Boolean(localStorage.getItem(ACCESS_TOKEN_LOCALSTORAGE_KEY));
+};
+
+export function logout() {
+  localStorage.removeItem(ACCESS_TOKEN_LOCALSTORAGE_KEY);
+}
+
+export function getToken() {
+  if (isAuthenticated()) {
+    return localStorage.getItem(ACCESS_TOKEN_LOCALSTORAGE_KEY);
+  }
+  return null;
+}
+
+// TODO aurelien don't export ACCESS_TOKEN_LOCALSTORAGE_KEY, use this function from the reducer :
+export function setToken(token) {
+  localStorage.setItem(ACCESS_TOKEN_LOCALSTORAGE_KEY);
+}
+
 export async function requestToken(credentials: {login: string, password: string}) {
   const headers = new Headers();
   // TODO not here (export in config)

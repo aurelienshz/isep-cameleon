@@ -13,7 +13,8 @@ import Divider from 'material-ui/Divider';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 
-import {submitLoginAction, getLocalState as getUsersState} from '../../data/users/reducer';
+import { submitLoginAction, getLocalState as getUsersState } from '../../data/users/reducer';
+import { isAuthenticated } from '../../data/users/auth';
 
 const styleSheet = createStyleSheet('GuttersLayout', () => {
   return {
@@ -59,11 +60,9 @@ class LoginPage extends React.Component {
   render() {
     const classes = this.context.styleManager.render(styleSheet);
 
-    const { awaitingToken, error, accessToken } = this.props;
+    const { awaitingToken, error } = this.props;
 
-    const authenticated = Boolean(accessToken);
-
-    if (authenticated) {
+    if (isAuthenticated()) {
       return <Redirect to="/teacher"/>
     }
     return (
@@ -144,10 +143,9 @@ class LoginPage extends React.Component {
 
 const mapStateToProps = (state) => {
   const usersState = getUsersState(state);
-  const { awaitingToken, accessToken, error } = usersState;
+  const { awaitingToken, error } = usersState;
   return {
     awaitingToken,
-    accessToken,
     error,
   };
 };
