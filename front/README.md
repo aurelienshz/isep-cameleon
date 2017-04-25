@@ -10,11 +10,18 @@ You need install node.js
 
 ## Dependency :
 
-- material-ui
-- react-router-dom
-- react-tap-event-plugin
-- eslint
-- redux
 - flow
+- flow-bin
+- material-ui
+- material-ui-icons
+- react
+- react-dom
+- react-redux
+- react-router-dom
+- react-scripts
+- react-table
+- react-tap-event-plugin
+- redux
+- redux-thunk
 - url-join
 - whatwg-fetch

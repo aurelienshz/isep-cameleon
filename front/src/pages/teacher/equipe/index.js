@@ -10,6 +10,7 @@ import BluetoothIcon from 'material-ui-icons/Bluetooth';
 
 import SimpleTable from '../../../components/SimpleTable';
 import SimpleDialog from '../../../components/SimpleDialog';
+import SearchFilter from '../../../components/SearchFilter';
 
 import colors from '../../../colors';
 
@@ -31,7 +32,7 @@ const renderMessage = (row) => {
   return <div style={style.MESSAGE_STYLE}>{row.value}</div>;
 };
 
-const columns = [
+const COLUMNS = [
   {
     header: 'Numero',
     accessor: 'numero',
@@ -59,9 +60,26 @@ const columns = [
 class ValidateEquipes extends React.Component {
   state = {
     validPopupOpen: false,
+    searchFilter: {
+      col: COLUMNS[0].accessor,
+      search: ''
+    },
   }
   componentDidMount() {
     this.props.fetchEquipes();
+  }
+
+// TODO Mettre à jour le système de recherche --> material-ui
+
+  selectStatus = (status) => this.props.filterEquipes(status)
+
+  onSearch = (col, search) => {
+    this.setState({ searchFilter: { col, search } });
+  }
+
+  handleFilter = (item) => {
+    const { searchFilter } = this.state;
+    return item[searchFilter.col].toLowerCase().indexOf(searchFilter.search.toLowerCase()) !== -1;
   }
 
   handleValidate = () => {
@@ -89,7 +107,8 @@ class ValidateEquipes extends React.Component {
     return (
       <div>
         <h1 className="colored">Validation equipes</h1>
-        <SimpleTable style={style.TABLE} clickHandler={this.clickTable} loading={this.props.loading} data={data} columns={columns} />
+        <SearchFilter onSearch={this.onSearch} columns={COLUMNS} />
+        <SimpleTable selectable={true} style={style.TABLE} clickHandler={this.clickTable} loading={this.props.loading} data={data} columns={COLUMNS} />
         <SimpleDialog title="Validation" open={this.state.validPopupOpen} handleCloseCancel={this.handleClose} handleClose={this.handleClose} />
       </div>
     );
@@ -102,6 +121,7 @@ export default connect((state) => {
 }, (dispatch) => {
   return {
     fetchEquipes: () => dispatch(equipes.fetchEquipes()),
+    filterEquipes: (e) => dispatch(equipes.filterEquipes(e)),
   };
 },
 )(ValidateEquipes);

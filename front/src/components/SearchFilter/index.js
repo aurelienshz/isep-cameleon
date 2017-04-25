@@ -3,8 +3,8 @@
 import React from 'react';
 
 import TextField from 'material-ui/TextField';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
+import SelectField from 'material-ui/Menu'; // TODO trouver son remplaçant dans material-ui 1.09 :'(
+import MenuList from 'material-ui/Menu'; // TODO trouver son remplaçant dans material-ui 1.09 :'(
 
 type SearchFilterProps = {
   onSearch: Function,
@@ -12,8 +12,8 @@ type SearchFilterProps = {
 }
 
 const SEARCH_STYLE = {
-  marginTop: -14,
-  marginBottom: 10
+  marginLeft: '10%',
+  width: '50%',
 };
 
 function SearchFilter(props: SearchFilterProps) {
@@ -22,18 +22,18 @@ function SearchFilter(props: SearchFilterProps) {
   if (selectedColumn > columns.length - 1) select = 0;
   const column = columns[select].accessor;
   return (
-    <div className="row" style={SEARCH_STYLE}>
-      <div className="col-3">
+    <div style={SEARCH_STYLE}>
+      <div>
         <SelectField hintText="Colonne" floatingLabelFixed={true} floatingLabelText="Colonne" value={select} onChange={onSelect} fullWidth>
           {
             columns &&
             columns.map((col, index) => {
-              return <MenuItem key={index} value={index} primaryText={col.header} />
+              return <MenuList key={index} value={index} primaryText={col.header} />
             })
           }
         </SelectField>
       </div>
-      <div className="col-9">
+      <div>
         <TextField
           onChange={(e) => onSearch(column, e.target.value)}
           hintText={`Recherchez dans ${columns[select].header}`}
