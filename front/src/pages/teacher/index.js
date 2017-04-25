@@ -11,6 +11,8 @@ import FavoriteIcon from 'material-ui-icons/Favorite';
 // pages
 import Equipe from './equipe';
 import Sujet from './sujet';
+import NewPromo from './new-promo';
+import Promo from './promo';
 
 const styleSheet = createStyleSheet('BottomNavigation', () => ({
   root: {
@@ -59,11 +61,17 @@ export default class Teacher extends React.Component {
               label="Équipes"
               onClick={this.transitionTo("/team")}
               icon={<FavoriteIcon />} />
+            <BottomNavigationButton
+              label="Promo"
+              onClick={this.transitionTo("/promo")}
+              icon={<FavoriteIcon />} />
           </BottomNavigation>
         </div>
         <Switch>
           <Route path={`${match.url}/subject`} component={Sujet} />
           <Route path={`${match.url}/team`} component={Equipe} />
+          <Route path={`${match.url}/promo`} component={Promo} />
+          <Route path={`${match.url}/new-promo`} component={NewPromo} />
         </Switch>
       </div>
     );
