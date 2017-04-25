@@ -15,8 +15,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Routes from './routes';
 import chameleonReducers from './reducers';
 
-import './index.css'; // TODO delete this file
-
 // Create the redux middleware to keep react-router in sync :
 const history = createHistory();
 const reduxRouterMiddleware = routerMiddleware(history);
