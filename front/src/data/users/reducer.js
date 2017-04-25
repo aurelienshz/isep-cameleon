@@ -1,6 +1,7 @@
 // @flow
 
 import { requestToken, ACCESS_TOKEN_LOCALSTORAGE_KEY } from './auth';
+import { push } from 'react-router-redux';
 
 const REQUEST_AUTH_TOKEN = 'users/REQUEST_AUTH_TOKEN';
 const RECEIVE_AUTH_TOKEN = 'users/RECEIVE_AUTH_TOKEN';
@@ -65,7 +66,7 @@ export const submitLoginAction = (credentials: {login: string, password: string}
 
         localStorage.setItem(ACCESS_TOKEN_LOCALSTORAGE_KEY, accessToken);
 
-
+        dispatch(push("/teacher"));
       } else {
         throw new Error('No access token in auth server response');
       }

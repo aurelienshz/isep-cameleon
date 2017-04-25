@@ -93,6 +93,7 @@ export default function AppBarLayout(props, context) {
                   <div className={classes.detail}>
                     <div className={classes.name}>
                       Victor ELY
+                      
                     </div>
                     <div className={classes.badge}>
                       Grand vizir
@@ -102,7 +103,7 @@ export default function AppBarLayout(props, context) {
                 <div className={classes.row}>
                   <Avatar
                     alt="Victor ELY"
-                    src="img/ely.jpg"
+                    src="/img/ely.jpg"
                     className={classes.avatar}
                   />
                 </div>
