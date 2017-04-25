@@ -88,12 +88,12 @@ export default function AppBarLayout(props, context) {
               <div className={classes.group}>
                 <Link className={classes.link} to="/teacher"><Button contrast>Professeur</Button></Link>
                 <Link className={classes.link} to="/client"><Button contrast>Client</Button></Link>
-                <Link className={classes.link} to="/etudiant"><Button contrast>Étudiant</Button></Link>
+                <Link className={classes.link} to="/student"><Button contrast>Étudiant</Button></Link>
                 <div className={classes.subGroup}>
                   <div className={classes.detail}>
                     <div className={classes.name}>
                       Victor ELY
-                      
+
                     </div>
                     <div className={classes.badge}>
                       Grand vizir

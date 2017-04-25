@@ -1,6 +1,5 @@
 // @flow
 
-import 'whatwg-fetch'
 import urljoin from 'url-join';
 
 import { isAuthenticated, getToken } from '../../data/users/auth';
@@ -18,15 +17,19 @@ type RequestOptions = {
 const attemptRequestOrThrow = async (method: string, url: string, body: ?Object) => {
   const options: RequestOptions = {
     method,
-    body,
-    headers: new Headers(),
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+    },
   };
+
+  console.log(body);
 
   // Handle authenticated requests :
   if (isAuthenticated()) {
     // Authorization using oAuth token :
     const token = getToken();
-    options.headers.set('Authorization', `Bearer ${token}`);
+    options.headers['Authorization'] = `Bearer ${token}`;
   }
 
   // $FlowFixMe https://github.com/facebook/flow/issues/2164

@@ -12,17 +12,16 @@ import { getLocalState as getUsersState } from "./data/users/reducer";
 import Login from './pages/Login';
 import Teacher from './pages/teacher';
 import Client from './pages/client';
-import Etudiant from './pages/etudiant';
+import Etudiant from './pages/Student';
 
 function Routes() {
-  console.log("Rendering routes");
   return (
     <div style={{ height: '100%', width: '100%' }}>
       <AppBarLayout>
         <Route path="/login" component={Login} />
         <AuthenticatedRoute path="/teacher" component={Teacher} />
         <AuthenticatedRoute path="/client" component={Client} />
-        <AuthenticatedRoute path="/etudiant" component={Etudiant} />
+        <AuthenticatedRoute path="/student" component={Etudiant} />
       </AppBarLayout>
     </div>
   );

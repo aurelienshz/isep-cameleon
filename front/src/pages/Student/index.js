@@ -7,20 +7,12 @@ import { createStyleSheet } from 'jss-theme-reactor';
 import customPropTypes from 'material-ui/utils/customPropTypes';
 import Paper from 'material-ui/Paper';
 import { Tabs, Tab } from 'material-ui/Tabs';
-import PhoneIcon from 'material-ui-icons/Phone';
-import FavoriteIcon from 'material-ui-icons/Favorite';
-import PersonPinIcon from 'material-ui-icons/PersonPin';
-import HelpIcon from 'material-ui-icons/Help';
-import ShoppingBasket from 'material-ui-icons/ShoppingBasket';
-import ThumbDown from 'material-ui-icons/ThumbDown';
-import ThumbUp from 'material-ui-icons/ThumbUp';
 
 import colors from '../../colors.js';
 
-// pages
-import Equipe from './equipe';
-import Sujet from './sujet';
+import Subject from './Subject';
 
+// pages
 const styleSheet = createStyleSheet('ClientPage', () => ({
   root: {
     width: '100%',
@@ -37,16 +29,14 @@ const tabs = [
   {
     label: "Sujet",
     path: "/subject",
-    icon: PhoneIcon,
   },
   {
     label: "Équipe",
     path: "/team",
-    icon: FavoriteIcon,
   },
 ];
 
-export default class ClientPage extends Component {
+export default class StudentPage extends Component {
   state = {
     index: 0,
   };
@@ -82,13 +72,11 @@ export default class ClientPage extends Component {
               textColor="accent">
               {
                 tabs.map((tab, index) => {
-                  const { label, icon: Icon } = tab;
                   return (
                     <Tab
                       key={index}
                       className={classes.white}
-                      label={label}
-                      icon={<Icon />} />
+                      label={tab.label} />
                   );
                 })
               }
@@ -97,14 +85,14 @@ export default class ClientPage extends Component {
         </Paper>
 
         <Switch>
-          <Route path={`${match.url}/subject`} component={Sujet} />
-          <Route path={`${match.url}/team`} component={Equipe} />
+          <Route path={`${match.url}/subject`} component={Subject} />
+          <Route path={`${match.url}/team`} component={() => (<div>swag</div>)} />
         </Switch>
       </div>
     );
   }
 }
 
-ClientPage.contextTypes = {
+StudentPage.contextTypes = {
   styleManager: customPropTypes.muiRequired,
 };

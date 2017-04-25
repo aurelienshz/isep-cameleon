@@ -15,9 +15,9 @@ import Slide from 'material-ui/transitions/Slide';
 
 import colors from '../../../colors.js';
 
-import type { Subject } from '../../../services/subject';
+import type { Subject } from '../../../data/subject/subjectService';
 
-import { getSubjectsList } from '../../../services/subject';
+import { getSubjectsList } from '../../../data/subject/subjectService';
 
 const STYLE_BODY = {
   margin: 20

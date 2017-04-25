@@ -1,5 +1,6 @@
 // @flow
 import urljoin from 'url-join';
+// import fetch from 'isomorphic-fetch';
 
 import { API_URL } from '../../services/helpers/request';
 
@@ -26,21 +27,18 @@ export function setToken(token) {
 }
 
 export async function requestToken(credentials: {login: string, password: string}) {
-  const headers = new Headers();
   // TODO not here (export in config)
   const basicAuthString = btoa('acme:acmesecret'); // TODO change these
-  headers.set('Authorization', 'Basic ' + basicAuthString);
-  headers.set('Content-Type', 'application/x-www-form-urlencoded');
+  const headers = {
+    'Authorization': 'Basic ' + basicAuthString,
+    'Content-Type': 'application/x-www-form-urlencoded',
+  };
 
   const options = {
     method: 'POST',
     headers,
   };
 
-  const url = '/oauth/token';
-
-  // TODO export URL in config, be resilient against other URLs (CORS)
-  const postUrl = new URL(urljoin(API_URL, url)); // eslint-disable-line no-undef
   const params = {
     grant_type: 'password',
     scope: 'openid',
@@ -48,10 +46,17 @@ export async function requestToken(credentials: {login: string, password: string
     password: credentials.password,
   };
 
-  // TODO this is impossible to test because Node has a bad URL implementation
-  Object.keys(params).forEach((key) => { postUrl.searchParams.append(key, params[key]); });
+  const tokenPath = '/oauth/token';
+  let paramsString = '';
 
-  const res = await fetch(postUrl.toString(), options);
+  Object.keys(params).forEach((paramKey, index) => {
+    const delimiter = index === 0 ? "?" : "&";
+    paramsString += delimiter + paramKey + '=' + params[paramKey];
+  });
+
+  const url = urljoin(API_URL, tokenPath, paramsString);
+
+  const res = await fetch(url, options);
 
   if (!res.ok) {
     if (res.status === 400) {

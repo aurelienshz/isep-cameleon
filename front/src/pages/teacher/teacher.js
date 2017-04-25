@@ -12,7 +12,7 @@ const RECEIVE_EQUIPES = 'equipes/RECEIVE_EQUIPES';
 const FILTER_EQUIPES = 'equipes/FILTER_EQUIPES';
 
 // Reducers
-export default function equipesReducer(state: InvoiceState = initialState, action: Object) {
+export default function equipesReducer(state = initialState, action: Object) {
   switch (action.type) {
     case REQUEST_EQUIPES:
       return {
