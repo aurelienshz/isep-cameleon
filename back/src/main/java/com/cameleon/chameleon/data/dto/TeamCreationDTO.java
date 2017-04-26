@@ -1,7 +1,5 @@
 package com.cameleon.chameleon.data.dto;
 
-import java.util.List;
-
 public class TeamCreationDTO {
     private String name;
 

@@ -25,7 +25,7 @@ public class TeamController {
     }
 
     @PostMapping
-    public Team createTeam(TeamCreationDTO teamCreationDTO) {
+    public Team createTeam(@RequestBody TeamCreationDTO teamCreationDTO) {
         return teamService.createTeam(teamCreationDTO);
     }
 

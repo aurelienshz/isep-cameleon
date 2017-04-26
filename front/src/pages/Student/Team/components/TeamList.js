@@ -10,6 +10,12 @@ import Button from 'material-ui/Button';
 
 import FaceIcon from 'material-ui-icons/Face';
 
+const members = [
+  {name: 'Mickael Petit'},
+  {name: 'Aurélien Schiltz'},
+  {name: 'Yvan Bézard'},
+];
+
 const styleSheet = createStyleSheet('TeamList', (theme) => ({
   chip: {
     margin: theme.spacing.unit,
@@ -54,7 +60,7 @@ export default function TeamList({ teams, onRequestJoin }, context) {
             <Card className={classes.card} key={team.id}>
               <CardContent>
                 <Text type="headline" component="h2">{team.name}</Text>
-                <MembersRow members={team.members} styleClasses={classes} />
+                <MembersRow members={members} styleClasses={classes} />
               </CardContent>
               <CardActions>
                 <Button onClick={() => onRequestJoin(team.id)} primary>Rejoindre l'équipe</Button>

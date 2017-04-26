@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {createStyleSheet} from 'jss-theme-reactor';
 import Button from 'material-ui/Button';
 import Text from 'material-ui/Text';
@@ -13,6 +14,8 @@ import TeamCreationDialog
 import ConfirmDialog from '../../../components/ConfirmDialog';
 
 import colors from '../../../colors.js';
+
+import { fetchTeams, createTeam, getLocalState as getTeamState } from '../../../data/team/reducer';
 
 const STYLE_CONTAINER = {
   padding: 20,
@@ -103,6 +106,10 @@ class TeamPage extends React.Component {
     joinTeamRequestId: null,
   };
 
+  componentWillMount() {
+    this.props.fetchTeams();
+  }
+
   requestJoinTeam = (id) => {
     this.setState({
       joinTeamDialogOpen: true,
@@ -127,14 +134,22 @@ class TeamPage extends React.Component {
 
   handleFilterChange = (e) => {
     const filterString = e.target.value;
-    const filteredTeams = this.state.teams.filter((team) => {
-      return team.name.toLowerCase().includes(filterString);
-    });
-    this.setState({ filterString, displayedTeams: filteredTeams });
+    this.setState({ filterString });
+  };
+
+  createTeam = (name) => {
+    this.props.createTeam({ name });
+    this.setState({ creationDialogOpen: false });
   };
 
   render() {
     const classes = this.context.styleManager.render(styleSheet);
+    const { loadingTeams } = this.props;
+
+    const filteredTeams = this.props.teams.filter((team) => {
+      return team.name.toLowerCase().includes(this.state.filterString);
+    });
+
     return (
       <div style={STYLE_CONTAINER}>
 
@@ -155,7 +170,7 @@ class TeamPage extends React.Component {
         <TeamCreationDialog
           open={this.state.creationDialogOpen}
           onCancel={this.closeTeamCreationDialog}
-          onConfirm={(name) => console.log(name)} />
+          onConfirm={(name) => this.createTeam(name)} />
 
         <Text component="p" className={classes.breadCrumbs}>
           <strong>Constitution de l'équipe</strong>
@@ -173,10 +188,28 @@ class TeamPage extends React.Component {
             onChange={this.handleFilterChange} />
         </Layout>
 
-        <TeamList teams={this.state.displayedTeams} onRequestJoin={this.requestJoinTeam} />
+        {
+          loadingTeams ?
+            <Text>Chargement...</Text>
+          :
+            <TeamList teams={filteredTeams} onRequestJoin={this.requestJoinTeam} />
+        }
+
       </div>
     )
   }
 }
 
-export default TeamPage;
+export default connect(
+  (state) => {
+    const teamState = getTeamState(state);
+    return {
+      loadingTeams: teamState.loading,
+      teams: teamState.teams,
+    }
+  },
+  (dispatch) => ({
+    fetchTeams: () => dispatch(fetchTeams()),
+    createTeam: (teamCreationRequest) => dispatch(createTeam(teamCreationRequest)),
+  })
+)(TeamPage);

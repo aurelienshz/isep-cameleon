@@ -1,4 +1,6 @@
-import { getTeamsList } from './service';
+// @flow
+
+import { getTeamsList, createTeam as requestTeamCreation } from './service';
 
 const initialState = {
   loading: false,
@@ -8,6 +10,8 @@ const initialState = {
 // Actions types
 const REQUEST_TEAMS = 'team/REQUEST_TEAMS';
 const RECEIVE_TEAMS = 'team/RECEIVE_TEAMS';
+const REQUEST_TEAM_CREATION = 'team/REQUEST_TEAM_CREATION';
+const CONFIRM_TEAM_CREATION = 'team/CONFIRM_TEAM_CREATION';
 
 // Reducers
 export default function equipesReducer(state = initialState, action: Object) {
@@ -21,6 +25,16 @@ export default function equipesReducer(state = initialState, action: Object) {
       return {
         ...state,
         teams: action.teams,
+        loading: false,
+      };
+    case REQUEST_TEAM_CREATION:
+      return {
+        ...state,
+        loading: true,
+      };
+    case CONFIRM_TEAM_CREATION:
+      return {
+        ...state,
         loading: false,
       };
     default:
@@ -39,6 +53,23 @@ export function fetchTeams() {
       teams,
     });
   };
+}
+
+export function createTeam(teamCreationRequest) {
+  return async(dispatch) => {
+    dispatch({
+      type: REQUEST_TEAM_CREATION,
+    });
+    try {
+      const team = requestTeamCreation(teamCreationRequest);
+      dispatch({
+        type: CONFIRM_TEAM_CREATION,
+      });
+      dispatch(fetchTeams());
+    } catch(err) {
+      console.error(err); // TODO error management
+    }
+  }
 }
 
 export const getLocalState = (state) => {

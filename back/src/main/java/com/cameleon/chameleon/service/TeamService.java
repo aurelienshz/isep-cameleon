@@ -42,18 +42,8 @@ public class TeamService {
     }
 
     public Team createTeamFromDTO(TeamCreationDTO teamCreationDTO) {
-        // Build clients list :
-        ArrayList<Long> membersIds = new ArrayList<>(teamCreationDTO.getMembersIds());
-        Iterable<User> teamMembers = userRepository.findAll(membersIds);
-
-        // Convert iterable to list :
-        List<User> teamMembersList = new ArrayList<>();
-        teamMembers.forEach(teamMembersList::add);
-
-        // Hydrate a new project :
         Team team = new Team();
         team.setName(teamCreationDTO.getName());
-        team.setMembers(teamMembersList);
 
         return team;
     }
