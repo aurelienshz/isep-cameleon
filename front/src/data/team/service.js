@@ -1,18 +1,22 @@
 // @flow
 
-import { getJson, postJson, deleteJson } from './helpers/request';
+import { getJson, postJson, deleteJson } from '../../services/helpers/request';
 
 const REQUEST_PATH_PREFIX = '/team';
 
 export type TeamCreationDTO = {
   name: string,
   membersIds: Array<number>,
-}
+};
 
 export type Team = {
   name: string,
   members: Array<Object>, // TODO
   group: Object, // TODO
+};
+
+export async function getTeamsList() {
+  return await getJson(REQUEST_PATH_PREFIX);
 }
 
 export async function createTeam(teamCreationDTO: TeamCreationDTO) {

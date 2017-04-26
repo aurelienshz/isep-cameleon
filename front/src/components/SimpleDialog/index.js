@@ -27,8 +27,7 @@ export default function SimpleDialog(props) {
       modal={false}
       open={props.open}
       onRequestClose={props.handleClose}
-      autoScrollBodyContent={props.scrollable || false}
-    >
+      autoScrollBodyContent={props.scrollable || false}>
       {props.msg || props.children}
     </Dialog>
   );

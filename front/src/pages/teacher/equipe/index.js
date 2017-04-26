@@ -15,7 +15,7 @@ import SimpleDialog from '../../../components/SimpleDialog';
 
 import colors from '../../../colors';
 
-import * as equipes from '../teacher';
+import { getLocalState as getTeamState, fetchTeams } from '../../../data/team/reducer';
 
 const style = {
   MESSAGE_STYLE: {
@@ -94,7 +94,7 @@ class ValidateEquipes extends React.Component {
   }
 
   render() {
-    const data = this.addValidationControl(this.props.equipes);
+    const data = this.addValidationControl(this.props.teams);
     return (
       <div style={style.BODY}>
         <h1 className="colored">Validation equipes</h1>
@@ -111,11 +111,12 @@ class ValidateEquipes extends React.Component {
 }
 
 export default connect((state) => {
-  const {loading, equipes} = state.equipes;
-  return {loading, equipes};
+  const teamState = getTeamState(state);
+  const {loading, teams} = teamState;
+  return {loading, teams};
 }, (dispatch) => {
   return {
-    fetchEquipes: () => dispatch(equipes.fetchEquipes()),
+    fetchEquipes: () => dispatch(fetchTeams()),
   };
 },
 )(ValidateEquipes);

@@ -39,7 +39,7 @@ class TabsLayout extends React.Component {
   props: Props;
 
   state = {
-    index: 0, // TODO selectedTabIndex
+    index: 0,
   };
 
   componentDidMount() {

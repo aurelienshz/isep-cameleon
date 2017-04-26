@@ -1,12 +1,12 @@
 // import reducers :
 
 import users from './data/users/reducer';
-import equipesReducer from './pages/teacher/teacher';
+import team from './data/team/reducer';
 import subject from './data/subject/reducer';
 
 const chameleonReducers = {
   users,
-  equipes: equipesReducer,
+  team,
   subject: subject,
 };
 

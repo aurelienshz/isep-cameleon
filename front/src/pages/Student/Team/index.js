@@ -8,13 +8,15 @@ import TextField from 'material-ui/TextField';
 import customPropTypes from 'material-ui/utils/customPropTypes';
 
 import TeamList from './components/TeamList';
+import TeamCreationDialog
+  from './components/TeamCreationDialog';
 import ConfirmDialog from '../../../components/ConfirmDialog';
 
 import colors from '../../../colors.js';
 
 const STYLE_CONTAINER = {
   padding: 20,
-}
+};
 
 const styleSheet = createStyleSheet('Chips', (theme) => ({
   breadCrumbs: {
@@ -97,6 +99,7 @@ class TeamPage extends React.Component {
     teams: teams,
     displayedTeams: teams,
     joinTeamDialogOpen: false,
+    creationDialogOpen: false,
     joinTeamRequestId: null,
   };
 
@@ -114,6 +117,14 @@ class TeamPage extends React.Component {
     });
   };
 
+  openTeamCreationDialog = () => {
+    this.setState({ creationDialogOpen: true });
+  };
+
+  closeTeamCreationDialog = () => {
+    this.setState({ creationDialogOpen: false });
+  };
+
   handleFilterChange = (e) => {
     const filterString = e.target.value;
     const filteredTeams = this.state.teams.filter((team) => {
@@ -127,7 +138,7 @@ class TeamPage extends React.Component {
     return (
       <div style={STYLE_CONTAINER}>
 
-        <Button fab primary className={classes.button}>
+        <Button fab primary className={classes.button} onClick={this.openTeamCreationDialog}>
           <AddIcon />
         </Button>
 
@@ -140,6 +151,11 @@ class TeamPage extends React.Component {
           confirmText="Envoyer"
           onCancel={this.cancelJoinTeam}
           onConfirm={() => console.log(this.state.joinTeamRequestId)} />
+
+        <TeamCreationDialog
+          open={this.state.creationDialogOpen}
+          onCancel={this.closeTeamCreationDialog}
+          onConfirm={(name) => console.log(name)} />
 
         <Text component="p" className={classes.breadCrumbs}>
           <strong>Constitution de l'équipe</strong>

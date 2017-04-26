@@ -1,5 +1,5 @@
 import {getProjectsList, createProject} from './service';
-import {createTeam} from '../../services/team';
+import {createTeam} from '../team/service';
 
 describe('Projects service', () => {
   beforeAll(authenticate);
