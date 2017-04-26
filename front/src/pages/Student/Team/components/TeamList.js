@@ -42,9 +42,9 @@ const MembersRow = function({ members, styleClasses }) {
       }
     </div>
   )
-}
+};
 
-export default function TeamList({ teams }, context) {
+export default function TeamList({ teams, onRequestJoin }, context) {
   const classes = context.styleManager.render(styleSheet);
   return (
     <Layout>
@@ -57,10 +57,10 @@ export default function TeamList({ teams }, context) {
                 <MembersRow members={team.members} styleClasses={classes} />
               </CardContent>
               <CardActions>
-                <Button primary>Rejoindre l'équipe</Button>
+                <Button onClick={() => onRequestJoin(team.id)} primary>Rejoindre l'équipe</Button>
               </CardActions>
             </Card>
-          )
+          );
         })
       }
     </Layout>

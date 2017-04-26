@@ -8,6 +8,7 @@ import TextField from 'material-ui/TextField';
 import customPropTypes from 'material-ui/utils/customPropTypes';
 
 import TeamList from './components/TeamList';
+import ConfirmDialog from '../../../components/ConfirmDialog';
 
 import colors from '../../../colors.js';
 
@@ -95,6 +96,22 @@ class TeamPage extends React.Component {
     filterString: "",
     teams: teams,
     displayedTeams: teams,
+    joinTeamDialogOpen: false,
+    joinTeamRequestId: null,
+  };
+
+  requestJoinTeam = (id) => {
+    this.setState({
+      joinTeamDialogOpen: true,
+      joinTeamRequestId: id,
+    })
+  };
+
+  cancelJoinTeam = () => {
+    this.setState({
+      joinTeamDialogOpen: false,
+      joinTeamRequestId: null,
+    });
   };
 
   handleFilterChange = (e) => {
@@ -114,6 +131,16 @@ class TeamPage extends React.Component {
           <AddIcon />
         </Button>
 
+        <ConfirmDialog
+          open={this.state.joinTeamDialogOpen}
+          title="Demander à rejoindre l'équipe ?"
+          text="Votre demande de rejoindre l'équipe sera
+          envoyée au créateur de l'équipe. Celui-ci devra l'accepter avant que vous ne rejoigniez
+          définitivement l'équipe."
+          confirmText="Envoyer"
+          onCancel={this.cancelJoinTeam}
+          onConfirm={() => console.log(this.state.joinTeamRequestId)} />
+
         <Text component="p" className={classes.breadCrumbs}>
           <strong>Constitution de l'équipe</strong>
           &nbsp;&gt;&nbsp;
@@ -130,8 +157,7 @@ class TeamPage extends React.Component {
             onChange={this.handleFilterChange} />
         </Layout>
 
-        <TeamList teams={this.state.displayedTeams} />
-
+        <TeamList teams={this.state.displayedTeams} onRequestJoin={this.requestJoinTeam} />
       </div>
     )
   }
