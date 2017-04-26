@@ -4,13 +4,14 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Tab, Tabs} from 'material-ui/Tabs';
 import FlatButton from 'material-ui/Button';
+import Layout from 'material-ui/Layout';
+import TextField from 'material-ui/TextField';
 
 import WifiIcon from 'material-ui-icons/Wifi';
 import BluetoothIcon from 'material-ui-icons/Bluetooth';
 
 import SimpleTable from '../../../components/SimpleTable';
 import SimpleDialog from '../../../components/SimpleDialog';
-import SearchFilter from '../../../components/SearchFilter';
 
 import colors from '../../../colors';
 
@@ -25,6 +26,13 @@ const style = {
   },
   VALIDATE_BUTTON: {
     color: colors.ISEP_PRIMARY,
+  },
+  BODY: {
+    margin: 20,
+  },
+  searchField: {
+    maxWidth: 400,
+    margin: '0 auto 20px auto',
   },
 };
 
@@ -60,26 +68,9 @@ const COLUMNS = [
 class ValidateEquipes extends React.Component {
   state = {
     validPopupOpen: false,
-    searchFilter: {
-      col: COLUMNS[0].accessor,
-      search: ''
-    },
   }
   componentDidMount() {
     this.props.fetchEquipes();
-  }
-
-// TODO Mettre à jour le système de recherche --> material-ui
-
-  selectStatus = (status) => this.props.filterEquipes(status)
-
-  onSearch = (col, search) => {
-    this.setState({ searchFilter: { col, search } });
-  }
-
-  handleFilter = (item) => {
-    const { searchFilter } = this.state;
-    return item[searchFilter.col].toLowerCase().indexOf(searchFilter.search.toLowerCase()) !== -1;
   }
 
   handleValidate = () => {
@@ -105,9 +96,13 @@ class ValidateEquipes extends React.Component {
   render() {
     const data = this.addValidationControl(this.props.equipes);
     return (
-      <div>
+      <div style={style.BODY}>
         <h1 className="colored">Validation equipes</h1>
-        <SearchFilter onSearch={this.onSearch} columns={COLUMNS} />
+        <Layout>
+          <TextField
+            className={style.searchField}
+            label="Filtrer les équipes" />
+        </Layout>
         <SimpleTable selectable={true} style={style.TABLE} clickHandler={this.clickTable} loading={this.props.loading} data={data} columns={COLUMNS} />
         <SimpleDialog title="Validation" open={this.state.validPopupOpen} handleCloseCancel={this.handleClose} handleClose={this.handleClose} />
       </div>
@@ -121,7 +116,6 @@ export default connect((state) => {
 }, (dispatch) => {
   return {
     fetchEquipes: () => dispatch(equipes.fetchEquipes()),
-    filterEquipes: (e) => dispatch(equipes.filterEquipes(e)),
   };
 },
 )(ValidateEquipes);

@@ -1,19 +1,15 @@
 import React from 'react';
 import {createStyleSheet} from 'jss-theme-reactor';
-import {Card, CardMedia, CardContent, CardActions} from 'material-ui/Card';
 import Button from 'material-ui/Button';
 import Text from 'material-ui/Text';
-import Chip from 'material-ui/Chip';
-import FaceIcon from 'material-ui-icons/Face';
-import Avatar from 'material-ui/Avatar';
+import AddIcon from 'material-ui-icons/Add';
 import Layout from 'material-ui/Layout';
 import TextField from 'material-ui/TextField';
 import customPropTypes from 'material-ui/utils/customPropTypes';
 
 import TeamList from './components/TeamList';
 
-import {Fab, FabButton, FabActions, FabAction} from 'react-fab';
-import './fab.css';
+import colors from '../../../colors.js';
 
 const STYLE_CONTAINER = {
   padding: 20,
@@ -26,7 +22,18 @@ const styleSheet = createStyleSheet('Chips', (theme) => ({
   searchField: {
     maxWidth: 400,
     margin: '0 auto 20px auto',
-  }
+  },
+  button: {
+    margin: theme.spacing.unit,
+    backgroundColor: colors.ISEP_SECONDARY_LIGHTER,
+    zIndex: 998,
+    position: 'fixed',
+    right: '20px',
+    bottom: '20px',
+    '&:hover': {
+      background: colors.ISEP_SECONDARY,
+    }
+  },
 }));
 
 const teams = [
@@ -102,18 +109,10 @@ class TeamPage extends React.Component {
     const classes = this.context.styleManager.render(styleSheet);
     return (
       <div style={STYLE_CONTAINER}>
-        <Fab style={{right: '20px', bottom: '20px'}}>
-          <FabButton>
-            +
-          </FabButton>
-          <FabActions>
-            <FabAction
-              onClick={() => console.log('Create a team')}
-              tooltip="Créer une équipe">
-              +
-            </FabAction>
-          </FabActions>
-        </Fab>
+
+        <Button fab primary className={classes.button}>
+          <AddIcon />
+        </Button>
 
         <Text component="p" className={classes.breadCrumbs}>
           <strong>Constitution de l'équipe</strong>

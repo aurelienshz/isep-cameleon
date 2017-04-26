@@ -8,6 +8,10 @@ import Button from 'material-ui/Button';
 
 import colors from '../../../colors.js';
 
+const STYLE_BODY = {
+  margin: 20
+}
+
 const STYLE_BUTTON = {
   backgroundColor: colors.ISEP_SECONDARY,
   color: colors.ISEP_TERTIARY,
@@ -20,7 +24,7 @@ const STYLE_LINK = {
 export default class Promo extends React.Component {
   render() {
     return (
-      <div>
+      <div style={STYLE_BODY}>
         <div>
           <h1>Promo</h1>
           <Link style={STYLE_LINK} to="/teacher/new-promo"><Button raised style={STYLE_BUTTON}>Ajouter une promo</Button></Link>
