@@ -10,14 +10,14 @@ import Team from './Team';
 
 const tabs = [
   {
-    label: "Sujet",
-    path: "/subject",
-    component: Subject,
-  },
-  {
     label: "Équipe",
     path: "/team",
     component: Team,
+  },
+  {
+    label: "Sujet",
+    path: "/subject",
+    component: Subject,
   },
 ];
 
