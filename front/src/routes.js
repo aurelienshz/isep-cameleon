@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import AppBarLayout from './components/AppBarLayout';
@@ -14,14 +14,21 @@ import Teacher from './pages/teacher';
 import Client from './pages/client';
 import Etudiant from './pages/Student';
 
+const NotFound = () => (
+  <div>Not found :'(</div>
+);
+
 function Routes() {
   return (
     <div style={{ height: '100%', width: '100%' }}>
       <AppBarLayout>
-        <Route path="/login" component={Login} />
-        <AuthenticatedRoute path="/teacher" component={Teacher} />
-        <AuthenticatedRoute path="/client" component={Client} />
-        <AuthenticatedRoute path="/student" component={Etudiant} />
+        <Switch>
+          <Route path="/login" component={Login} />
+          <AuthenticatedRoute path="/teacher" component={Teacher} />
+          <AuthenticatedRoute path="/client" component={Client} />
+          <AuthenticatedRoute path="/student" component={Etudiant} />
+          <NotFound />
+        </Switch>
       </AppBarLayout>
     </div>
   );
