@@ -4,12 +4,12 @@ const STYLE_CONTAINER = {
   padding: 20,
 }
 
-const SubjectPage = function(props) {
+const TeamPage = function(props) {
   return (
     <div style={STYLE_CONTAINER}>
-      Student > Subject page
+      Student > Team page
     </div>
   )
 };
 
-export default SubjectPage;
+export default TeamPage;
