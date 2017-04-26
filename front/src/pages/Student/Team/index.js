@@ -10,6 +10,8 @@ import Layout from 'material-ui/Layout';
 import TextField from 'material-ui/TextField';
 import customPropTypes from 'material-ui/utils/customPropTypes';
 
+import TeamList from './components/TeamList';
+
 import {Fab, FabButton, FabActions, FabAction} from 'react-fab';
 import './fab.css';
 
@@ -18,21 +20,7 @@ const STYLE_CONTAINER = {
 }
 
 const styleSheet = createStyleSheet('Chips', (theme) => ({
-  chip: {
-    margin: theme.spacing.unit,
-  },
-  svgIcon: {
-    color: 'gray',
-  },
-  row: {
-    display: 'flex',
-    justifyContent: 'center',
-    flexWrap: 'wrap',
-  },
   breadCrumbs: {
-    marginBottom: 20,
-  },
-  card: {
     marginBottom: 20,
   },
   searchField: {
@@ -41,6 +29,56 @@ const styleSheet = createStyleSheet('Chips', (theme) => ({
   }
 }));
 
+const teams = [
+  {
+    id: 0,
+    name: 'Caméléon',
+    members: [
+      {name: 'Mickael Petit'},
+      {name: 'Aurélien Schiltz'},
+      {name: 'Yvan Bézard'},
+    ]
+  },
+  {
+    id: 1,
+    name: 'Gros singe',
+    members: [
+      {name: 'Mickael Petit'},
+      {name: 'Aurélien Schiltz'},
+      {name: 'Yvan Bézard'},
+    ]
+  },
+  {
+    id: 2,
+    name: 'Macaque de compétition',
+    members: [
+      {name: 'Mickael Petit'},
+      {name: 'Aurélien Schiltz'},
+      {name: 'Yvan Bézard'},
+    ]
+  },
+  {
+    id: 3,
+    name: 'Thon des mers du sud',
+    members: [
+      {name: 'Mickael Petit'},
+      {name: 'Aurélien Schiltz'},
+      {name: 'Yvan Bézard'},
+    ]
+  },
+  {
+    id: 4,
+    name: 'Fantôme',
+    members: [
+      {name: 'Mickael Petit'},
+      {name: 'Aurélien Schiltz'},
+      {name: 'Yvan Bézard'},
+    ]
+  },
+];
+
+
+
 class TeamPage extends React.Component {
   static contextTypes = {
     styleManager: customPropTypes.muiRequired,
@@ -48,11 +86,17 @@ class TeamPage extends React.Component {
 
   state = {
     filterString: "",
+    teams: teams,
+    displayedTeams: teams,
   };
 
   handleFilterChange = (e) => {
-    this.setState({ filterString: e.target.value });
-  }
+    const filterString = e.target.value;
+    const filteredTeams = this.state.teams.filter((team) => {
+      return team.name.toLowerCase().includes(filterString);
+    });
+    this.setState({ filterString, displayedTeams: filteredTeams });
+  };
 
   render() {
     const classes = this.context.styleManager.render(styleSheet);
@@ -87,120 +131,7 @@ class TeamPage extends React.Component {
             onChange={this.handleFilterChange} />
         </Layout>
 
-        <Card className={classes.card}>
-          <CardContent>
-            <Text type="headline" component="h2">Caméléon</Text>
-            <div className={classes.row}>
-              <Chip
-                avatar={<Avatar><FaceIcon className={classes.svgIcon}/></Avatar>}
-                label="Yvan Bézard-Falgas"
-                className={classes.chip}
-              />
-              <Chip
-                avatar={<Avatar><FaceIcon className={classes.svgIcon}/></Avatar>}
-                label="Mickael Petit"
-                className={classes.chip}
-              />
-            </div>
-          </CardContent>
-          <CardActions>
-            <Button primary>Rejoindre l'équipe</Button>
-          </CardActions>
-        </Card>
-
-        <Card className={classes.card}>
-          <CardContent>
-            <Text type="headline" component="h2">Gros singe</Text>
-            <div className={classes.row}>
-              <Chip
-                avatar={<Avatar><FaceIcon className={classes.svgIcon}/></Avatar>}
-                label="Yvan Bézard-Falgas"
-                className={classes.chip}
-              />
-              <Chip
-                avatar={<Avatar><FaceIcon className={classes.svgIcon}/></Avatar>}
-                label="Mickael Petit"
-                className={classes.chip}
-              />
-            </div>
-          </CardContent>
-          <CardActions>
-            <Button primary>Rejoindre l'équipe</Button>
-          </CardActions>
-        </Card>
-
-        <Card className={classes.card}>
-          <CardContent>
-            <Text type="headline" component="h2">Macaque de compétition</Text>
-            <div className={classes.row}>
-              <Chip
-                avatar={<Avatar><FaceIcon className={classes.svgIcon}/></Avatar>}
-                label="Yvan Bézard-Falgas"
-                className={classes.chip}
-              />
-              <Chip
-                avatar={<Avatar><FaceIcon className={classes.svgIcon}/></Avatar>}
-                label="Mickael Petit"
-                className={classes.chip}
-              />
-              <Chip
-                avatar={<Avatar><FaceIcon className={classes.svgIcon}/></Avatar>}
-                label="Patrick Ely"
-                className={classes.chip}
-              />
-            </div>
-          </CardContent>
-          <CardActions>
-            <Button primary>Rejoindre l'équipe</Button>
-          </CardActions>
-        </Card>
-
-        <Card className={classes.card}>
-          <CardContent>
-            <Text type="headline" component="h2">Thon des mers du sud</Text>
-            <div className={classes.row}>
-              <Chip
-                avatar={<Avatar><FaceIcon className={classes.svgIcon}/></Avatar>}
-                label="Yvan Bézard-Falgas"
-                className={classes.chip}
-              />
-              <Chip
-                avatar={<Avatar><FaceIcon className={classes.svgIcon}/></Avatar>}
-                label="Zakia Kazi-Aoul"
-                className={classes.chip}
-              />
-              <Chip
-                avatar={<Avatar><FaceIcon className={classes.svgIcon}/></Avatar>}
-                label="Mickael Petit"
-                className={classes.chip}
-              />
-            </div>
-          </CardContent>
-          <CardActions>
-            <Button primary>Rejoindre l'équipe</Button>
-          </CardActions>
-        </Card>
-
-        <Card className={classes.card}>
-          <CardContent>
-            <Text type="headline" component="h2">Fantôme</Text>
-            <div className={classes.row}>
-              <Chip
-                avatar={<Avatar><FaceIcon className={classes.svgIcon}/></Avatar>}
-                label="Yvan Bézard-Falgas"
-                className={classes.chip}
-              />
-              <Chip
-                avatar={<Avatar><FaceIcon className={classes.svgIcon}/></Avatar>}
-                label="Mickael Petit"
-                className={classes.chip}
-              />
-            </div>
-          </CardContent>
-          <CardActions>
-            <Button primary>Rejoindre l'équipe</Button>
-          </CardActions>
-        </Card>
+        <TeamList teams={this.state.displayedTeams} />
 
       </div>
     )

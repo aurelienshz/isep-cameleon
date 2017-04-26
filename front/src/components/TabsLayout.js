@@ -88,7 +88,6 @@ class TabsLayout extends React.Component {
         <Switch>
           {
             tabs.map((tab, index) => {
-              console.log(`${baseLocation}${tab.path}`);
               return (
                 <Route key={index} path={`${baseLocation}${tab.path}`} component={tab.component} />
               )
