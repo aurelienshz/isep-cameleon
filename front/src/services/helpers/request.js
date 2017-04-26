@@ -23,8 +23,6 @@ const attemptRequestOrThrow = async (method: string, url: string, body: ?Object)
     },
   };
 
-  console.log(body);
-
   // Handle authenticated requests :
   if (isAuthenticated()) {
     // Authorization using oAuth token :

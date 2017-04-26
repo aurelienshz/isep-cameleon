@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react';
+import { connect } from 'react-redux';
 import { createStyleSheet } from 'jss-theme-reactor';
 import customPropTypes from 'material-ui/utils/customPropTypes';
 import AppBar from 'material-ui/AppBar';
@@ -14,6 +15,7 @@ import { Link } from 'react-router-dom';
 import colors from '../colors';
 
 import { isAuthenticated } from '../data/users/auth';
+import { logoutAction } from '../data/users/reducer';
 
 const styleSheet = createStyleSheet('AuthenticatedLayout', () => ({
   root: {
@@ -74,8 +76,9 @@ const styleSheet = createStyleSheet('AuthenticatedLayout', () => ({
 }));
 
 
-export default function AppBarLayout(props, context) {
+function AppBarLayout(props, context) {
   const classes = context.styleManager.render(styleSheet);
+  const { logout } = props;
 
   return (
     <div style={{ height: '100%', width: '100%' }}>
@@ -93,10 +96,9 @@ export default function AppBarLayout(props, context) {
                   <div className={classes.detail}>
                     <div className={classes.name}>
                       Victor ELY
-
                     </div>
-                    <div className={classes.badge}>
-                      Grand vizir
+                    <div className={classes.badge} onClick={logout} title="Cliquez ici pour vous déconnecter">
+                      Déconnexion
                     </div>
                   </div>
                 </div>
@@ -123,3 +125,11 @@ export default function AppBarLayout(props, context) {
 AppBarLayout.contextTypes = {
   styleManager: customPropTypes.muiRequired,
 };
+
+export default connect(() => {
+  return {};
+}, (dispatch) => {
+  return {
+    logout: () => dispatch(logoutAction()),
+  };
+})(AppBarLayout);

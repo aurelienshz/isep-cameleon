@@ -4,6 +4,7 @@ import { requestToken, ACCESS_TOKEN_LOCALSTORAGE_KEY } from './auth';
 import { push } from 'react-router-redux';
 
 const REQUEST_AUTH_TOKEN = 'users/REQUEST_AUTH_TOKEN';
+const LOGOUT = 'users/LOGOUT';
 const RECEIVE_AUTH_TOKEN = 'users/RECEIVE_AUTH_TOKEN';
 const UNKNOWN_ERROR_LOGIN = 'users/UNKNOWN_ERROR_LOGIN';
 
@@ -44,6 +45,11 @@ export default function servicesReducer(state: UsersState = initialState, action
         awaitingToken: false,
         error: action.error,
       };
+    case LOGOUT:
+      return {
+        ...state,
+        accessToken: null,
+      };
     default:
       return state;
   }
@@ -77,6 +83,18 @@ export const submitLoginAction = (credentials: {login: string, password: string}
       });
     }
   };
+};
+
+export const logoutAction = () => {
+  return (dispatch) => {
+    dispatch({
+      type: LOGOUT,
+    });
+
+    localStorage.removeItem(ACCESS_TOKEN_LOCALSTORAGE_KEY);
+
+    dispatch(push('/login'));
+  }
 };
 
 // Maps to the mounting location of this reducer in the global state store
