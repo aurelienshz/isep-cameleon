@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import AppBarLayout from './components/AppBarLayout';
@@ -23,6 +23,7 @@ function Routes() {
     <div style={{ height: '100%', width: '100%' }}>
       <AppBarLayout>
         <Switch>
+          <Redirect path="/" exact to="/login" />
           <Route path="/login" component={Login} />
           <AuthenticatedRoute path="/teacher" component={Teacher} />
           <AuthenticatedRoute path="/client" component={Client} />
