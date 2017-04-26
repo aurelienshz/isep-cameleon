@@ -42,11 +42,8 @@ const renderMessage = (row) => {
 
 const COLUMNS = [
   {
-    header: 'Numero',
-    accessor: 'numero',
-  }, {
     header: 'Nom',
-    accessor: 'nom',
+    accessor: 'name',
   }, {
     header: 'Membre',
     accessor: 'membre',
