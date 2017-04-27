@@ -56,7 +56,7 @@ const COLUMNS = [
   }, {
     header: 'Sujet',
     accessor: 'sujet',
-  },{
+  }, {
     header: 'Validation',
     accessor: 'validation',
   },

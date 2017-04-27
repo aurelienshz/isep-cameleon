@@ -28,7 +28,7 @@ export function setToken(token) {
 
 export async function requestToken(credentials: {login: string, password: string}) {
   // TODO not here (export in config)
-  const basicAuthString = btoa('acme:acmesecret'); // TODO change these
+  const basicAuthString = btoa('chameleon:chameleonsecret'); // TODO change these
   const headers = {
     'Authorization': 'Basic ' + basicAuthString,
     'Content-Type': 'application/x-www-form-urlencoded',
@@ -41,7 +41,7 @@ export async function requestToken(credentials: {login: string, password: string
 
   const params = {
     grant_type: 'password',
-    scope: 'openid',
+    scope: 'write',
     username: credentials.login,
     password: credentials.password,
   };
@@ -59,7 +59,7 @@ export async function requestToken(credentials: {login: string, password: string
   const res = await fetch(url, options);
 
   if (!res.ok) {
-    if (res.status === 400) {
+    if (res.status === 401) {
       // Error is not critical : it's simply invalid credentials
       throw new Error('Identifiants invalides');
     } else {

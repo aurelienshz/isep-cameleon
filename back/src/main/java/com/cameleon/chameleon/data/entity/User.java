@@ -4,13 +4,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-@Entity()
+@Entity
 public class User {
-    @GeneratedValue
     @Id
+    @GeneratedValue
     private Long id;
 
     private String username;
+
+    private String password;
+
+    private String mail;
 
     public Long getId() {
         return id;
@@ -28,5 +32,19 @@ public class User {
         this.username = username;
     }
 
-    // TODO
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
 }

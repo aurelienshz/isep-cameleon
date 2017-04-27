@@ -1,4 +1,4 @@
-package com.cameleon.chameleon;
+package com.cameleon.chameleon.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
@@ -14,11 +14,11 @@ import java.io.IOException;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class SimpleCorsFilter implements Filter {
+public class CorsFilter implements Filter {
     @Autowired
     private Environment env;
 
-    public SimpleCorsFilter() {
+    public CorsFilter() {
     }
 
     @Override

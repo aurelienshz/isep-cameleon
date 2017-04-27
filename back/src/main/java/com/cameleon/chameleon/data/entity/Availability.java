@@ -14,7 +14,7 @@ public class Availability {
 
     @OneToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private User deprecatedUser;
 
     public Long getId() {
         return id;
@@ -25,11 +25,11 @@ public class Availability {
     }
 
     public User getUser() {
-        return user;
+        return deprecatedUser;
     }
 
     public void setUser(User user) {
-        this.user = user;
+        this.deprecatedUser = user;
     }
 
     public List<TimeSlot> getTimeSlot() {

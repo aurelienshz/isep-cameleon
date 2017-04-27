@@ -1,10 +1,7 @@
 package com.cameleon.chameleon.service;
 
 import com.cameleon.chameleon.data.dto.ProjectCreationDTO;
-import com.cameleon.chameleon.data.entity.Project;
-import com.cameleon.chameleon.data.entity.Subject;
-import com.cameleon.chameleon.data.entity.Team;
-import com.cameleon.chameleon.data.entity.User;
+import com.cameleon.chameleon.data.entity.*;
 import com.cameleon.chameleon.data.repository.ProjectRepository;
 import com.cameleon.chameleon.data.repository.SubjectRepository;
 import com.cameleon.chameleon.data.repository.TeamRepository;
