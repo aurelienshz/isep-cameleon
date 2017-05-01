@@ -1,11 +1,16 @@
 package com.cameleon.chameleon.data.entity;
 
+import org.hibernate.annotations.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import javax.persistence.*;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue
     private Long id;
@@ -15,6 +20,11 @@ public class User {
     private String password;
 
     private String mail;
+
+    private String token;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Role> roles;
 
     public Long getId() {
         return id;
@@ -28,8 +38,33 @@ public class User {
         return username;
     }
 
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles;
     }
 
     public String getPassword() {
@@ -46,5 +81,21 @@ public class User {
 
     public void setMail(String mail) {
         this.mail = mail;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }

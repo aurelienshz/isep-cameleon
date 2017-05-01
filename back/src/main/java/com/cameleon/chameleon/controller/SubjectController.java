@@ -1,8 +1,13 @@
 package com.cameleon.chameleon.controller;
 
 import com.cameleon.chameleon.data.entity.Subject;
+import com.cameleon.chameleon.data.entity.User;
 import com.cameleon.chameleon.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,7 +19,8 @@ public class SubjectController {
     private SubjectService subjectService;
 
     @GetMapping
-    public List<Subject> getSubjectsList() {
+    public List<Subject> getSubjectsList(@AuthenticationPrincipal Authentication user) {
+        System.out.println(user);
         return subjectService.findAllSubjects();
     }
 

@@ -1,17 +1,41 @@
 package com.cameleon.chameleon.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.cameleon.chameleon.configuration.security.PasswordEncrypter;
+import com.cameleon.chameleon.data.dto.LoginFormDTO;
+import com.cameleon.chameleon.data.dto.SuccessfulLoginDTO;
+import com.cameleon.chameleon.data.entity.User;
+import com.cameleon.chameleon.data.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
+import javax.servlet.http.HttpServletResponse;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
-    @GetMapping
-    public Principal user(Principal user) {
-        return user;
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncrypter passwordEncrypter;
+
+    @PostMapping("/login")
+    public SuccessfulLoginDTO login(@RequestBody LoginFormDTO form, HttpServletResponse res) {
+        String encryptedPassword = passwordEncrypter.encryptPassword(form.getPassword());
+        User user = userRepository.findByUsernameAndPassword(form.getLogin(), encryptedPassword);
+
+        if (user == null) {
+            res.setStatus(400);
+            return null;
+        }
+
+        UUID uuid = UUID.randomUUID();
+        String token = uuid.toString();
+        user.setToken(token);
+        userRepository.save(user);
+
+        return new SuccessfulLoginDTO(token);
     }
 }

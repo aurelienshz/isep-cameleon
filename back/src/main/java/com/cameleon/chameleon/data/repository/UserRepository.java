@@ -13,6 +13,8 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     User findOne(Long id);
 
+    User findByToken(String token);
+
     @Query("select u from User u where u.username = :username and u.password = :password")
     User findByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
 }

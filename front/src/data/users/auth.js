@@ -26,40 +26,44 @@ export function setToken(token) {
   localStorage.setItem(ACCESS_TOKEN_LOCALSTORAGE_KEY);
 }
 
-export async function requestToken(credentials: {login: string, password: string}) {
+export async function requestToken({login, password}: {login: string, password: string}) {
   // TODO not here (export in config)
-  const basicAuthString = btoa('chameleon:chameleonsecret'); // TODO change these
+  // const basicAuthString = btoa('chameleon:chameleonsecret'); // TODO change these
   const headers = {
-    'Authorization': 'Basic ' + basicAuthString,
-    'Content-Type': 'application/x-www-form-urlencoded',
+  //   'Authorization': 'Basic ' + basicAuthString,
+    'Content-Type': 'application/json',
   };
 
+  const body = JSON.stringify({ login, password });
   const options = {
     method: 'POST',
     headers,
+    body,
   };
 
   const params = {
     grant_type: 'password',
     scope: 'write',
-    username: credentials.login,
-    password: credentials.password,
+    username: login,
+    password: password,
   };
 
-  const tokenPath = '/oauth/token';
-  let paramsString = '';
 
-  Object.keys(params).forEach((paramKey, index) => {
-    const delimiter = index === 0 ? "?" : "&";
-    paramsString += delimiter + paramKey + '=' + params[paramKey];
-  });
+  const tokenPath = '/user/login';
+  // let paramsString = '';
 
-  const url = urljoin(API_URL, tokenPath, paramsString);
+  // Object.keys(params).forEach((paramKey, index) => {
+  //   const delimiter = index === 0 ? "?" : "&";
+  //   paramsString += delimiter + paramKey + '=' + params[paramKey];
+  // });
+
+  const url = urljoin(API_URL, tokenPath);
+  // const url = urljoin(API_URL, tokenPath, paramsString);
 
   const res = await fetch(url, options);
 
   if (!res.ok) {
-    if (res.status === 401) {
+    if (res.status === 400) {
       // Error is not critical : it's simply invalid credentials
       throw new Error('Identifiants invalides');
     } else {

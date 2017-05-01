@@ -62,8 +62,8 @@ export const submitLoginAction = (credentials: {login: string, password: string}
         type: REQUEST_AUTH_TOKEN,
       });
       const authResponse = await requestToken(credentials);
-      if (authResponse.access_token) {
-        const accessToken = authResponse.access_token;
+      if (authResponse.token) {
+        const accessToken = authResponse.token;
 
         dispatch({
           type: RECEIVE_AUTH_TOKEN,

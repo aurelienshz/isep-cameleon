@@ -2,9 +2,11 @@ package com.cameleon.chameleon.configuration.security;
 
 import com.cameleon.chameleon.data.entity.User;
 import org.bouncycastle.jcajce.provider.digest.SHA3;
+import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
 
+@Service
 public class PasswordEncrypter {
     public static void encryptPassword(User user) {
         String password = user.getPassword();
