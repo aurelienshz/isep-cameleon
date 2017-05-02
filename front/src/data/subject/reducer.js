@@ -1,14 +1,16 @@
 // @flow
 
-import { getSubjectsList } from './service';
+import { getSubjectsList, createSubject as requestSubjectCreation } from './service';
 
 const initialState = {
-  subjects: null,
+  subjects: [],
   loading: false,
 };
 
 const REQUEST_SUBJECTS = "REQUEST_SUBJECT";
 const RECEIVE_SUBJECTS = "RECEIVE_SUBJECT";
+const REQUEST_SUBJECT_CREATION = "REQUEST_SUBJECT_CREATION";
+const CONFIRM_SUBJECT_CREATION = "CONFIRM_SUBJECT_CREATION";
 
 export default function subjectReducer(state = initialState, action) {
   switch (action.type) {
@@ -21,6 +23,16 @@ export default function subjectReducer(state = initialState, action) {
       return {
         ...state,
         subjects: action.subjects,
+        loading: false,
+      };
+    case REQUEST_SUBJECT_CREATION:
+      return {
+        ...state,
+        loading: true,
+      };
+    case CONFIRM_SUBJECT_CREATION:
+      return {
+        ...state,
         loading: false,
       };
     default:
@@ -44,6 +56,24 @@ export function fetchSubjects() {
     }
   };
 }
+
+export function createSubject(subjectCreationRequest) {
+  return async(dispatch) => {
+    dispatch({
+      type: REQUEST_SUBJECT_CREATION,
+    });
+    try {
+      await requestSubjectCreation(subjectCreationRequest);
+      dispatch({
+        type: CONFIRM_SUBJECT_CREATION,
+      });
+      dispatch(fetchSubjects());
+    } catch(err) {
+      console.error(err); // TODO error management
+    }
+  }
+};
+
 
 export const getLocalState = (state) => {
   return state.subject;

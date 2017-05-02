@@ -15,9 +15,9 @@ import Slide from 'material-ui/transitions/Slide';
 
 import colors from '../../../colors.js';
 
-import type { Subject } from '../../../data/subject/service';
+import { connect } from 'react-redux';
 
-import { getSubjectsList } from '../../../data/subject/service';
+import { fetchSubjects, createSubject, getLocalState as getSubjectState } from '../../../data/subject/reducer';
 
 const STYLE_BODY = {
   margin: 20
@@ -39,42 +39,48 @@ const STYLE_BUTTON = {
 
 const STYLE_INPUT = {
   margin: 10,
-}
+};
 
-const STYLE_CONTAINER = {
-  width: '10%',
-  marginLeft: '45%',
-  backgroundColor: colors.ISEP_SECONDARY,
-  color: colors.ISEP_TERTIARY,
-}
-
-export default class SubjectHome extends React.Component {
+class SubjectPage extends React.Component {
 
   state: {
-    open: false,
-    loading: boolean,
-    subjects: ?Array<Subject>,
+    open: boolean,
+    newSubjectTitle: string,
+    newSubjectDescription: string,
   } = {
-    loading: true,
-    subjects: null,
+    open: false,
+    newSubjectTitle: "",
+    newSubjectDescription: "",
   };
 
-  handleRequestClose = () => this.setState({ open: false });
+  componentWillMount() {
+    console.log(this.props);
+    this.props.fetchSubjects();
+  }
+
+  handleRequestClose = () => {
+    this.setState({ open: false });
+  };
+
+  createSubject = () => {
+    const { newSubjectTitle, newSubjectDescription } = this.state;
+    this.props.createSubject(newSubjectTitle, newSubjectDescription);
+
+    this.setState({
+      open: false,
+      newSubjectTitle: "",
+      newSubjectDescription: "",
+    });
+  };
+
   handleOpen = () => this.setState({ open: true });
 
-
-  componentWillMount = async () => {
-    // const subjects = await getSubjectsList();
-    this.setState({
-      loading: false,
-      subjects: [],
-    })
-  };
-
   render() {
+    const { loading, subjects } = this.props;
+
     return (
       <div style={STYLE_BODY}>
-        <h1>Liste des sujets</h1>
+        <h1>Sujets</h1>
         <Button onClick={this.handleOpen} style={STYLE_BUTTON}>
           Ajouter un sujet
         </Button>
@@ -82,8 +88,8 @@ export default class SubjectHome extends React.Component {
           fullScreen
           open={this.state.open}
           onRequestClose={this.handleRequestClose}
-          transition={<Slide direction="up" />}
-        >
+          transition={<Slide direction="up" />}>
+
           <AppBar style={STYLE_APPBAR}>
             <Toolbar>
               <IconButton contrast onClick={this.handleRequestClose}>
@@ -95,15 +101,16 @@ export default class SubjectHome extends React.Component {
           <TextField
             id="Titre du sujet"
             label="Titre du nouveau sujet"
+            onChange={(e) => this.setState({ newSubjectTitle: e.target.value })}
             style={STYLE_INPUT}
           />
           <TextField
             id="Descriptif du nouveau sujet"
             label="Descriptif du nouveau sujet"
+            onChange={(e) => this.setState({ newSubjectDescription: e.target.value })}
             style={STYLE_INPUT}
-            multiLine={true}
           />
-          <Button style={STYLE_CONTAINER} onClick={this.handleRequestClose}>Enregistrer</Button>
+          <Button style={STYLE_BUTTON} onClick={this.createSubject}>Enregistrer</Button>
         </Dialog>
         <TextField
           id="Recherche"
@@ -111,14 +118,14 @@ export default class SubjectHome extends React.Component {
           style={STYLE_INPUT}
         />
         {
-          this.state.loading ?
+          loading ?
             <div>Chargement des sujets...</div>
           :
             <div>
               <ul>
-                { this.state.subjects.map((subject) => {
+                { subjects.map((subject) => {
                   return (
-                    <li key={subject.id}>n° {subject.number} : <strong>{subject.name}</strong> ({subject.description})</li>
+                    <li key={subject.id}><strong>{subject.name}</strong> (description : {subject.description})</li>
                   );
                 })}
               </ul>
@@ -129,3 +136,20 @@ export default class SubjectHome extends React.Component {
     )
   }
 }
+
+const mapStateToProps = (state) => {
+  const subjectState = getSubjectState(state);
+  return {
+    subjects: subjectState.subjects,
+    loading: subjectState.loading,
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchSubjects: () => dispatch(fetchSubjects()),
+    createSubject: (name, description) => dispatch(createSubject({name, description})),
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SubjectPage);

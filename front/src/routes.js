@@ -10,7 +10,7 @@ import { getLocalState as getUsersState } from "./data/users/reducer";
 
 // pages :
 import Login from './pages/Login';
-import Teacher from './pages/teacher';
+import Teacher from './pages/Teacher';
 import Client from './pages/client';
 import Etudiant from './pages/Student';
 import Profil from './pages/Profil';

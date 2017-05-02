@@ -110,6 +110,7 @@ class ValidateEquipes extends React.Component {
           <DialogTitle>Validation</DialogTitle>
           <DialogContent>
             <DialogContentText>
+              Assigner un sujet :&nbsp;
               { this.props.subjects ?
                   <select>
                     {
