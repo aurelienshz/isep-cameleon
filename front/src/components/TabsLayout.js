@@ -28,10 +28,10 @@ const styleSheet = createStyleSheet('ClientPage', () => ({
     width: '100%',
   },
   appBar: {
-    backgroundColor: colors.ISEP_PRIMARY_LIGHTER,
+    backgroundColor: 'white',
   },
-  white: {
-    color: colors.ISEP_TERTIARY,
+  tab: {
+    color: colors.ISEP_PRIMARY,
   },
 }));
 
@@ -87,7 +87,7 @@ class TabsLayout extends React.Component {
                   return (
                     <Tab
                       key={index}
-                      className={styles.white}
+                      className={styles.tab}
                       label={tab.label} />
                   );
                 })
