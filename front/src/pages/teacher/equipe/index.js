@@ -3,19 +3,20 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Tab, Tabs} from 'material-ui/Tabs';
-import FlatButton from 'material-ui/Button';
+import Button from 'material-ui/Button';
 import Layout from 'material-ui/Layout';
 import TextField from 'material-ui/TextField';
-
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from 'material-ui/Dialog';
 import WifiIcon from 'material-ui-icons/Wifi';
 import BluetoothIcon from 'material-ui-icons/Bluetooth';
 
 import SimpleTable from '../../../components/SimpleTable';
-import SimpleDialog from '../../../components/SimpleDialog';
+
 
 import colors from '../../../colors';
 
 import { getLocalState as getTeamState, fetchTeams } from '../../../data/team/reducer';
+import { getLocalState as getSubjetState, fetchSubjects } from '../../../data/subject/reducer';
 
 const style = {
   MESSAGE_STYLE: {
@@ -65,43 +66,68 @@ const COLUMNS = [
 class ValidateEquipes extends React.Component {
   state = {
     validPopupOpen: false,
-  }
-  componentDidMount() {
+  };
+
+  componentWillMount() {
     this.props.fetchEquipes();
+    this.props.fetchSubjects();
   }
 
   handleValidate = () => {
     this.setState({validPopupOpen: true});
-  }
+  };
 
   handleClose = () => {
     this.setState({validPopupOpen: false});
-  }
+  };
 
   addValidationControl = (equipes) => {
-    return equipes.map(off => ({
-      ...off,
+    return equipes.map(team => ({
+      ...team,
       validation: (
         <div>
-          <FlatButton icon={<WifiIcon />} onTouchTap={this.handleValidate} style={style.VALIDATE_BUTTON} />
-          <FlatButton icon={<BluetoothIcon />} style={style.VALIDATE_BUTTON} />
+          <Button onClick={this.handleValidate} style={style.VALIDATE_BUTTON}>
+            Valider
+          </Button>
         </div>
       ),
     }));
-  }
+  };
 
   render() {
     const data = this.addValidationControl(this.props.teams);
     return (
       <div style={style.BODY}>
-        <h1 className="colored">Validation equipes</h1>
+        <h1 className="colored">Équipes</h1>
         <Layout>
           <TextField
-            className={style.searchField}
+            style={style.searchField}
             label="Filtrer les équipes" />
         </Layout>
         <SimpleTable selectable={true} style={style.TABLE} clickHandler={this.clickTable} loading={this.props.loading} data={data} columns={COLUMNS} />
-        <SimpleDialog title="Validation" open={this.state.validPopupOpen} handleCloseCancel={this.handleClose} handleClose={this.handleClose} />
+
+        <Dialog open={this.state.validPopupOpen} onRequestClose={this.handleClose}>
+          <DialogTitle>Validation</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              { this.props.subjects ?
+                  <select>
+                    {
+                      this.props.subjects.map(subject => (
+                        <option>{subject.name}</option>
+                      ))
+                    }
+                  </select>
+                :
+                  "Chargement..."
+              }
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClose} primary>{"Annuler"}</Button>
+            <Button onClick={() => {console.log("qqsdf")}} primary>{"Valider"}</Button>
+          </DialogActions>
+        </Dialog>
       </div>
     );
   }
@@ -109,11 +135,16 @@ class ValidateEquipes extends React.Component {
 
 export default connect((state) => {
   const teamState = getTeamState(state);
-  const {loading, teams} = teamState;
-  return {loading, teams};
+  const subjectState = getSubjetState(state);
+  return {
+    loading: teamState.loading,
+    teams: teamState.teams,
+    subjects: subjectState.subjects,
+  };
 }, (dispatch) => {
   return {
     fetchEquipes: () => dispatch(fetchTeams()),
+    fetchSubjects: () => dispatch(fetchSubjects()),
   };
 },
 )(ValidateEquipes);

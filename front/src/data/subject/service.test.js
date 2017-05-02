@@ -1,4 +1,4 @@
-import { getSubjectsList } from './subjectService';
+import { getSubjectsList } from './service';
 
 describe('Subject service', () => {
   beforeAll(authenticate);

@@ -6,13 +6,13 @@ import TabsLayout from '../../components/TabsLayout';
 
 // tabs :
 import Equipe from './equipe';
-import Sujet from './sujet';
+import Subject from './Subject';
 
 const tabs = [
   {
     label: "Sujet",
     path: "/subject",
-    component: Sujet,
+    component: Subject,
   },
   {
     label: "Équipe",

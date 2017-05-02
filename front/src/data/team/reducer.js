@@ -69,11 +69,15 @@ export function fetchTeams() {
     dispatch({
       type: REQUEST_TEAMS,
     });
-    const teams = await getTeamsList();
-    dispatch({
-      type: RECEIVE_TEAMS,
-      teams,
-    });
+    try {
+      const teams = await getTeamsList();
+      dispatch({
+        type: RECEIVE_TEAMS,
+        teams,
+      });
+    } catch(err) {
+      console.error(err);
+    }
   };
 }
 

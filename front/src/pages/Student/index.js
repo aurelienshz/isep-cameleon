@@ -7,6 +7,7 @@ import TabsLayout from '../../components/TabsLayout';
 // tabs :
 import Subject from './Subject';
 import Team from './Team';
+import Meeting from './Meeting';
 
 const tabs = [
   {
@@ -18,6 +19,11 @@ const tabs = [
     label: "Sujet",
     path: "/subject",
     component: Subject,
+  },
+  {
+    label: "Réunions",
+    path: "/meeting",
+    component: Meeting,
   },
 ];
 

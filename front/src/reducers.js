@@ -7,7 +7,7 @@ import subject from './data/subject/reducer';
 const chameleonReducers = {
   users,
   team,
-  subject: subject,
+  subject,
 };
 
 export default chameleonReducers;

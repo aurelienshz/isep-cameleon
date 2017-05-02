@@ -15,13 +15,13 @@ import Slide from 'material-ui/transitions/Slide';
 
 import colors from '../../../colors.js';
 
-import type { Subject } from '../../../data/subject/subjectService';
+import type { Subject } from '../../../data/subject/service';
 
-import { getSubjectsList } from '../../../data/subject/subjectService';
+import { getSubjectsList } from '../../../data/subject/service';
 
 const STYLE_BODY = {
   margin: 20
-}
+};
 
 const STYLE_APPBAR = {
   position: 'relative',
@@ -64,10 +64,10 @@ export default class SubjectHome extends React.Component {
 
 
   componentWillMount = async () => {
-    const subjects = await getSubjectsList();
+    // const subjects = await getSubjectsList();
     this.setState({
       loading: false,
-      subjects,
+      subjects: [],
     })
   };
 
