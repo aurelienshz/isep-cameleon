@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {createStyleSheet} from 'jss-theme-reactor';
 import Button from 'material-ui/Button';
-import Text from 'material-ui/Text';
+import Typography from 'material-ui/Typography';
 import AddIcon from 'material-ui-icons/Add';
 import Layout from 'material-ui/Layout';
 import TextField from 'material-ui/TextField';
@@ -112,13 +112,13 @@ export default class TeamList extends React.Component {
           onCancel={this.closeTeamCreationDialog}
           onConfirm={(name) => this.createTeam(name)} />
 
-        <Text component="p" className={classes.breadCrumbs}>
+        <Typography component="p" className={classes.breadCrumbs}>
           <strong>Constitution de l'équipe</strong>
           &nbsp;&gt;&nbsp;
           Validation de l'équipe
           &nbsp;&gt;&nbsp;
           Assignation du sujet
-        </Text>
+        </Typography>
 
         <Layout>
           <TextField

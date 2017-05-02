@@ -3,7 +3,7 @@ import {createStyleSheet} from 'jss-theme-reactor';
 import customPropTypes from 'material-ui/utils/customPropTypes';
 import Layout from 'material-ui/Layout';
 import {Card, CardMedia, CardContent, CardActions} from 'material-ui/Card';
-import Text from 'material-ui/Text';
+import Typography from 'material-ui/Typography';
 import Chip from 'material-ui/Chip';
 import Avatar from 'material-ui/Avatar';
 import Button from 'material-ui/Button';
@@ -59,7 +59,7 @@ export default function TeamList({ teams, onRequestJoin }, context) {
           return (
             <Card className={classes.card} key={team.id}>
               <CardContent>
-                <Text type="headline" component="h2">{team.name}</Text>
+                <Typography type="headline" component="h2">{team.name}</Typography>
                 <MembersRow members={members} styleClasses={classes} />
               </CardContent>
               <CardActions>

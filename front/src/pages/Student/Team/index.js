@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {createStyleSheet} from 'jss-theme-reactor';
 import Button from 'material-ui/Button';
-import Text from 'material-ui/Text';
+import Typography from 'material-ui/Typography';
 import AddIcon from 'material-ui-icons/Add';
 import Layout from 'material-ui/Layout';
 import TextField from 'material-ui/TextField';
@@ -54,7 +54,7 @@ class TeamPage extends React.Component {
     if (loadingTeams) {
       return (
         <div style={STYLE_CONTAINER}>
-          <Text>Chargement...</Text>
+          <Typography>Chargement...</Typography>
         </div>
       );
     }

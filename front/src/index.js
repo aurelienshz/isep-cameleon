@@ -35,7 +35,7 @@ const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk, redu
 
 const App = () => (
   <Provider store={store}>
-    <MuiThemeProvider /*muiTheme={muiTheme}*/>
+    <MuiThemeProvider>
       <ConnectedRouter history={history}>
         <Routes />
       </ConnectedRouter>
