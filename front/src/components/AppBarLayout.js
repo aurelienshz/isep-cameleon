@@ -9,8 +9,9 @@ import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import Avatar from 'material-ui/Avatar';
+import { Menu, MenuItem } from 'material-ui/Menu';
 
-import {Link} from 'react-router-dom';
+import {Link,NavLink} from 'react-router-dom';
 
 import colors from '../colors';
 
@@ -73,6 +74,10 @@ const styleSheet = createStyleSheet('AuthenticatedLayout', () => ({
     margin: '3px',
     verticalAlign: 'baseline',
   },
+  menu: {},
+  content: {
+    margin: 0,
+  },
 }));
 
 
@@ -80,6 +85,15 @@ class AppBarLayout extends React.Component {
   static contextTypes = {
     styleManager: customPropTypes.muiRequired,
   };
+
+  state = {
+    anchorEl: undefined,
+    open: false,
+  };
+
+  handleClick = (event) => this.setState({ open: true, anchorEl: event.currentTarget });
+
+  handleRequestClose = () => this.setState({ open: false });
 
   componentWillMount() {
     if (!this.isProfileLoaded()) {
@@ -110,7 +124,7 @@ class AppBarLayout extends React.Component {
                 <Link className={classes.link} to="/student"><Button contrast>Étudiant</Button></Link>
                 <div className={classes.subGroup}>
                   <div className={classes.detail}>
-                    <div className={classes.name}>
+                    <div className={classes.name} onClick={this.handleClick}>
                       {
                         this.isProfileLoaded() && !awaitingProfile ?
                           profile.firstName + ' ' + profile.lastName
@@ -118,7 +132,7 @@ class AppBarLayout extends React.Component {
                           'Chargement...'
                       }
                     </div>
-                    <div className={classes.badge} onClick={logout} title="Cliquez ici pour vous déconnecter">
+                    <div className={classes.badge} title="Rôle de l'utilisateur">
                       Déconnexion
                     </div>
                   </div>
@@ -128,7 +142,18 @@ class AppBarLayout extends React.Component {
                     alt="Victor ELY"
                     src="/img/ely.jpg"
                     className={classes.avatar}
+                    onClick={this.handleClick}
                   />
+                  <Menu
+                    id="simple-menu"
+                    anchorEl={this.state.anchorEl}
+                    className={classes.menu}
+                    open={this.state.open}
+                    onRequestClose={this.handleRequestClose}
+                  >
+                    <NavLink className={classes.link} to="/profil"><MenuItem >Mon profil</MenuItem></NavLink>
+                    <MenuItem onClick={logout} title="Cliquez ici pour vous déconnecter">Déconnexion</MenuItem>
+                  </Menu>
                 </div>
               </div>
               }
