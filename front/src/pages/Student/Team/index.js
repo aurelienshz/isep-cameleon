@@ -18,9 +18,19 @@ import { fetchTeams, createTeam, leaveTeam, joinTeam, getLocalState as getTeamSt
 import { isPartOfTeam } from '../../../data/team/utils';
 import TeamSummary from "./TeamSummary/index";
 
+const STEP_BUILDING_TEAM = "STEP_BUILDING_TEAM";
+const STEP_AWAITING_VALIDATION = "STEP_AWAITING_VALIDATION";
+const STEP_SUBJECT = "STEP_SUBJECT";
+
 const STYLE_CONTAINER = {
   padding: 20,
 };
+
+const styleSheet = createStyleSheet('TeamPage', (theme) => ({
+  breadCrumbs: {
+    marginBottom: 20,
+  }
+}));
 
 class TeamPage extends React.Component {
   static contextTypes = {
@@ -55,6 +65,7 @@ class TeamPage extends React.Component {
 
   render() {
     const { loadingTeams, teams, joinedTeam } = this.props;
+    const classes = this.context.styleManager.render(styleSheet);
 
     if (loadingTeams) {
       return (
@@ -64,8 +75,26 @@ class TeamPage extends React.Component {
       );
     }
 
+    let currentStep = STEP_BUILDING_TEAM;
+    if (joinedTeam) currentStep = STEP_AWAITING_VALIDATION;
+    if (joinedTeam && joinedTeam.validatedByTeacher) currentStep = STEP_SUBJECT;
+
     return (
         <div style={STYLE_CONTAINER}>
+          <Typography component="p" className={classes.breadCrumbs}>
+            {
+              currentStep === STEP_BUILDING_TEAM ? <strong>Constitution de l'équipe</strong> : "Constitution de l'équipe"
+            }
+            &nbsp;&gt;&nbsp;
+            {
+              currentStep === STEP_AWAITING_VALIDATION ? <strong>Validation de l'équipe</strong> : "Validation de l'équipe"
+            }
+            &nbsp;&gt;&nbsp;
+            {
+              currentStep === STEP_SUBJECT ? <strong>Assignation du sujet</strong> : "Assignation du sujet"
+            }
+          </Typography>
+
           {
             joinedTeam ?
               <TeamSummary team={joinedTeam} leaveTeam={this.leaveTeam} />

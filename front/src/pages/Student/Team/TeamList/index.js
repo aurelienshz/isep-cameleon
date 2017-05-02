@@ -18,9 +18,6 @@ import { fetchTeams, createTeam, getLocalState as getTeamState } from '../../../
 import { isPartOfTeam } from '../../../../data/team/utils';
 
 const styleSheet = createStyleSheet('Chips', (theme) => ({
-  breadCrumbs: {
-    marginBottom: 20,
-  },
   searchField: {
     maxWidth: 400,
     margin: '0 auto 20px auto',
@@ -118,14 +115,6 @@ export default class TeamList extends React.Component {
           open={this.state.creationDialogOpen}
           onCancel={this.closeTeamCreationDialog}
           onConfirm={(name) => this.createTeam(name)} />
-
-        <Typography component="p" className={classes.breadCrumbs}>
-          <strong>Constitution de l'équipe</strong>
-          &nbsp;&gt;&nbsp;
-          Validation de l'équipe
-          &nbsp;&gt;&nbsp;
-          Assignation du sujet
-        </Typography>
 
         <Layout>
           <TextField
