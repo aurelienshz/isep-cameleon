@@ -80,6 +80,12 @@ export default class TeamList extends React.Component {
     this.setState({ creationDialogOpen: false });
   };
 
+  confirmJoinTeam = () => {
+    this.props.onJoinTeam(this.state.joinTeamRequestId);
+    this.setState({ creationDialogOpen: false });
+
+  };
+
   static contextTypes = {
     styleManager: customPropTypes.muiRequired,
   };
@@ -88,6 +94,7 @@ export default class TeamList extends React.Component {
     const classes = this.context.styleManager.render(styleSheet);
 
     const filteredTeams = this.props.teams.filter((team) => {
+      if (!team.name) return true;
       return team.name.toLowerCase().includes(this.state.filterString);
     });
 
@@ -105,7 +112,7 @@ export default class TeamList extends React.Component {
           définitivement l'équipe."
           confirmText="Envoyer"
           onCancel={this.cancelJoinTeam}
-          onConfirm={() => console.log(this.state.joinTeamRequestId)} />
+          onConfirm={this.confirmJoinTeam} />
 
         <TeamCreationDialog
           open={this.state.creationDialogOpen}

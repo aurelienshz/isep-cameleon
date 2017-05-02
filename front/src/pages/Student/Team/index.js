@@ -14,8 +14,9 @@ import ConfirmDialog from '../../../components/ConfirmDialog';
 
 import colors from '../../../colors.js';
 
-import { fetchTeams, createTeam, leaveTeam, getLocalState as getTeamState } from '../../../data/team/reducer';
+import { fetchTeams, createTeam, leaveTeam, joinTeam, getLocalState as getTeamState } from '../../../data/team/reducer';
 import { isPartOfTeam } from '../../../data/team/utils';
+import TeamSummary from "./TeamSummary/index";
 
 const STYLE_CONTAINER = {
   padding: 20,
@@ -38,6 +39,10 @@ class TeamPage extends React.Component {
   componentWillMount() {
     this.props.fetchTeams();
   }
+
+  joinTeam = (id) => {
+    this.props.joinTeam(id);
+  };
 
   leaveTeam = (id) => {
     this.props.leaveTeam(id);
@@ -63,12 +68,9 @@ class TeamPage extends React.Component {
         <div style={STYLE_CONTAINER}>
           {
             joinedTeam ?
-              <div>
-                Équipe rejointe : {joinedTeam.name}&nbsp;
-                <button onClick={() => this.leaveTeam(joinedTeam.id)}>Quitter l'équipe</button>
-              </div>
+              <TeamSummary team={joinedTeam} leaveTeam={this.leaveTeam} />
             :
-              <TeamList teams={teams} onCreateTeam={this.props.createTeam} />
+              <TeamList teams={teams} onCreateTeam={this.props.createTeam} onJoinTeam={this.joinTeam} />
           }
         </div>
     );
@@ -88,5 +90,6 @@ export default connect(
     fetchTeams: () => dispatch(fetchTeams()),
     createTeam: (teamCreationRequest) => dispatch(createTeam(teamCreationRequest)),
     leaveTeam: (id) => dispatch(leaveTeam(id)),
+    joinTeam: (id) => dispatch(joinTeam(id)),
   })
 )(TeamPage);

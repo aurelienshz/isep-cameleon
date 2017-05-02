@@ -44,7 +44,6 @@ public class TeamService {
         return teamRepository.save(team);
     }
 
-    // TODO team field in User entity ?
     public Team findBelongingTeam(User user) {
         return teamRepository.findByMemberId(user.getId());
     }

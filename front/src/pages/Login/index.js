@@ -54,7 +54,7 @@ class LoginPage extends React.Component {
 
   submitExternalLogin = () => {
     const {externalLogin, externalPassword} = this.state;
-    console.log(externalLogin, externalPassword);
+    this.props.submitLogin(externalLogin, externalPassword);
   };
 
   render() {

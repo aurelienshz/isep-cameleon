@@ -16,6 +16,6 @@ export function isPartOfTeam(state) {
     // keep this team if connected user is part of it :
     return Boolean(userIsMember);
   });
-  console.log(team);
+
   return team || null;
 }

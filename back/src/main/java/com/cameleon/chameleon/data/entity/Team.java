@@ -1,10 +1,6 @@
 package com.cameleon.chameleon.data.entity;
 
-import org.hibernate.annotations.*;
-import org.hibernate.annotations.CascadeType;
-
 import javax.persistence.*;
-import javax.persistence.Entity;
 import java.util.List;
 
 @Entity()
@@ -13,6 +9,7 @@ public class Team {
     @GeneratedValue
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
     private boolean validatedByTeacher;
