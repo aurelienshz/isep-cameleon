@@ -94,6 +94,7 @@ export default class TeamList extends React.Component {
     const classes = this.context.styleManager.render(styleSheet);
 
     const filteredTeams = this.props.teams.filter((team) => {
+      if (!team.name) return true;
       return team.name.toLowerCase().includes(this.state.filterString);
     });
 
