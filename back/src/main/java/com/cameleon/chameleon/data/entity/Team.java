@@ -16,7 +16,6 @@ public class Team {
     private String name;
 
     @OneToMany
-    @Cascade(CascadeType.ALL)
     private List<User> members;
 
     @ManyToOne

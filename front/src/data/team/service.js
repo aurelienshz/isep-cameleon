@@ -23,6 +23,11 @@ export async function createTeam(teamCreationDTO: TeamCreationDTO) {
   return await postJson(REQUEST_PATH_PREFIX, teamCreationDTO);
 }
 
+export async function leaveTeam(id: number) {
+  return await postJson(REQUEST_PATH_PREFIX + `/${id}/leave`);
+}
+
+
 export async function getTeam(id: number): Team {
   return await getJson(REQUEST_PATH_PREFIX + `/${id}`);
 }
