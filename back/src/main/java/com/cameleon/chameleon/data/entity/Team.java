@@ -1,6 +1,10 @@
 package com.cameleon.chameleon.data.entity;
 
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
+
 import javax.persistence.*;
+import javax.persistence.Entity;
 import java.util.List;
 
 @Entity()
@@ -12,6 +16,7 @@ public class Team {
     private String name;
 
     @OneToMany
+    @Cascade(CascadeType.ALL)
     private List<User> members;
 
     @ManyToOne

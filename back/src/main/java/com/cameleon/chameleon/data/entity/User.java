@@ -23,6 +23,7 @@ public class User implements UserDetails {
 
     private String mail;
 
+    @JsonIgnore
     private String token;
 
     @OneToMany(fetch = FetchType.EAGER)
