@@ -8,7 +8,7 @@ import {Redirect} from 'react-router';
 import customPropTypes from 'material-ui/utils/customPropTypes';
 import Paper from 'material-ui/Paper';
 import Layout from 'material-ui/Layout';
-import Text from 'material-ui/Text';
+import Typography from 'material-ui/Typography';
 import Divider from 'material-ui/Divider';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
@@ -70,18 +70,18 @@ class LoginPage extends React.Component {
         <Layout item xs={12} sm={6}>
           <Paper>
             <Layout>
-              <Text type="headline">
+              <Typography type="headline">
                 Authentification ISEP
-              </Text>
+              </Typography>
               <Text type="body1">
                 Utilisez ce formulaire pour vous connecter si vous possédez des identifiants ISEP.
               </Text>
 
               {
                 error &&
-                <Text type="body1">
+                <Typography type="body1">
                   {error.message}
-                </Text>
+                </Typography>
               }
 
               <Divider/>
@@ -89,7 +89,7 @@ class LoginPage extends React.Component {
               {
                 awaitingToken ?
                   <Layout>
-                    <Text>Chargement...</Text>
+                    <Typography>Chargement...</Typography>
                   </Layout>
                   :
                   <Layout>
@@ -110,12 +110,12 @@ class LoginPage extends React.Component {
         </Layout>
         <Layout item xs={12} sm={6}>
           <Paper>
-            <Text type="headline">
+            <Typography type="headline">
               Authentification extérieure
-            </Text>
-            <Text type="body1">
+            </Typography>
+            <Typography type="body1">
               Utilisez ce formulaire pour vous connecter avec les identifiants qui vous ont été fournis.
-            </Text>
+            </Typography>
 
 
             <Divider/>
