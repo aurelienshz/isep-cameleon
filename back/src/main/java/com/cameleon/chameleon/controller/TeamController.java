@@ -6,6 +6,7 @@ import com.cameleon.chameleon.data.entity.User;
 import com.cameleon.chameleon.exception.BusinessLogicException;
 import com.cameleon.chameleon.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,9 +40,10 @@ public class TeamController {
     }
 
     @PostMapping("/{teamId}/leave")
-    public Team leaveTeam(@PathVariable Long teamId, @AuthenticationPrincipal User user) throws BusinessLogicException {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void leaveTeam(@PathVariable Long teamId, @AuthenticationPrincipal User user) throws BusinessLogicException {
         Team team = teamService.findTeam(teamId);
-        return teamService.removeUserFromTeam(user, team);
+        teamService.removeUserFromTeam(user, team);
     }
 
     @GetMapping("/my-team")

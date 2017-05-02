@@ -44,6 +44,9 @@ const attemptRequestOrThrow = async (method: string, url: string, body: ?Object)
     throw error;
   }
 
+  // Handle 204 No Content (the server accepted the request but has nothing to provide in response)
+  if (res.status === 204) return true;
+
   return res.json();
 };
 

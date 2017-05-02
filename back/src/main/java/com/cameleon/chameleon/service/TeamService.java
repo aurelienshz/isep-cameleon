@@ -58,7 +58,7 @@ public class TeamService {
         return team;
     }
 
-    public Team removeUserFromTeam(User user, Team team) throws BusinessLogicException {
+    public void removeUserFromTeam(User user, Team team) throws BusinessLogicException {
         if (findBelongingTeam(user) != team) {
             throw new BusinessLogicException("User doesn't belong to requested team");
         }
@@ -67,9 +67,14 @@ public class TeamService {
                 // Keep all other members :
                 .filter(m -> !(m.getId().equals(user.getId())))
                 .collect(Collectors.toList());
-        team.setMembers(newMembers);
-        teamRepository.save(team);
-        return team;
+
+        // If the member who just left was the only one, we delete the team :
+        if (newMembers.size() == 0) {
+            teamRepository.delete(team);
+        } else {
+            team.setMembers(newMembers);
+            teamRepository.save(team);
+        }
     }
 
     public void deleteTeam(Long id) {
