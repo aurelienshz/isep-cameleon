@@ -43,7 +43,18 @@ class TabsLayout extends React.Component {
   };
 
   componentDidMount() {
-    this.transitionTo(this.props.tabs[this.state.index].path);
+    // Find the active tab
+    const { baseLocation, router } = this.props;
+    const location = router.location.pathname;
+    const cleanLocation = location.substring(baseLocation.length);
+    const activeTabIndex = this.props.tabs.findIndex(tab => cleanLocation.startsWith(tab.path));
+
+    console.log(activeTabIndex);
+    if (activeTabIndex > -1) {
+      this.setState({index: activeTabIndex});
+    } else {
+      this.transitionTo(this.props.tabs[this.state.index].path);
+    }
   }
 
   handleChange = (event, index) => {
@@ -57,7 +68,7 @@ class TabsLayout extends React.Component {
   };
 
   render() {
-    const {baseLocation, tabs} = this.props;
+    const { baseLocation, tabs } = this.props;
     const styles = this.context.styleManager.render(styleSheet);
 
     return (
