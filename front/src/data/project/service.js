@@ -15,7 +15,7 @@ export async function getProjectsList(): Array<Project> {
 }
 
 export async function getProject(id: number): Project {
-  return await getJson(REQUEST_PATH_PREFIX + `${id}`);
+  return await getJson(REQUEST_PATH_PREFIX + `/${id}`);
 }
 
 export async function createProject(subject: Project): Project {
@@ -27,5 +27,5 @@ export async function updateProject(id: number, subject: Project): Project {
 }
 
 export async function deleteProject(id: number) {
-  return await deleteJson(REQUEST_PATH_PREFIX + `${id}`);
+  return await deleteJson(REQUEST_PATH_PREFIX + `/${id}`);
 }

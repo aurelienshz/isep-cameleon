@@ -27,6 +27,9 @@ export async function leaveTeam(id: number) {
   return await postJson(REQUEST_PATH_PREFIX + `/${id}/leave`);
 }
 
+export async function joinTeam(id: number) {
+  return await postJson(REQUEST_PATH_PREFIX + `/${id}/join`);
+}
 
 export async function getTeam(id: number): Team {
   return await getJson(REQUEST_PATH_PREFIX + `/${id}`);

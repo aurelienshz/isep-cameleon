@@ -1,6 +1,10 @@
 // @flow
 
-import { getTeamsList, createTeam as requestTeamCreation, leaveTeam as requestTeamLeave } from './service';
+import {
+  getTeamsList,
+  createTeam as requestTeamCreation,
+  leaveTeam as requestTeamLeave,
+  joinTeam as requestTeamJoin } from './service';
 
 const initialState = {
   loading: false,
@@ -15,6 +19,9 @@ const CONFIRM_TEAM_CREATION = 'team/CONFIRM_TEAM_CREATION';
 
 const REQUEST_TEAM_LEAVE = 'team/REQUEST_TEAM_LEAVE';
 const CONFIRM_TEAM_LEAVE = 'team/CONFIRM_TEAM_LEAVE';
+
+const REQUEST_TEAM_JOIN = 'team/REQUEST_TEAM_JOIN';
+const CONFIRM_TEAM_JOIN = 'team/CONFIRM_TEAM_JOIN';
 
 // Reducers
 export default function equipesReducer(state = initialState, action: Object) {
@@ -41,14 +48,16 @@ export default function equipesReducer(state = initialState, action: Object) {
         loading: false,
       };
     case REQUEST_TEAM_LEAVE:
+    case REQUEST_TEAM_JOIN:
       return {
         ...state,
         loading: true,
       };
     case CONFIRM_TEAM_LEAVE:
+    case CONFIRM_TEAM_JOIN:
       return {
         ...state,
-        loading: false, // required ?
+        loading: false,
       };
     default:
       return state;
@@ -98,6 +107,24 @@ export function leaveTeam(id) {
       dispatch(fetchTeams());
     } catch(err) {
       console.error(err); // TODO error management
+    }
+  }
+}
+
+export function joinTeam(id) {
+  return async (dispatch) => {
+    dispatch({
+      type: REQUEST_TEAM_JOIN,
+    });
+
+    try {
+      await requestTeamJoin(id);
+      dispatch({
+        type: CONFIRM_TEAM_JOIN,
+      });
+      dispatch(fetchTeams());
+    } catch (err) {
+      console.error(err);
     }
   }
 }
