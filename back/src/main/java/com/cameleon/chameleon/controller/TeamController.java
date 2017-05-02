@@ -53,4 +53,7 @@ public class TeamController {
     public void deleteTeam(Long id) {
         teamService.deleteTeam(id);
     }
+
+    // TODO : disallow team join / leave when validated by teacher
+    // TODO : endpoints for the teacher to validate teams
 }

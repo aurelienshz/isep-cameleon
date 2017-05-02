@@ -15,6 +15,8 @@ public class Team {
 
     private String name;
 
+    private boolean validatedByTeacher;
+
     @OneToMany
     private List<User> members;
 
@@ -52,5 +54,13 @@ public class Team {
 
     public void setGroup(Group group) {
         this.group = group;
+    }
+
+    public boolean isValidatedByTeacher() {
+        return validatedByTeacher;
+    }
+
+    public void setValidatedByTeacher(boolean validatedByTeacher) {
+        this.validatedByTeacher = validatedByTeacher;
     }
 }
