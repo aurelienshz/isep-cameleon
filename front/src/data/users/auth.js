@@ -1,6 +1,5 @@
 // @flow
 import urljoin from 'url-join';
-// import fetch from 'isomorphic-fetch';
 
 import { API_URL } from '../../services/helpers/request';
 
@@ -27,10 +26,7 @@ export function setToken(token) {
 }
 
 export async function requestToken({login, password}: {login: string, password: string}) {
-  // TODO not here (export in config)
-  // const basicAuthString = btoa('chameleon:chameleonsecret'); // TODO change these
   const headers = {
-  //   'Authorization': 'Basic ' + basicAuthString,
     'Content-Type': 'application/json',
   };
 
@@ -41,24 +37,9 @@ export async function requestToken({login, password}: {login: string, password: 
     body,
   };
 
-  const params = {
-    grant_type: 'password',
-    scope: 'write',
-    username: login,
-    password: password,
-  };
-
-
   const tokenPath = '/user/login';
-  // let paramsString = '';
-
-  // Object.keys(params).forEach((paramKey, index) => {
-  //   const delimiter = index === 0 ? "?" : "&";
-  //   paramsString += delimiter + paramKey + '=' + params[paramKey];
-  // });
 
   const url = urljoin(API_URL, tokenPath);
-  // const url = urljoin(API_URL, tokenPath, paramsString);
 
   const res = await fetch(url, options);
 
