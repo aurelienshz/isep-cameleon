@@ -1,7 +1,7 @@
 // @flow
 import urljoin from 'url-join';
 
-import { API_URL } from '../../services/helpers/request';
+import { API_URL, getJson } from '../../services/helpers/request';
 
 export const ACCESS_TOKEN_LOCALSTORAGE_KEY = "chameleon_access_token";
 
@@ -25,6 +25,7 @@ export function setToken(token) {
   localStorage.setItem(ACCESS_TOKEN_LOCALSTORAGE_KEY);
 }
 
+// TODO this is simpler now, we can use helpers/request.js
 export async function requestToken({login, password}: {login: string, password: string}) {
   const headers = {
     'Content-Type': 'application/json',
@@ -60,4 +61,8 @@ export async function requestToken({login, password}: {login: string, password: 
   }
 
   return res.json();
+}
+
+export async function getProfile() {
+  return await getJson('/user/me');
 }

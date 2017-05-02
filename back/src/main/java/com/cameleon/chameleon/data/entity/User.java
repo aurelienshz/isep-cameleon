@@ -18,6 +18,10 @@ public class User implements UserDetails {
 
     private String username;
 
+    private String firstName;
+
+    private String lastName;
+
     @JsonIgnore
     private String password;
 
@@ -100,5 +104,21 @@ public class User implements UserDetails {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }

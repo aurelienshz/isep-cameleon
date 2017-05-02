@@ -44,6 +44,11 @@ public class TeamController {
         return teamService.removeUserFromTeam(user, team);
     }
 
+    @GetMapping("/my-team")
+    public Team getBelongingTeam(@AuthenticationPrincipal User user) {
+        return teamService.findBelongingTeam(user);
+    }
+
     @DeleteMapping
     public void deleteTeam(Long id) {
         teamService.deleteTeam(id);

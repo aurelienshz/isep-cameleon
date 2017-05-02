@@ -1,15 +1,18 @@
 // @flow
 
-import { requestToken, ACCESS_TOKEN_LOCALSTORAGE_KEY } from './auth';
+import { requestToken, getProfile, ACCESS_TOKEN_LOCALSTORAGE_KEY } from './auth';
 import { push } from 'react-router-redux';
 
 const REQUEST_AUTH_TOKEN = 'users/REQUEST_AUTH_TOKEN';
-const LOGOUT = 'users/LOGOUT';
 const RECEIVE_AUTH_TOKEN = 'users/RECEIVE_AUTH_TOKEN';
+const REQUEST_PROFILE = 'users/REQUEST_PROFILE';
+const RECEIVE_PROFILE = 'users/RECEIVE_PROFILE';
+const LOGOUT = 'users/LOGOUT';
 const UNKNOWN_ERROR_LOGIN = 'users/UNKNOWN_ERROR_LOGIN';
 
 export type UsersState = {
   awaitingToken: boolean,
+  awaitingProfile: boolean,
   accessToken: ?string,
   error: ?any,
 };
@@ -21,7 +24,9 @@ type Action = {
 
 const initialState = {
   awaitingToken: false,
+  awaitingProfile: false,
   accessToken: null,
+  profile: null,
   error: null,
 };
 
@@ -45,6 +50,16 @@ export default function servicesReducer(state: UsersState = initialState, action
         awaitingToken: false,
         error: action.error,
       };
+    case REQUEST_PROFILE:
+      return {
+        ...state,
+        awaitingProfile: true,
+      };
+    case RECEIVE_PROFILE:
+      return {
+        awaitingProfile: false,
+        profile: action.profile,
+      }
     case LOGOUT:
       return {
         ...state,
@@ -72,6 +87,7 @@ export const submitLoginAction = (credentials: {login: string, password: string}
 
         localStorage.setItem(ACCESS_TOKEN_LOCALSTORAGE_KEY, accessToken);
 
+        dispatch(fetchProfile());
         dispatch(push("/teacher"));
       } else {
         throw new Error('No access token in auth server response');
@@ -96,6 +112,24 @@ export const logoutAction = () => {
     dispatch(push('/login'));
   }
 };
+
+export const fetchProfile = () => {
+  return async (dispatch) => {
+    dispatch({
+      type: REQUEST_PROFILE
+    });
+
+    try {
+      const profile = await getProfile();
+      dispatch({
+        type: RECEIVE_PROFILE,
+        profile,
+      })
+    } catch(er) {
+      console.error(er); // TODO
+    }
+  }
+}
 
 // Maps to the mounting location of this reducer in the global state store
 // Useful for refactoring, because, when used everywhere we need this slice of state, it allows us

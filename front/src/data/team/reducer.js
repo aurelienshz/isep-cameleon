@@ -70,7 +70,7 @@ export function createTeam(teamCreationRequest) {
       console.error(err); // TODO error management
     }
   }
-}
+};
 
 export const getLocalState = (state) => {
   return state.team;

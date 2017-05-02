@@ -36,6 +36,10 @@ public class UserController {
         return p;
     }
 
+    public void logout() {
+        // TODO
+    }
+
     /**
      * Demo of how to secure an endpoint to a specific role :
      */

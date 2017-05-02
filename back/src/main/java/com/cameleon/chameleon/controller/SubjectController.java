@@ -10,7 +10,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
+
+import static com.cameleon.chameleon.configuration.RolesNames.ROLE_TEACHER;
 
 @RestController
 @RequestMapping("/subject")
@@ -30,16 +33,19 @@ public class SubjectController {
     }
 
     @PostMapping
+    @RolesAllowed(ROLE_TEACHER)
     public Subject createSubject(@RequestBody Subject subject) {
         return subjectService.createSubject(subject);
     }
 
     @PostMapping("/{id}")
+    @RolesAllowed(ROLE_TEACHER)
     public Subject editSubject(@PathVariable Long id, @RequestBody Subject subject) {
         return subjectService.updateSubject(id, subject);
     }
 
     @DeleteMapping("/{id}")
+    @RolesAllowed(ROLE_TEACHER)
     public void deleteSubject(@PathVariable Long id) {
         subjectService.deleteSubjectById(id);
     }

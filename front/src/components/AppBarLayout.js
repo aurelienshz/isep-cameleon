@@ -1,8 +1,8 @@
 // @flow
 
 import React from 'react';
-import { connect } from 'react-redux';
-import { createStyleSheet } from 'jss-theme-reactor';
+import {connect} from 'react-redux';
+import {createStyleSheet} from 'jss-theme-reactor';
 import customPropTypes from 'material-ui/utils/customPropTypes';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
@@ -10,12 +10,12 @@ import Text from 'material-ui/Text';
 import Button from 'material-ui/Button';
 import Avatar from 'material-ui/Avatar';
 
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 import colors from '../colors';
 
-import { isAuthenticated } from '../data/users/auth';
-import { logoutAction } from '../data/users/reducer';
+import {isAuthenticated} from '../data/users/auth';
+import {logoutAction, fetchProfile, getLocalState as getUserState} from '../data/users/reducer';
 
 const styleSheet = createStyleSheet('AuthenticatedLayout', () => ({
   root: {
@@ -76,18 +76,34 @@ const styleSheet = createStyleSheet('AuthenticatedLayout', () => ({
 }));
 
 
-function AppBarLayout(props, context) {
-  const classes = context.styleManager.render(styleSheet);
-  const { logout } = props;
+class AppBarLayout extends React.Component {
+  static contextTypes = {
+    styleManager: customPropTypes.muiRequired,
+  };
 
-  return (
-    <div style={{ height: '100%', width: '100%' }}>
-      <div className={classes.root}>
-        <AppBar className={classes.appBar}>
-          <Toolbar>
-            <Text type="title" colorInherit className={classes.flex}>Cameleon</Text>
+  componentWillMount() {
+    if (!this.isProfileLoaded()) {
+      this.props.loadProfile();
+    }
+  }
 
-            { isAuthenticated() &&
+  isProfileLoaded = () => {
+    const profile = this.props.profile;
+    return Boolean(profile) && Boolean(profile.firstName) && Boolean(profile.lastName);
+  };
+
+  render() {
+    const classes = this.context.styleManager.render(styleSheet);
+    const {logout, awaitingProfile, profile} = this.props;
+
+    return (
+      <div style={{height: '100%', width: '100%'}}>
+        <div className={classes.root}>
+          <AppBar className={classes.appBar}>
+            <Toolbar>
+              <Text type="title" colorInherit className={classes.flex}>Cameleon</Text>
+
+              { isAuthenticated() &&
               <div className={classes.group}>
                 <Link className={classes.link} to="/teacher"><Button contrast>Professeur</Button></Link>
                 <Link className={classes.link} to="/client"><Button contrast>Client</Button></Link>
@@ -95,7 +111,12 @@ function AppBarLayout(props, context) {
                 <div className={classes.subGroup}>
                   <div className={classes.detail}>
                     <div className={classes.name}>
-                      Victor ELY
+                      {
+                        this.isProfileLoaded() && !awaitingProfile ?
+                          profile.firstName + ' ' + profile.lastName
+                          :
+                          'Chargement...'
+                      }
                     </div>
                     <div className={classes.badge} onClick={logout} title="Cliquez ici pour vous déconnecter">
                       Déconnexion
@@ -110,26 +131,28 @@ function AppBarLayout(props, context) {
                   />
                 </div>
               </div>
-            }
+              }
 
-          </Toolbar>
-        </AppBar>
+            </Toolbar>
+          </AppBar>
+        </div>
+
+        { this.props.children }
+
       </div>
-
-      { props.children }
-
-    </div>
-  );
+    );
+  }
 }
 
-AppBarLayout.contextTypes = {
-  styleManager: customPropTypes.muiRequired,
-};
-
-export default connect(() => {
-  return {};
+export default connect((state) => {
+  const userState = getUserState(state);
+  return {
+    awaitingProfile: userState.awaitingProfile,
+    profile: userState.profile,
+  };
 }, (dispatch) => {
   return {
+    loadProfile: () => dispatch(fetchProfile()),
     logout: () => dispatch(logoutAction()),
   };
 })(AppBarLayout);
