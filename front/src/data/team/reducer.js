@@ -27,8 +27,8 @@ export default function equipesReducer(state = initialState, action: Object) {
     case RECEIVE_TEAMS:
       return {
         ...state,
-        teams: action.teams,
         loading: false,
+        teams: action.teams,
       };
     case REQUEST_TEAM_CREATION:
       return {
@@ -74,7 +74,7 @@ export function createTeam(teamCreationRequest) {
       type: REQUEST_TEAM_CREATION,
     });
     try {
-      const team = requestTeamCreation(teamCreationRequest);
+      await requestTeamCreation(teamCreationRequest);
       dispatch({
         type: CONFIRM_TEAM_CREATION,
       });
