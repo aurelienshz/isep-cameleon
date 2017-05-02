@@ -9,7 +9,7 @@ import Divider from 'material-ui/Divider';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import IconButton from 'material-ui/IconButton';
-import Typography from 'material-ui/Typography';
+import Text from 'material-ui/Text';
 import CloseIcon from 'material-ui-icons/Close';
 import Slide from 'material-ui/transitions/Slide';
 
@@ -89,7 +89,7 @@ export default class SubjectHome extends React.Component {
               <IconButton contrast onClick={this.handleRequestClose}>
                 <CloseIcon />
               </IconButton>
-              <Typography type="title" colorInherit style={STYLE_FLEX}>Nouveau sujet</Typography>
+              <Text type="title" colorInherit style={STYLE_FLEX}>Nouveau sujet</Text>
             </Toolbar>
           </AppBar>
           <TextField

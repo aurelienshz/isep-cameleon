@@ -6,7 +6,7 @@ import {createStyleSheet} from 'jss-theme-reactor';
 import customPropTypes from 'material-ui/utils/customPropTypes';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
-import Typography from 'material-ui/Typography';
+import Text from 'material-ui/Text';
 import Button from 'material-ui/Button';
 import Avatar from 'material-ui/Avatar';
 
@@ -101,7 +101,7 @@ class AppBarLayout extends React.Component {
         <div className={classes.root}>
           <AppBar className={classes.appBar}>
             <Toolbar>
-              <Typography type="title" colorInherit className={classes.flex}>Cameleon</Typography>
+              <Text type="title" colorInherit className={classes.flex}>Cameleon</Text>
 
               { isAuthenticated() &&
               <div className={classes.group}>
