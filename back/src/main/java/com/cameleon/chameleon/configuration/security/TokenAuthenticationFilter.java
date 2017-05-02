@@ -23,7 +23,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     private String getToken(HttpServletRequest req) {
         String authHeader = req.getHeader(TOKEN_HEADER);
         if (authHeader != null && authHeader.startsWith(TOKEN_HEADER_PREFIX)) {
-            return authHeader.substring(7);
+            return authHeader.substring(TOKEN_HEADER_PREFIX.length());
         }
         return null;
     }

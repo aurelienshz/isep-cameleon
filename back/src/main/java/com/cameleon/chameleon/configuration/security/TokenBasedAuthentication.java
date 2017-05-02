@@ -13,7 +13,6 @@ public class TokenBasedAuthentication extends AbstractAuthenticationToken {
         this.userDetails = userDetails;
     }
 
-
     @Override
     public String getCredentials() {
         return token;

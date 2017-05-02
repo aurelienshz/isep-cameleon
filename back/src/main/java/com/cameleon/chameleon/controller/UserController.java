@@ -5,6 +5,7 @@ import com.cameleon.chameleon.data.dto.LoginFormDTO;
 import com.cameleon.chameleon.data.dto.SuccessfulLoginDTO;
 import com.cameleon.chameleon.data.entity.User;
 import com.cameleon.chameleon.data.repository.UserRepository;
+import com.cameleon.chameleon.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,28 +15,16 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private PasswordEncrypter passwordEncrypter;
+    private UserService userService;
 
     @PostMapping("/login")
     public SuccessfulLoginDTO login(@RequestBody LoginFormDTO form, HttpServletResponse res) {
-        String encryptedPassword = passwordEncrypter.encryptPassword(form.getPassword());
-        User user = userRepository.findByUsernameAndPassword(form.getLogin(), encryptedPassword);
-
+        User user = userService.authenticate(form.getLogin(), form.getPassword());
         if (user == null) {
             res.setStatus(400);
-            return null;
+            return null; // TODO throw exception (here or in authenticate)
         }
 
-        UUID uuid = UUID.randomUUID();
-        String token = uuid.toString();
-        user.setToken(token);
-        userRepository.save(user);
-
-        return new SuccessfulLoginDTO(token);
+        return new SuccessfulLoginDTO(user);
     }
 }
