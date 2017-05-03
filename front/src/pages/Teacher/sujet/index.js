@@ -1,11 +1,9 @@
 // @flow
 
 import React from 'react';
-import customPropTypes from 'material-ui/utils/customPropTypes';
 import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
 import { Dialog } from 'material-ui/Dialog';
-import Divider from 'material-ui/Divider';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import IconButton from 'material-ui/IconButton';
@@ -61,7 +59,6 @@ class SubjectPage extends React.Component {
   };
 
   componentWillMount() {
-    console.log(this.props);
     this.props.fetchSubjects();
   }
 

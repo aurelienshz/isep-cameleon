@@ -2,7 +2,7 @@ import React from 'react';
 import {createStyleSheet} from 'jss-theme-reactor';
 import customPropTypes from 'material-ui/utils/customPropTypes';
 import Layout from 'material-ui/Layout';
-import {Card, CardMedia, CardContent, CardActions} from 'material-ui/Card';
+import {Card, CardContent, CardActions} from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 import Chip from 'material-ui/Chip';
 import Avatar from 'material-ui/Avatar';

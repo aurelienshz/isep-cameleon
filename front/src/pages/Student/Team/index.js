@@ -1,23 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {createStyleSheet} from 'jss-theme-reactor';
-import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
-import AddIcon from 'material-ui-icons/Add';
-import Layout from 'material-ui/Layout';
-import TextField from 'material-ui/TextField';
 import customPropTypes from 'material-ui/utils/customPropTypes';
-
-import TeamList from './TeamList';
-import TeamCreationDialog from './TeamList/components/TeamCreationDialog';
-import ConfirmDialog from '../../../components/ConfirmDialog';
-import Loader from '../../../components/Loader.js';
-
-import colors from '../../../colors.js';
 
 import { fetchTeams, createTeam, leaveTeam, joinTeam, getLocalState as getTeamState } from '../../../data/team/reducer';
 import { isPartOfTeam } from '../../../data/team/utils';
+
+import TeamList from './TeamList';
 import TeamSummary from "./TeamSummary/index";
+
+import Loader from '../../../components/Loader.js';
 
 const STEP_BUILDING_TEAM = "STEP_BUILDING_TEAM";
 const STEP_AWAITING_VALIDATION = "STEP_AWAITING_VALIDATION";

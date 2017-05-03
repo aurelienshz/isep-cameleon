@@ -2,13 +2,10 @@
 
 import React from 'react';
 import {connect} from 'react-redux';
-import {Tab, Tabs} from 'material-ui/Tabs';
 import Button from 'material-ui/Button';
 import Layout from 'material-ui/Layout';
 import TextField from 'material-ui/TextField';
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from 'material-ui/Dialog';
-import WifiIcon from 'material-ui-icons/Wifi';
-import BluetoothIcon from 'material-ui-icons/Bluetooth';
 
 import SimpleTable from '../../../components/SimpleTable';
 
@@ -35,10 +32,6 @@ const style = {
     maxWidth: 400,
     margin: '0 auto 20px auto',
   },
-};
-
-const renderMessage = (row) => {
-  return <div style={style.MESSAGE_STYLE}>{row.value}</div>;
 };
 
 const COLUMNS = [
