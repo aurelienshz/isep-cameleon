@@ -128,7 +128,7 @@ class SubjectPage extends React.Component {
             <div><Loader/></div>
           :
             <div>
-              { subjects.map((subject) => {
+              { subjects.map((subject) => { // TODO Change for use component
                 return (
                   <div>
                     <Card style={STYLE_BODY}>

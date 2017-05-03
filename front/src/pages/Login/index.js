@@ -12,6 +12,7 @@ import Typography from 'material-ui/Typography';
 import Divider from 'material-ui/Divider';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
+import Loader from '../../components/Loader.js';
 
 import { submitLoginAction, getLocalState as getUsersState } from '../../data/users/reducer';
 import { isAuthenticated } from '../../data/users/auth';
@@ -89,7 +90,7 @@ class LoginPage extends React.Component {
               {
                 awaitingToken ?
                   <Layout>
-                    <Typography>Chargement...</Typography>
+                    <Typography><Loader/></Typography>
                   </Layout>
                   :
                   <Layout>
