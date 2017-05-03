@@ -11,6 +11,8 @@ import Typography from 'material-ui/Typography';
 import CloseIcon from 'material-ui-icons/Close';
 import Slide from 'material-ui/transitions/Slide';
 import Layout from 'material-ui/Layout';
+import {Card, CardContent, CardActions} from 'material-ui/Card';
+
 import Loader from '../../../components/Loader.js';
 
 import colors from '../../../colors.js';
@@ -119,20 +121,28 @@ class SubjectPage extends React.Component {
         <Layout>
           <TextField
             style={STYLE_SEARCH}
-            label="Filtrer les équipes" />
+            label="Filtrer les sujets" />
         </Layout>
         {
           loading ?
             <div><Loader/></div>
           :
             <div>
-              <ul>
-                { subjects.map((subject) => {
-                  return (
-                    <li key={subject.id}><strong>{subject.name}</strong> (description : {subject.description})</li>
-                  );
-                })}
-              </ul>
+              { subjects.map((subject) => {
+                return (
+                  <div>
+                    <Card style={STYLE_BODY}>
+                      <CardContent>
+                        <Typography type="headline" component="h2" key={subject.id}>Sujet {subject.id} : {subject.name}</Typography>
+                        <Typography type="body2" component="p">{subject.description}</Typography>
+                      </CardContent>
+                      <CardActions>
+                        <Button style={STYLE_BUTTON}>Supprimer</Button>
+                      </CardActions>
+                    </Card>
+                  </div>
+                )
+              })}
             </div>
         }
       </div>
