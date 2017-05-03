@@ -48,11 +48,17 @@ public class TeamService {
         return teamRepository.findByMemberId(user.getId());
     }
 
+    public boolean freeToJoin(Team team){
+        return team.isValidatedByTeacher();
+    }
+
+
     public Team addUserToTeam(User user, Team team) throws BusinessLogicException {
         if (findBelongingTeam(user) != null) {
             throw new BusinessLogicException("User can't be member of several teams simultaneously");
+        }else if (freeToJoin(team)!=false){
+            throw new BusinessLogicException("This team has already been validated");
         }
-
         team.getMembers().add(user);
         teamRepository.save(team);
         return team;
@@ -61,7 +67,10 @@ public class TeamService {
     public void removeUserFromTeam(User user, Team team) throws BusinessLogicException {
         if (findBelongingTeam(user) != team) {
             throw new BusinessLogicException("User doesn't belong to requested team");
+        }else if (freeToJoin(team)!=false){
+            throw new BusinessLogicException("This team has already been validated");
         }
+
 
         List<User> newMembers = team.getMembers().stream()
                 // Keep all other members :
@@ -78,9 +87,9 @@ public class TeamService {
     }
 
     public void deleteTeam(Long id) {
+
         teamRepository.delete(id);
     }
-
     public Team createTeamFromDTO(TeamCreationDTO teamCreationDTO) {
         Team team = new Team();
         team.setName(teamCreationDTO.getName());

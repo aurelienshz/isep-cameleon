@@ -2,9 +2,14 @@ package com.cameleon.chameleon.controller;
 
 import com.cameleon.chameleon.data.dto.ProjectCreationDTO;
 import com.cameleon.chameleon.data.entity.Project;
+
 import com.cameleon.chameleon.exception.BusinessLogicException;
+
+import com.cameleon.chameleon.data.entity.User;
+
 import com.cameleon.chameleon.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
@@ -38,4 +43,5 @@ public class ProjectController {
     public void deleteProject(@PathVariable Long id) {
         projectService.deleteProject(id);
     }
+
 }

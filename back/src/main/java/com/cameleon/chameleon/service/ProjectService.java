@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProjectService {
@@ -36,6 +37,7 @@ public class ProjectService {
     public Project createProjectFromDTO(ProjectCreationDTO projectCreationDTO) throws BusinessLogicException {
         // Find the team and subject :
         Team team = teamRepository.findOne(projectCreationDTO.getTeamId());
+
         if (team.getProject() != null) {
             throw new BusinessLogicException("This team is already linked to a project");
         }
