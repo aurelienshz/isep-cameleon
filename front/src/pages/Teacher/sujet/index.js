@@ -12,6 +12,8 @@ import IconButton from 'material-ui/IconButton';
 import Typography from 'material-ui/Typography';
 import CloseIcon from 'material-ui-icons/Close';
 import Slide from 'material-ui/transitions/Slide';
+import Layout from 'material-ui/Layout';
+import Loader from '../../../components/Loader.js';
 
 import colors from '../../../colors.js';
 
@@ -40,6 +42,11 @@ const STYLE_BUTTON = {
 const STYLE_INPUT = {
   margin: 10,
 };
+
+const STYLE_SEARCH = {
+  maxWidth: 400,
+  margin: '0 auto 20px auto',
+}
 
 class SubjectPage extends React.Component {
 
@@ -112,14 +119,14 @@ class SubjectPage extends React.Component {
           />
           <Button style={STYLE_BUTTON} onClick={this.createSubject}>Enregistrer</Button>
         </Dialog>
-        <TextField
-          id="Recherche"
-          label="Recherche"
-          style={STYLE_INPUT}
-        />
+        <Layout>
+          <TextField
+            style={STYLE_SEARCH}
+            label="Filtrer les équipes" />
+        </Layout>
         {
           loading ?
-            <div>Chargement des sujets...</div>
+            <div><Loader/></div>
           :
             <div>
               <ul>

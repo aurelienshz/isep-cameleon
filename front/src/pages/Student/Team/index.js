@@ -11,6 +11,7 @@ import customPropTypes from 'material-ui/utils/customPropTypes';
 import TeamList from './TeamList';
 import TeamCreationDialog from './TeamList/components/TeamCreationDialog';
 import ConfirmDialog from '../../../components/ConfirmDialog';
+import Loader from '../../../components/Loader.js';
 
 import colors from '../../../colors.js';
 
@@ -70,7 +71,7 @@ class TeamPage extends React.Component {
     if (loadingTeams) {
       return (
         <div style={STYLE_CONTAINER}>
-          <Typography>Chargement...</Typography>
+          <Typography><Loader/></Typography>
         </div>
       );
     }

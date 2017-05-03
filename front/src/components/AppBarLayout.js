@@ -151,7 +151,7 @@ class AppBarLayout extends React.Component {
                     open={this.state.open}
                     onRequestClose={this.handleRequestClose}
                   >
-                    <NavLink className={classes.link} to="/profil"><MenuItem >Mon profil</MenuItem></NavLink>
+                    <NavLink className={classes.link} to="/profil" onClick={this.handleRequestClose}><MenuItem >Mon profil</MenuItem></NavLink>
                     <MenuItem onClick={logout} title="Cliquez ici pour vous déconnecter">Déconnexion</MenuItem>
                   </Menu>
                 </div>
