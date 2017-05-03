@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 import Button from 'material-ui/Button';
-
 import TextField from 'material-ui/TextField';
 import { Dialog } from 'material-ui/Dialog';
 import AppBar from 'material-ui/AppBar';
@@ -76,7 +76,7 @@ class SubjectListView extends React.Component {
   };
 
   render() {
-    const { subjects, loading } = this.props;
+    const { subjects, loading, goToDetails } = this.props;
     const { filterString } = this.state;
 
     const displayedSubjects = subjects.filter(subject => {
@@ -127,7 +127,12 @@ class SubjectListView extends React.Component {
           loading ?
             <div>Chargement...</div>
             :
-            <SubjectList subjects={displayedSubjects} showFunctionalitiesButton showAssignToClient />
+            <SubjectList
+              subjects={displayedSubjects}
+              showFunctionalitiesButton
+              showAssignToClient
+              onClickFunctionalities={(id) => {goToDetails(id)}}
+              onClickAssignClient={() => alert("Not implemented")}/>
         }
       </div>
     )
@@ -146,6 +151,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchSubjects: () => dispatch(fetchSubjects()),
     createSubject: (name, description) => dispatch(createSubject({name, description})),
+    goToDetails: (id) => dispatch(push("/subject/" + id)),
   }
 };
 
