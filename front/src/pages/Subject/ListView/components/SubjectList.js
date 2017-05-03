@@ -6,7 +6,7 @@ import {Card, CardContent, CardActions} from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 
-const styleSheet = createStyleSheet('TeamList', (theme) => ({
+const styleSheet = createStyleSheet('SubjectList', (theme) => ({
   chip: {
     margin: theme.spacing.unit,
   },
@@ -23,7 +23,15 @@ const styleSheet = createStyleSheet('TeamList', (theme) => ({
   },
 }));
 
-export default function TeamList({ subjects, onRequestJoin }, context) {
+export default function SubjectList(props, context) {
+  const {
+    subjects,
+    showFunctionalitiesButton,
+    onClickFunctionalities,
+    showAssignToClient,
+    onClickAssignClient
+  } = props;
+
   const classes = context.styleManager.render(styleSheet);
   return (
     <Layout>
@@ -36,7 +44,14 @@ export default function TeamList({ subjects, onRequestJoin }, context) {
                 <Typography type="body2" component="p">{subject.description}</Typography>
               </CardContent>
               <CardActions>
-                <Button onClick={() => onRequestJoin(subject.id)} primary>Fonctionnalités</Button>
+                {
+                  showFunctionalitiesButton &&
+                    <Button onClick={() => onClickFunctionalities(subject.id)} primary>Fonctionnalités</Button>
+                }
+                {
+                  showAssignToClient &&
+                  <Button onClick={() => onClickAssignClient(subject.id)} primary>Client</Button>
+                }
               </CardActions>
             </Card>
           );
@@ -46,6 +61,6 @@ export default function TeamList({ subjects, onRequestJoin }, context) {
   )
 }
 
-TeamList.contextTypes = {
+SubjectList.contextTypes = {
   styleManager: customPropTypes.muiRequired,
 };

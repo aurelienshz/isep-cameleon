@@ -1,10 +1,10 @@
 import React from 'react';
 import {createStyleSheet} from 'jss-theme-reactor';
+import customPropTypes from 'material-ui/utils/customPropTypes';
 import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';
 import Layout from 'material-ui/Layout';
 import TextField from 'material-ui/TextField';
-import customPropTypes from 'material-ui/utils/customPropTypes';
 
 import TeamListComponent from './components/TeamList';
 import TeamCreationDialog from './components/TeamCreationDialog';
@@ -30,7 +30,13 @@ const styleSheet = createStyleSheet('Chips', (theme) => ({
   },
 }));
 
+
+// TODO use globally refactored floatingActionButton here
 export default class TeamList extends React.Component {
+  static contextTypes = {
+    styleManager: customPropTypes.muiRequired,
+  };
+
   state = {
     filterString: "",
     teams: [],
@@ -76,10 +82,6 @@ export default class TeamList extends React.Component {
     this.props.onJoinTeam(this.state.joinTeamRequestId);
     this.setState({ creationDialogOpen: false });
 
-  };
-
-  static contextTypes = {
-    styleManager: customPropTypes.muiRequired,
   };
 
   render() {

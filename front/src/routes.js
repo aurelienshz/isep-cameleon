@@ -11,6 +11,7 @@ import Login from './pages/Login';
 import Teacher from './pages/Teacher';
 import Client from './pages/Client';
 import Etudiant from './pages/Student';
+import Subject from './pages/Subject';
 import Profil from './pages/Profil';
 
 const NotFound = () => (
@@ -28,6 +29,7 @@ function Routes() {
           <AuthenticatedRoute path="/client" component={Client} />
           <AuthenticatedRoute path="/student" component={Etudiant} />
           <AuthenticatedRoute path="/profil" component={Profil} />
+          <AuthenticatedRoute path="/subject" component={Subject} />
           <NotFound />
         </Switch>
       </AppBarLayout>

@@ -8,7 +8,7 @@ const CUSTOM_TEXT = {
   previousText: 'Précédent',
   nextText: 'Suivant',
   loadingText: 'Chargement...',
-  noDataText: 'Aucune équipes',
+  noDataText: 'Aucune équipe',
   pageText: 'Page',
   ofText: 'sur',
   rowsText: 'équipe',

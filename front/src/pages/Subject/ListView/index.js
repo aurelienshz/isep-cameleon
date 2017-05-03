@@ -1,35 +1,19 @@
-// @flow
-
 import React from 'react';
-
+import { connect } from 'react-redux';
 import Button from 'material-ui/Button';
+
 import TextField from 'material-ui/TextField';
 import { Dialog } from 'material-ui/Dialog';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
+import Layout from 'material-ui/Layout';
 import IconButton from 'material-ui/IconButton';
 import Typography from 'material-ui/Typography';
 import CloseIcon from 'material-ui-icons/Close';
 import Slide from 'material-ui/transitions/Slide';
-import Layout from 'material-ui/Layout';
-import {Card, CardContent, CardActions} from 'material-ui/Card';
 
-import Loader from '../../../components/Loader.js';
-
-import colors from '../../../colors.js';
-
-import { connect } from 'react-redux';
-
-import { fetchSubjects, createSubject, getLocalState as getSubjectState } from '../../../data/subject/reducer';
-
-const STYLE_BODY = {
-  margin: 20
-};
-
-const STYLE_BUTTON = {
-  backgroundColor: colors.ISEP_SECONDARY,
-  color: colors.ISEP_TERTIARY,
-};
+import FloatingActionButton from '../../../components/FloatingActionButton';
+import colors from '../../../colors';
 
 const STYLE_APPBAR = {
   position: 'relative',
@@ -49,24 +33,35 @@ const STYLE_INPUT = {
   margin: 10,
 };
 
-class SubjectPage extends React.Component {
+const STYLE_BUTTON = {
+  maxWidth: 300,
+  margin: '10px auto',
+  backgroundColor: colors.ISEP_SECONDARY,
+  color: colors.ISEP_TERTIARY,
+};
 
-  state: {
-    open: boolean,
-    newSubjectTitle: string,
-    newSubjectDescription: string,
-  } = {
-    open: false,
+import { fetchSubjects, createSubject, getLocalState as getSubjectState } from '../../../data/subject/reducer';
+
+import SubjectList from './components/SubjectList'
+
+class SubjectListView extends React.Component {
+  state = {
+    createSubjectOpen: false,
     newSubjectTitle: "",
     newSubjectDescription: "",
+    filterString: "",
   };
 
   componentWillMount() {
     this.props.fetchSubjects();
   }
 
-  handleRequestClose = () => {
-    this.setState({ open: false });
+  openCreateSubject = () => {
+    this.setState({ createSubjectOpen: true });
+  };
+
+  closeCreateSubject = () => {
+    this.setState({ createSubjectOpen: false });
   };
 
   createSubject = () => {
@@ -74,33 +69,33 @@ class SubjectPage extends React.Component {
     this.props.createSubject(newSubjectTitle, newSubjectDescription);
 
     this.setState({
-      open: false,
+      createSubjectOpen: false,
       newSubjectTitle: "",
       newSubjectDescription: "",
     });
   };
 
-  handleOpen = () => this.setState({ open: true });
-
   render() {
-    const { loading, subjects } = this.props;
+    const { subjects, loading } = this.props;
+    const { filterString } = this.state;
+
+    const displayedSubjects = subjects.filter(subject => {
+      return subject.name.toLowerCase().includes(filterString.toLowerCase()) || subject.description.toLowerCase().includes(filterString.toLowerCase());
+    });
 
     return (
-      <div style={STYLE_BODY}>
-        <h1>Sujets</h1>
-        <Button onClick={this.handleOpen} style={STYLE_BUTTON}>
-          Ajouter un sujet
-        </Button>
+      <div>
+        <FloatingActionButton onClick={this.openCreateSubject} />
 
         <Dialog
           fullScreen
-          open={this.state.open}
-          onRequestClose={this.handleRequestClose}
+          open={this.state.createSubjectOpen}
+          onRequestClose={this.closeCreateSubject}
           transition={<Slide direction="up" />}>
 
           <AppBar style={STYLE_APPBAR}>
             <Toolbar>
-              <IconButton contrast onClick={this.handleRequestClose}>
+              <IconButton contrast onClick={this.closeCreateSubject}>
                 <CloseIcon />
               </IconButton>
               <Typography type="title" colorInherit style={STYLE_FLEX}>Nouveau sujet</Typography>
@@ -118,38 +113,23 @@ class SubjectPage extends React.Component {
             onChange={(e) => this.setState({ newSubjectDescription: e.target.value })}
             style={STYLE_INPUT}
           />
-          <Button style={STYLE_BUTTON} onClick={this.createSubject}>Enregistrer</Button>
+          <Button style={STYLE_BUTTON} onClick={this.createSubject}>Ajouter</Button>
         </Dialog>
+
         <Layout>
           <TextField
             style={STYLE_SEARCH}
-            label="Filtrer les sujets" />
+            label="Filtrer les sujets"
+            onChange={(e) => this.setState({filterString: e.target.value})} />
         </Layout>
 
         {
           loading ?
-            <div><Loader/></div>
-          :
-            <div>
-              { subjects.map((subject) => { // TODO Change for use component
-                return (
-                  <div>
-                    <Card style={STYLE_BODY}>
-                      <CardContent>
-                        <Typography type="headline" component="h2" key={subject.id}>Sujet {subject.id} : {subject.name}</Typography>
-                        <Typography type="body2" component="p">{subject.description}</Typography>
-                      </CardContent>
-                      <CardActions>
-                        <Button style={STYLE_BUTTON}>Supprimer</Button>
-                      </CardActions>
-                    </Card>
-                  </div>
-                )
-              })}
-            </div>
+            <div>Chargement...</div>
+            :
+            <SubjectList subjects={displayedSubjects} showFunctionalitiesButton showAssignToClient />
         }
       </div>
-
     )
   }
 }
@@ -169,4 +149,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SubjectPage);
+export default connect(mapStateToProps, mapDispatchToProps)(SubjectListView);
