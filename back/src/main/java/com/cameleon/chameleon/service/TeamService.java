@@ -44,6 +44,7 @@ public class TeamService {
         return teamRepository.save(team);
     }
 
+    // TODO team field in User entity ?
     public Team findBelongingTeam(User user) {
         return teamRepository.findByMemberId(user.getId());
     }
@@ -58,7 +59,7 @@ public class TeamService {
         return team;
     }
 
-    public void removeUserFromTeam(User user, Team team) throws BusinessLogicException {
+    public Team removeUserFromTeam(User user, Team team) throws BusinessLogicException {
         if (findBelongingTeam(user) != team) {
             throw new BusinessLogicException("User doesn't belong to requested team");
         }
@@ -67,14 +68,9 @@ public class TeamService {
                 // Keep all other members :
                 .filter(m -> !(m.getId().equals(user.getId())))
                 .collect(Collectors.toList());
-
-        // If the member who just left was the only one, we delete the team :
-        if (newMembers.size() == 0) {
-            teamRepository.delete(team);
-        } else {
-            team.setMembers(newMembers);
-            teamRepository.save(team);
-        }
+        team.setMembers(newMembers);
+        teamRepository.save(team);
+        return team;
     }
 
     public void deleteTeam(Long id) {
@@ -86,11 +82,5 @@ public class TeamService {
         team.setName(teamCreationDTO.getName());
 
         return team;
-    }
-
-    public void validateTeam(Long teamId) {
-        Team team = teamRepository.findOne(teamId);
-        team.setValidatedByTeacher(true);
-        teamRepository.save(team);
     }
 }
