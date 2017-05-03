@@ -32,6 +32,9 @@ const style = {
     maxWidth: 400,
     margin: '0 auto 20px auto',
   },
+  center: {
+    textAlign: 'center',
+  },
 };
 
 const COLUMNS = [
@@ -78,9 +81,12 @@ class ValidateEquipes extends React.Component {
     return equipes.map(team => ({
       ...team,
       validation: (
-        <div>
+        <div style={style.center}>
           <Button onClick={this.handleValidate} style={style.VALIDATE_BUTTON}>
             Valider
+          </Button>
+          <Button style={style.VALIDATE_BUTTON}>
+            Supprimer
           </Button>
         </div>
       ),
@@ -91,7 +97,7 @@ class ValidateEquipes extends React.Component {
     const data = this.addValidationControl(this.props.teams);
     return (
       <div style={style.BODY}>
-        <h1 className="colored">Équipes</h1>
+        <h1>Équipes</h1>
         <Layout>
           <TextField
             style={style.searchField}
