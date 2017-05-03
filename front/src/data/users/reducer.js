@@ -70,6 +70,24 @@ export default function servicesReducer(state: UsersState = initialState, action
   }
 }
 
+export const fetchProfile = () => {
+  return async (dispatch) => {
+    dispatch({
+      type: REQUEST_PROFILE
+    });
+
+    try {
+      const profile = await getProfile();
+      dispatch({
+        type: RECEIVE_PROFILE,
+        profile,
+      })
+    } catch(er) {
+      console.error(er); // TODO
+    }
+  }
+};
+
 export const submitLoginAction = (credentials: {login: string, password: string}) => {
   return async (dispatch: Function) => {
     try {
@@ -112,24 +130,6 @@ export const logoutAction = () => {
     dispatch(push('/login'));
   }
 };
-
-export const fetchProfile = () => {
-  return async (dispatch) => {
-    dispatch({
-      type: REQUEST_PROFILE
-    });
-
-    try {
-      const profile = await getProfile();
-      dispatch({
-        type: RECEIVE_PROFILE,
-        profile,
-      })
-    } catch(er) {
-      console.error(er); // TODO
-    }
-  }
-}
 
 // Maps to the mounting location of this reducer in the global state store
 // Useful for refactoring, because, when used everywhere we need this slice of state, it allows us

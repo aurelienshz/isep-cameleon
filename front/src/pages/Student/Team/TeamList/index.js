@@ -1,8 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import {createStyleSheet} from 'jss-theme-reactor';
 import Button from 'material-ui/Button';
-import Typography from 'material-ui/Typography';
 import AddIcon from 'material-ui-icons/Add';
 import Layout from 'material-ui/Layout';
 import TextField from 'material-ui/TextField';
@@ -13,9 +11,6 @@ import TeamCreationDialog from './components/TeamCreationDialog';
 import ConfirmDialog from '../../../../components/ConfirmDialog';
 
 import colors from '../../../../colors.js';
-
-import { fetchTeams, createTeam, getLocalState as getTeamState } from '../../../../data/team/reducer';
-import { isPartOfTeam } from '../../../../data/team/utils';
 
 const styleSheet = createStyleSheet('Chips', (theme) => ({
   searchField: {

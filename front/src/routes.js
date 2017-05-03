@@ -2,16 +2,14 @@
 
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
 
 import AppBarLayout from './components/AppBarLayout';
 import AuthenticatedRoute from "./components/AuthenticatedRoute";
-import { getLocalState as getUsersState } from "./data/users/reducer";
 
 // pages :
 import Login from './pages/Login';
 import Teacher from './pages/Teacher';
-import Client from './pages/client';
+import Client from './pages/Client';
 import Etudiant from './pages/Student';
 import Profil from './pages/Profil';
 

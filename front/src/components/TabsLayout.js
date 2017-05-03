@@ -5,7 +5,6 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import PropTypes from 'prop-types';
 import { createStyleSheet } from 'jss-theme-reactor';
 import customPropTypes from 'material-ui/utils/customPropTypes';
 import Paper from 'material-ui/Paper';
@@ -49,7 +48,6 @@ class TabsLayout extends React.Component {
     const cleanLocation = location.substring(baseLocation.length);
     const activeTabIndex = this.props.tabs.findIndex(tab => cleanLocation.startsWith(tab.path));
 
-    console.log(activeTabIndex);
     if (activeTabIndex > -1) {
       this.setState({index: activeTabIndex});
     } else {
