@@ -175,15 +175,17 @@ class ValidateEquipes extends React.Component {
   }
 
   renderTable = () => {
-    let teams;
-    if (/* onglet des équipes validées */) { // condition sur onglet séléctionné
-      teams = this.props.teams.filter(team => team.validatedByTeacher);
+    if (this.state.index >= 1) { // condition sur onglet séléctionné
+      const teams = this.props.teams.filter(team => team.validatedByTeacher);
+      const dataValidation = this.addValidationControl(teams);
+      // return (<SimpleTable columns=/>)
     } else {
-      teams = this.props.teams.filter(team => !team.validatedByTeacher);
+      const teams = this.props.teams.filter(team => !team.validatedByTeacher);
+      const dataSubject = this.addSubjectControl(teams);
+      // return (<SimpleTable columns=/>)
     }
 
-    const dataValidation = this.addValidationControl(teams);
-    const dataSubject = this.addSubjectControl(teams);
+
   }
 
   render() {
