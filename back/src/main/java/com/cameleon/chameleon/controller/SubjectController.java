@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
+import static com.cameleon.chameleon.configuration.RolesNames.ROLE_CLIENT;
 import static com.cameleon.chameleon.configuration.RolesNames.ROLE_TEACHER;
 
 @RestController
@@ -39,7 +40,7 @@ public class SubjectController {
     }
 
     @PostMapping("/{id}")
-    @RolesAllowed(ROLE_TEACHER)
+    @RolesAllowed({ ROLE_TEACHER, ROLE_CLIENT })
     public Subject editSubject(@PathVariable Long id, @RequestBody Subject subject) {
         return subjectService.updateSubject(id, subject);
     }

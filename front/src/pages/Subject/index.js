@@ -1,10 +1,12 @@
 import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { getLocalState as getUserState } from '../../data/users/reducer';
 import { ROLE_CLIENT, ROLE_STUDENT, ROLE_TEACHER, userHasRole } from '../../data/users/rolesHelpers';
 
 import SubjectListView from './ListView';
+import SubjectDetailsView from './DetailsView';
 
 const VIEW_TYPE_LIST = "VIEW_TYPE_LIST";
 const VIEW_TYPE_ASSIGNED_SUBJECT = "VIEW_TYPE_ASSIGNED_SUBJECT";
@@ -20,9 +22,19 @@ class Subject extends React.Component {
     if (this.props.viewType === VIEW_TYPE_LIST) {
       return (
         <div style={{padding: 20}}>
-          <h1>Sujets</h1>
-
-          <SubjectListView />
+          <Switch>
+            <Route exact path="/subject" component={() => (
+              <div>
+                <h1>Sujets</h1>
+                <SubjectListView />
+              </div>
+            )}/>
+            <Route path="/subject/:id" component={(props) => (
+              <div>
+                <SubjectDetailsView {...props} />
+              </div>
+            )} />
+          </Switch>
         </div>
       )
     }
