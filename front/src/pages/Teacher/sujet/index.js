@@ -14,6 +14,9 @@ import Slide from 'material-ui/transitions/Slide';
 import Layout from 'material-ui/Layout';
 import {Card, CardContent, CardActions} from 'material-ui/Card';
 
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+
 import Loader from '../../../components/Loader.js';
 
 import colors from '../../../colors.js';
@@ -82,9 +85,15 @@ class SubjectPage extends React.Component {
 
   handleOpen = () => this.setState({ open: true });
 
+  onEditorStateChange = (editorState) => {
+    this.setState({
+      editorState,
+    });
+  }
+
   render() {
     const { loading, subjects } = this.props;
-
+    const { editorState } = this.state;
     return (
       <div style={STYLE_BODY}>
         <h1>Sujets</h1>
@@ -117,6 +126,13 @@ class SubjectPage extends React.Component {
             label="Descriptif du nouveau sujet"
             onChange={(e) => this.setState({ newSubjectDescription: e.target.value })}
             style={STYLE_INPUT}
+          />
+          <Editor
+            editorState={editorState}
+            toolbarClassName="home-toolbar"
+            wrapperClassName="home-wrapper"
+            editorClassName="home-editor"
+            onEditorStateChange={this.onEditorStateChange}
           />
           <Button style={STYLE_BUTTON} onClick={this.createSubject}>Enregistrer</Button>
         </Dialog>

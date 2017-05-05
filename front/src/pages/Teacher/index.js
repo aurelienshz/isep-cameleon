@@ -11,6 +11,11 @@ import Promo from './promo';
 
 const tabs = [
   {
+    label: "Promotions",
+    path: "/promo",
+    component: Promo,
+  },
+  {
     label: "Sujets",
     path: "/subject",
     component: Sujet,
@@ -19,11 +24,6 @@ const tabs = [
     label: "Équipes",
     path: "/team",
     component: Equipe,
-  },
-  {
-    label: "Promotions",
-    path: "/promo",
-    component: Promo,
   },
 ];
 

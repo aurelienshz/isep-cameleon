@@ -6,6 +6,8 @@ import Button from 'material-ui/Button';
 import Layout from 'material-ui/Layout';
 import TextField from 'material-ui/TextField';
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from 'material-ui/Dialog';
+import Paper from 'material-ui/Paper';
+import { Tabs, Tab } from 'material-ui/Tabs';
 
 import SimpleTable from '../../../components/SimpleTable';
 
@@ -35,6 +37,10 @@ const style = {
   center: {
     textAlign: 'center',
   },
+  root: {
+    flexGrow: 1,
+    marginTop: 30,
+  },
 };
 
 const COLUMNS = [
@@ -62,6 +68,7 @@ const COLUMNS = [
 class ValidateEquipes extends React.Component {
   state = {
     validPopupOpen: false,
+    index: 0,
   };
 
   componentWillMount() {
@@ -77,6 +84,11 @@ class ValidateEquipes extends React.Component {
     this.setState({validPopupOpen: false});
   };
 
+  handleChange = (event, index) => {
+    this.setState({ index });
+  };
+
+
   addValidationControl = (equipes) => {
     return equipes.map(team => ({
       ...team,
@@ -86,7 +98,7 @@ class ValidateEquipes extends React.Component {
             Valider
           </Button>
           <Button style={style.VALIDATE_BUTTON}>
-            Supprimer
+            Refuser
           </Button>
         </div>
       ),
@@ -103,31 +115,22 @@ class ValidateEquipes extends React.Component {
             style={style.searchField}
             label="Filtrer les équipes" />
         </Layout>
+
+        <Paper className={style.root}>
+          <Tabs
+            index={this.state.index}
+            onChange={this.handleChange}
+            textColor="accent"
+            centered
+          >
+            <Tab label="Équipes en attente de validation" />
+            <Tab label="Équipes validées sans sujet" />
+            <Tab label="Équipes validées avec sujet" />
+          </Tabs>
+        </Paper>
+
         <SimpleTable selectable={true} style={style.TABLE} clickHandler={this.clickTable} loading={this.props.loading} data={data} columns={COLUMNS} />
 
-        <Dialog open={this.state.validPopupOpen} onRequestClose={this.handleClose}>
-          <DialogTitle>Validation</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Assigner un sujet :&nbsp;
-              { this.props.subjects ?
-                  <select>
-                    {
-                      this.props.subjects.map(subject => (
-                        <option>{subject.name}</option>
-                      ))
-                    }
-                  </select>
-                :
-                  "Chargement..."
-              }
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleClose} primary>{"Annuler"}</Button>
-            <Button onClick={() => {console.log("qqsdf")}} primary>{"Valider"}</Button>
-          </DialogActions>
-        </Dialog>
       </div>
     );
   }
