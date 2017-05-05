@@ -43,25 +43,57 @@ const style = {
   },
 };
 
-const COLUMNS = [
+const columnsMain = [
   {
     header: 'Nom',
     accessor: 'name',
   }, {
-    header: 'Membre',
+    header: 'Membres',
     accessor: 'membre',
-  }, {
-    header: 'Parcours',
-    accessor: 'parcours',
-  }, {
-    header: 'Technologie',
-    accessor: 'technologie',
-  }, {
-    header: 'Sujet',
-    accessor: 'sujet',
+    render: (row) => (
+      <table>
+        <tr>
+          <td>qsdf</td>
+          <td>qsdf</td>
+          <td>qsdf</td>
+        </tr>
+        <tr>
+          <td>qsdf</td>
+          <td>qsdf</td>
+          <td>qsdf</td>
+        </tr>
+      </table>
+    )
   }, {
     header: 'Validation',
     accessor: 'validation',
+  },
+];
+
+const columnsOther = [
+  {
+    header: 'Nom',
+    accessor: 'name',
+  }, {
+    header: 'Membres',
+    accessor: 'membre',
+    render: (row) => (
+      <table>
+        <tr>
+          <td>qsdf</td>
+          <td>qsdf</td>
+          <td>qsdf</td>
+        </tr>
+        <tr>
+          <td>qsdf</td>
+          <td>qsdf</td>
+          <td>qsdf</td>
+        </tr>
+      </table>
+    )
+  }, {
+    header: 'Sujet',
+    accessor: 'subject',
   },
 ];
 
@@ -69,6 +101,7 @@ class ValidateEquipes extends React.Component {
   state = {
     validPopupOpen: false,
     index: 0,
+    open: false,
   };
 
   componentWillMount() {
@@ -88,6 +121,7 @@ class ValidateEquipes extends React.Component {
     this.setState({ index });
   };
 
+  handleRequestClose = () => this.setState({ open: false });
 
   addValidationControl = (equipes) => {
     return equipes.map(team => ({
@@ -105,8 +139,56 @@ class ValidateEquipes extends React.Component {
     }));
   };
 
+  addSubjectControl = (equipes) => {
+    return equipes.map(team => ({
+      ...team,
+      subject: (
+        <div>
+          <Button onClick={() => this.setState({ open: true })}>
+            Sélection du sujet
+          </Button>
+          <Dialog open={this.state.open} onRequestClose={this.handleRequestClose}>
+           <DialogTitle>{"Attribuer un sujet"}</DialogTitle>
+           <DialogContent>
+             <DialogContentText>
+               Assigner un sujet :&nbsp;
+               { this.props.subjects ?
+                   <select>
+                     {
+                       this.props.subjects.map(subject => (
+                         <option>{subject.name}</option>
+                       ))
+                     }
+                   </select>
+                 :
+                   "Chargement..."
+               }
+             </DialogContentText>
+           </DialogContent>
+           <DialogActions>
+             <Button onClick={this.handleRequestClose} primary>Annuler</Button>
+             <Button onClick={this.handleRequestClose} primary>Valider</Button>
+           </DialogActions>
+         </Dialog>
+        </div>
+      ),
+    }));
+  }
+
+  renderTable = () => {
+    let teams;
+    if (/* onglet des équipes validées */) { // condition sur onglet séléctionné
+      teams = this.props.teams.filter(team => team.validatedByTeacher);
+    } else {
+      teams = this.props.teams.filter(team => !team.validatedByTeacher);
+    }
+
+    const dataValidation = this.addValidationControl(teams);
+    const dataSubject = this.addSubjectControl(teams);
+  }
+
   render() {
-    const data = this.addValidationControl(this.props.teams);
+    const table = this.renderTable();
     return (
       <div style={style.BODY}>
         <h1>Équipes</h1>
@@ -129,7 +211,7 @@ class ValidateEquipes extends React.Component {
           </Tabs>
         </Paper>
 
-        <SimpleTable selectable={true} style={style.TABLE} clickHandler={this.clickTable} loading={this.props.loading} data={data} columns={COLUMNS} />
+        {table}
 
       </div>
     );
