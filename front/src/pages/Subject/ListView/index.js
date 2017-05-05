@@ -12,37 +12,21 @@ import Typography from 'material-ui/Typography';
 import CloseIcon from 'material-ui-icons/Close';
 import Slide from 'material-ui/transitions/Slide';
 
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+
 import FloatingActionButton from '../../../components/FloatingActionButton';
 import colors from '../../../colors';
 
-const STYLE_APPBAR = {
-  position: 'relative',
-  backgroundColor: colors.ISEP_PRIMARY,
-};
+import { fetchSubjects, createSubject, getLocalState as getSubjectState } from '../../../data/subject/reducer';
+import SubjectList from './components/SubjectList';
+import AddSubjectDialog from './components/AddSubjectDialog';
+
 
 const STYLE_SEARCH = {
   maxWidth: 400,
   margin: '0 auto 20px auto',
 };
-
-const STYLE_FLEX = {
-  flex: 1,
-};
-
-const STYLE_INPUT = {
-  margin: 10,
-};
-
-const STYLE_BUTTON = {
-  maxWidth: 300,
-  margin: '10px auto',
-  backgroundColor: colors.ISEP_SECONDARY,
-  color: colors.ISEP_TERTIARY,
-};
-
-import { fetchSubjects, createSubject, getLocalState as getSubjectState } from '../../../data/subject/reducer';
-
-import SubjectList from './components/SubjectList'
 
 class SubjectListView extends React.Component {
   state = {
@@ -64,10 +48,8 @@ class SubjectListView extends React.Component {
     this.setState({ createSubjectOpen: false });
   };
 
-  createSubject = () => {
-    const { newSubjectTitle, newSubjectDescription } = this.state;
-    this.props.createSubject(newSubjectTitle, newSubjectDescription);
-
+  createSubject = (title, htmlDescription) => {
+    this.props.createSubject(title, htmlDescription);
     this.setState({
       createSubjectOpen: false,
       newSubjectTitle: "",
@@ -87,34 +69,10 @@ class SubjectListView extends React.Component {
       <div>
         <FloatingActionButton onClick={this.openCreateSubject} />
 
-        <Dialog
-          fullScreen
+        <AddSubjectDialog
           open={this.state.createSubjectOpen}
-          onRequestClose={this.closeCreateSubject}
-          transition={<Slide direction="up" />}>
-
-          <AppBar style={STYLE_APPBAR}>
-            <Toolbar>
-              <IconButton contrast onClick={this.closeCreateSubject}>
-                <CloseIcon />
-              </IconButton>
-              <Typography type="title" colorInherit style={STYLE_FLEX}>Nouveau sujet</Typography>
-            </Toolbar>
-          </AppBar>
-          <TextField
-            id="Titre du sujet"
-            label="Titre du nouveau sujet"
-            onChange={(e) => this.setState({ newSubjectTitle: e.target.value })}
-            style={STYLE_INPUT}
-          />
-          <TextField
-            id="Descriptif du nouveau sujet"
-            label="Descriptif du nouveau sujet"
-            onChange={(e) => this.setState({ newSubjectDescription: e.target.value })}
-            style={STYLE_INPUT}
-          />
-          <Button style={STYLE_BUTTON} onClick={this.createSubject}>Ajouter</Button>
-        </Dialog>
+          onConfirm={this.createSubject}
+          onRequestClose={this.closeCreateSubject} />
 
         <Layout>
           <TextField

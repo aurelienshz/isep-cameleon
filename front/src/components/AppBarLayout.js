@@ -122,8 +122,6 @@ class AppBarLayout extends React.Component {
               <div className={classes.group}>
                 <Link className={classes.link} to="/subject"><Button contrast>Sujets</Button></Link>
                 <Link className={classes.link} to="/team"><Button contrast>Équipe</Button></Link>
-                <Link className={classes.link} to="/teacher"><Button contrast>Professeur</Button></Link>
-                <Link className={classes.link} to="/student"><Button contrast>Étudiant</Button></Link>
                 <div className={classes.subGroup}>
                   <div className={classes.detail}>
                     <div className={classes.name} onClick={this.handleClick}>

@@ -16,6 +16,93 @@ import 'react-infinite-calendar/styles.css';
 
 import colors from '../../colors.js';
 
+const STYLE_CONTAINER = {
+  padding: 20,
+};
+
+const STYLE_PROFILE_HEADER = {
+  display: 'flex',
+  justifyContent: 'flex-start',
+  alignItems: 'center',
+  marginBottom: '20px',
+};
+
+const STYLE_AVATAR = {
+  width: '100px',
+  height: '100px',
+  background: '#F3F3F3',
+  border: '3px solid #005580',
+  marginRight: '30px',
+};
+
+const STYLE_INFO = {
+  color: '#005580',
+  marginBottom: '5px',
+};
+
+const STYLE_BUTTON = {
+  backgroundColor: colors.ISEP_SECONDARY,
+  color: colors.ISEP_TERTIARY,
+  marginLeft: 'auto',
+};
+
+const STYLE_SEC = {
+  marginBottom: '20px',
+};
+
+const STYLE_TITLE_CAPS = {
+  textTransform: 'uppercase',
+  fontSize: '20px',
+  padding: '10px 0',
+  color: colors.ISEP_PRIMARY,
+};
+
+const STYLE_INFO_TABLE = {
+  marginBottom: '20px',
+};
+
+const STYLE_INFO_TABLE_TR = {
+  lineHeight: '23px',
+};
+
+const STYLE_INFO_TABLE_TH = {
+  textAlign: 'right',
+  paddingRight: '10px',
+};
+
+const STYLE_BUTTON_MODAL = {
+  display: 'inline-block',
+  verticalAlign: 'bottom',
+  fontSize: '13px',
+  padding: '5px',
+  float: 'right',
+  margin: 0,
+  fontWeight: 'bold',
+  backgroundColor: colors.ISEP_SECONDARY,
+  color: colors.ISEP_TERTIARY,
+};
+
+const STYLE_APPBAR = {
+  position: 'relative',
+  backgroundColor: colors.ISEP_PRIMARY,
+};
+
+const STYLE_FLEX = {
+  flex: 1,
+};
+
+const STYLE_INPUT = {
+  margin: 20,
+};
+
+const STYLE_BUTTON_ONMODAL = {
+  width: '10%',
+  marginLeft: '45%',
+  backgroundColor: colors.ISEP_SECONDARY,
+  color: colors.ISEP_TERTIARY,
+};
+
+
 export default class Profil extends React.Component {
 
   state = {
@@ -27,93 +114,6 @@ export default class Profil extends React.Component {
   handleOpen = () => this.setState({ open: true });
 
   render() {
-
-    const STYLE_CONTAINER = {
-      padding: 20,
-    }
-
-    const STYLE_PROFILE_HEADER = {
-      display: 'flex',
-      justifyContent: 'flex-start',
-      alignItems: 'center',
-      marginBottom: '20px',
-    }
-
-    const STYLE_AVATAR = {
-      width: '100px',
-      height: '100px',
-      background: '#F3F3F3',
-      border: '3px solid #005580',
-      marginRight: '30px',
-    }
-
-    const STYLE_INFO = {
-      color: '#005580',
-      marginBottom: '5px',
-    }
-
-    const STYLE_BUTTON = {
-      backgroundColor: colors.ISEP_SECONDARY,
-      color: colors.ISEP_TERTIARY,
-      marginLeft: 'auto',
-    };
-
-    const STYLE_SEC = {
-      marginBottom: '20px',
-    }
-
-    const STYLE_TITLE_CAPS = {
-      textTransform: 'uppercase',
-      fontSize: '20px',
-      padding: '10px 0',
-      color: colors.ISEP_PRIMARY,
-    }
-
-    const STYLE_INFO_TABLE = {
-      marginBottom: '20px',
-    }
-
-    const STYLE_INFO_TABLE_TR = {
-      lineHeight: '23px',
-    }
-
-    const STYLE_INFO_TABLE_TH = {
-      textAlign: 'right',
-      paddingRight: '10px',
-    }
-
-    const STYLE_BUTTON_MODAL = {
-      display: 'inline-block',
-      verticalAlign: 'bottom',
-      fontSize: '13px',
-      padding: '5px',
-      float: 'right',
-      margin: 0,
-      fontWeight: 'bold',
-      backgroundColor: colors.ISEP_SECONDARY,
-      color: colors.ISEP_TERTIARY,
-    }
-
-    const STYLE_APPBAR = {
-      position: 'relative',
-      backgroundColor: colors.ISEP_PRIMARY,
-    }
-
-    const STYLE_FLEX = {
-      flex: 1,
-    }
-
-    const STYLE_INPUT = {
-      margin: 20,
-    }
-
-    const STYLE_BUTTON_ONMODAL = {
-      width: '10%',
-      marginLeft: '45%',
-      backgroundColor: colors.ISEP_SECONDARY,
-      color: colors.ISEP_TERTIARY,
-    }
-
     return (
       <div style={STYLE_CONTAINER}>
         <h1>Profil</h1>

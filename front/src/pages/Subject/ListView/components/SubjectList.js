@@ -41,7 +41,7 @@ export default function SubjectList(props, context) {
             <Card className={classes.card} key={subject.id}>
               <CardContent>
                 <Typography type="headline" component="h2">{subject.name}</Typography>
-                <Typography type="body2" component="p">{subject.description}</Typography>
+                <p dangerouslySetInnerHTML={{ __html: subject.description }}></p>
               </CardContent>
               <CardActions>
                 {
