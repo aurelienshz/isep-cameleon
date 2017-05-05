@@ -177,12 +177,12 @@ class ValidateEquipes extends React.Component {
   renderTable = () => {
     if (this.state.index >= 1) { // condition sur onglet séléctionné
       const teams = this.props.teams.filter(team => team.validatedByTeacher);
-      const dataValidation = this.addValidationControl(teams);
-      // return (<SimpleTable columns=/>)
+      const dataSubject = this.addSubjectControl(teams);
+      return <SimpleTable selectable={true} style={style.TABLE} clickHandler={this.clickTable} loading={this.props.loading} data={dataSubject} columns={columnsOther} />
     } else {
       const teams = this.props.teams.filter(team => !team.validatedByTeacher);
-      const dataSubject = this.addSubjectControl(teams);
-      // return (<SimpleTable columns=/>)
+      const dataValidation = this.addValidationControl(teams);
+      return <SimpleTable selectable={true} style={style.TABLE} clickHandler={this.clickTable} loading={this.props.loading} data={dataValidation} columns={columnsMain} />
     }
 
 
