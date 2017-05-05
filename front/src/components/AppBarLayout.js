@@ -17,6 +17,7 @@ import colors from '../colors';
 
 import {isAuthenticated} from '../data/users/auth';
 import {logoutAction, fetchProfile, getLocalState as getUserState} from '../data/users/reducer';
+import {fetchPromotion, getLocalState as getPromotionState} from '../data/promotion/reducer';
 
 const styleSheet = createStyleSheet('AuthenticatedLayout', () => ({
   root: {
@@ -96,6 +97,7 @@ class AppBarLayout extends React.Component {
   handleRequestClose = () => this.setState({ open: false });
 
   componentWillMount() {
+    this.props.fetchPromotion();
     if (!this.isProfileLoaded()) {
       this.props.loadProfile();
     }
@@ -108,7 +110,7 @@ class AppBarLayout extends React.Component {
 
   render() {
     const classes = this.context.styleManager.render(styleSheet);
-    const {logout, awaitingProfile, profile} = this.props;
+    const { logout, awaitingProfile, profile, awaitingPromotion } = this.props;
 
     return (
       <div style={{height: '100%', width: '100%'}}>
@@ -163,7 +165,11 @@ class AppBarLayout extends React.Component {
           </AppBar>
         </div>
 
-        { this.props.children }
+        { awaitingPromotion ?
+            "Loading promotion..."
+          :
+            this.props.children
+        }
 
       </div>
     );
@@ -172,13 +178,17 @@ class AppBarLayout extends React.Component {
 
 export default connect((state) => {
   const userState = getUserState(state);
+  const promotionState = getPromotionState(state);
   return {
     awaitingProfile: userState.awaitingProfile,
     profile: userState.profile,
+    awaitingPromotion: promotionState.loading,
+    promotion: promotionState.promotion,
   };
 }, (dispatch) => {
   return {
     loadProfile: () => dispatch(fetchProfile()),
     logout: () => dispatch(logoutAction()),
+    fetchPromotion: () => dispatch(fetchPromotion()),
   };
 })(AppBarLayout);

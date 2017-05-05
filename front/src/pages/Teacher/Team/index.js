@@ -11,7 +11,6 @@ import { Tabs, Tab } from 'material-ui/Tabs';
 
 import SimpleTable from '../../../components/SimpleTable';
 
-
 import colors from '../../../colors';
 
 import { getLocalState as getTeamState, fetchTeams } from '../../../data/team/reducer';

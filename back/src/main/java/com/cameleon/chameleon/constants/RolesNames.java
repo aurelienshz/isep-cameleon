@@ -1,4 +1,4 @@
-package com.cameleon.chameleon.configuration;
+package com.cameleon.chameleon.constants;
 
 public interface RolesNames {
     String ROLE_TEACHER = "ROLE_TEACHER";

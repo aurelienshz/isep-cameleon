@@ -1,20 +1,17 @@
 package com.cameleon.chameleon.controller;
 
 import com.cameleon.chameleon.data.entity.Subject;
-import com.cameleon.chameleon.data.entity.User;
 import com.cameleon.chameleon.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
-import static com.cameleon.chameleon.configuration.RolesNames.ROLE_CLIENT;
-import static com.cameleon.chameleon.configuration.RolesNames.ROLE_TEACHER;
+import static com.cameleon.chameleon.constants.RolesNames.ROLE_CLIENT;
+import static com.cameleon.chameleon.constants.RolesNames.ROLE_TEACHER;
 
 @RestController
 @RequestMapping("/subject")

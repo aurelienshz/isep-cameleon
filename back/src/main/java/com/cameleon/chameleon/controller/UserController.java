@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletResponse;
 
-import static com.cameleon.chameleon.configuration.RolesNames.ROLE_TEACHER;
+import static com.cameleon.chameleon.constants.RolesNames.ROLE_TEACHER;
 
 @RestController
 @RequestMapping("/user")
