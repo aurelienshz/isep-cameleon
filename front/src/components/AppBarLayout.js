@@ -111,7 +111,6 @@ class AppBarLayout extends React.Component {
   render() {
     const classes = this.context.styleManager.render(styleSheet);
     const { logout, awaitingProfile, profile, awaitingPromotion } = this.props;
-
     return (
       <div style={{height: '100%', width: '100%'}}>
         <div className={classes.root}>
@@ -121,9 +120,9 @@ class AppBarLayout extends React.Component {
 
               { isAuthenticated() &&
               <div className={classes.group}>
+                <Link className={classes.link} to="/subject"><Button contrast>Sujets</Button></Link>
+                <Link className={classes.link} to="/team"><Button contrast>Équipe</Button></Link>
                 <Link className={classes.link} to="/teacher"><Button contrast>Professeur</Button></Link>
-                <Link className={classes.link} to="/client"><Button contrast>Client</Button></Link>
-
                 <Link className={classes.link} to="/student"><Button contrast>Étudiant</Button></Link>
                 <div className={classes.subGroup}>
                   <div className={classes.detail}>

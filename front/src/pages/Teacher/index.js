@@ -5,7 +5,7 @@ import React from 'react';
 import TabsLayout from '../../components/TabsLayout';
 
 // tabs :
-import Equipe from './Team';
+import Equipe from '../Team/ClientOrTeacherView/index';
 import Sujet from './sujet';
 import Promo from './promo';
 

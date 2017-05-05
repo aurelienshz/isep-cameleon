@@ -6,7 +6,7 @@ import TabsLayout from '../../components/TabsLayout';
 
 // tabs :
 import Subject from './Subject';
-import Team from './Team';
+import Team from '../Team/StudentView/index';
 import Meeting from './Meeting';
 
 const tabs = [

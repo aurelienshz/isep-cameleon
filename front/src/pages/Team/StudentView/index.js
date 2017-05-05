@@ -7,7 +7,7 @@ import customPropTypes from 'material-ui/utils/customPropTypes';
 import { fetchTeams, createTeam, leaveTeam, joinTeam, getLocalState as getTeamState } from '../../../data/team/reducer';
 import { isPartOfTeam } from '../../../data/team/utils';
 
-import TeamList from './TeamList';
+import TeamList from './TeamList/index';
 import TeamSummary from "./TeamSummary/index";
 
 import Loader from '../../../components/Loader.js';

@@ -9,7 +9,7 @@ import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions }�
 import Paper from 'material-ui/Paper';
 import { Tabs, Tab } from 'material-ui/Tabs';
 
-import SimpleTable from '../../../components/SimpleTable';
+import SimpleTable from '../../../components/SimpleTable/index';
 
 import colors from '../../../colors';
 
@@ -49,20 +49,23 @@ const columnsMain = [
   }, {
     header: 'Membres',
     accessor: 'membre',
-    render: (row) => (
-      <table>
-        <tr>
-          <td>qsdf</td>
-          <td>qsdf</td>
-          <td>qsdf</td>
-        </tr>
-        <tr>
-          <td>qsdf</td>
-          <td>qsdf</td>
-          <td>qsdf</td>
-        </tr>
-      </table>
-    )
+    render: (row) => {
+      console.log(row);
+      return (
+        <table>
+          <tr>
+            <td>qsdf</td>
+            <td>qsdf</td>
+            <td>qsdf</td>
+          </tr>
+          <tr>
+            <td>qsdf</td>
+            <td>qsdf</td>
+            <td>qsdf</td>
+          </tr>
+        </table>
+      )
+    }
   }, {
     header: 'Validation',
     accessor: 'validation',
@@ -99,6 +102,7 @@ const columnsOther = [
 class ValidateEquipes extends React.Component {
   state = {
     validPopupOpen: false,
+    filterString: '',
     index: 0,
     open: false,
   };
@@ -154,8 +158,8 @@ class ValidateEquipes extends React.Component {
                { this.props.subjects ?
                    <select>
                      {
-                       this.props.subjects.map(subject => (
-                         <option>{subject.name}</option>
+                       this.props.subjects.map((subject, index) => (
+                         <option key={index}>{subject.name}</option>
                        ))
                      }
                    </select>
@@ -172,21 +176,37 @@ class ValidateEquipes extends React.Component {
         </div>
       ),
     }));
-  }
+  };
+
+  applyFilterString = () => {
+    const filter = this.state.filterString.toLowerCase();
+    return this.props.teams.filter(team => {
+      return team.name.toLowerCase().includes(filter);
+    })
+  };
 
   renderTable = () => {
-    if (this.state.index >= 1) { // condition sur onglet séléctionné
-      const teams = this.props.teams.filter(team => team.validatedByTeacher);
-      const dataSubject = this.addSubjectControl(teams);
-      return <SimpleTable selectable={true} style={style.TABLE} clickHandler={this.clickTable} loading={this.props.loading} data={dataSubject} columns={columnsOther} />
+    const filteredTeams = this.applyFilterString();
+    if (this.state.index >= 1) { // selected tabs for validated teams :
+      const teams = filteredTeams.filter(team => team.validatedByTeacher);
+      const teamsToAssignSubject = this.addSubjectControl(teams);
+      return <SimpleTable
+        selectable={true}
+        style={style.TABLE}
+        loading={this.props.loading}
+        data={teamsToAssignSubject}
+        columns={columnsOther} />;
     } else {
-      const teams = this.props.teams.filter(team => !team.validatedByTeacher);
-      const dataValidation = this.addValidationControl(teams);
-      return <SimpleTable selectable={true} style={style.TABLE} clickHandler={this.clickTable} loading={this.props.loading} data={dataValidation} columns={columnsMain} />
+      const teams = filteredTeams.filter(team => !team.validatedByTeacher);
+      const teamsToValidate = this.addValidationControl(teams);
+      return <SimpleTable
+        selectable={true}
+        style={style.TABLE}
+        loading={this.props.loading}
+        data={teamsToValidate}
+        columns={columnsMain} />;
     }
-
-
-  }
+  };
 
   render() {
     const table = this.renderTable();
@@ -196,10 +216,11 @@ class ValidateEquipes extends React.Component {
         <Layout>
           <TextField
             style={style.searchField}
+            onChange={e => this.setState({filterString: e.target.value})}
             label="Filtrer les équipes" />
         </Layout>
 
-        <Paper className={style.root}>
+        <Paper style={style.root}>
           <Tabs
             index={this.state.index}
             onChange={this.handleChange}
