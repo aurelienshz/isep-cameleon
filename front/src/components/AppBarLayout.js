@@ -97,7 +97,7 @@ class AppBarLayout extends React.Component {
   handleRequestClose = () => this.setState({ open: false });
 
   componentWillMount() {
-    this.props.fetchPromotion();
+    if(isAuthenticated()) this.props.fetchPromotion();
     if (!this.isProfileLoaded()) {
       this.props.loadProfile();
     }
@@ -165,10 +165,10 @@ class AppBarLayout extends React.Component {
           </AppBar>
         </div>
 
-        { awaitingPromotion ?
-            "Loading promotion..."
+        { isAuthenticated() ?
+          (awaitingPromotion ? "Loading promotion..." : this.props.children)
           :
-            this.props.children
+          this.props.children
         }
 
       </div>
