@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletResponse;
 
+import java.util.List;
+
 import static com.cameleon.chameleon.constants.RolesNames.ROLE_TEACHER;
 
 @RestController
@@ -47,5 +49,11 @@ public class UserController {
     @RolesAllowed(ROLE_TEACHER)
     public String teacherOnly() {
         return "This endpoint is reserved to the teachers";
+    }
+
+    @GetMapping("/client")
+    @RolesAllowed(ROLE_TEACHER)
+    public List<User> getClientList() {
+        return userService.findAllClients();
     }
 }

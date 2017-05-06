@@ -90,7 +90,7 @@ class SubjectListView extends React.Component {
               showFunctionalitiesButton
               showAssignToClient
               onClickFunctionalities={(id) => {goToDetails(id)}}
-              onClickAssignClient={() => alert("Not implemented")}/>
+              onClickAssignClient={() => alert("Not implemented")} />
         }
       </div>
     )

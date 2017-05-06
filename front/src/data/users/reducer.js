@@ -106,7 +106,7 @@ export const submitLoginAction = (credentials: {login: string, password: string}
         localStorage.setItem(ACCESS_TOKEN_LOCALSTORAGE_KEY, accessToken);
 
         dispatch(fetchProfile());
-        dispatch(push("/teacher"));
+        dispatch(push("/subject"));
       } else {
         throw new Error('No access token in auth server response');
       }

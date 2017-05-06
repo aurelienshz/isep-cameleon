@@ -64,7 +64,7 @@ class LoginPage extends React.Component {
     const { awaitingToken, error } = this.props;
 
     if (isAuthenticated()) {
-      return <Redirect to="/teacher"/>
+      return <Redirect to="/subject"/>
     }
     return (
       <Layout container gutter={40} align="center" justify="center" className={classes.root}>

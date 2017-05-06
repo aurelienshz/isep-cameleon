@@ -13,6 +13,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import Routes from './routes';
 import chameleonReducers from './reducers';
+import { deleteJson, getJson, postJson } from './services/helpers/request';
 
 // Create the redux middleware to keep react-router in sync :
 const history = createHistory();
@@ -31,6 +32,8 @@ const reducers = combineReducers({
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // eslint-disable-line no-underscore-dangle
 const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk, reduxRouterMiddleware)));
+
+if (window) window.request = { getJson, postJson, deleteJson };
 
 const App = () => (
   <Provider store={store}>
