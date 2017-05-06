@@ -26,7 +26,7 @@ INSERT INTO `user_roles` (user_id, roles_id) VALUES (
 
 -- Dummy subjects :
 
-INSERT INTO `subject` (`id`, `description`, `name`, `number`) VALUES
-  (1,	'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, laborum quasi quo quod repudiandae similique voluptas? Adipisci at eius excepturi illum iusto minus natus perspiciatis provident qui quia, sint tenetur.',	'Gestion de projets de génie logiciel',	0),
-  (2,	'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, laborum quasi quo quod repudiandae similique voluptas? Adipisci at eius excepturi illum iusto minus natus perspiciatis provident qui quia, sint tenetur.',	'Grille d\'évaluation des APP',	0),
-  (3,	'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, laborum quasi quo quod repudiandae similique voluptas? Adipisci at eius excepturi illum iusto minus natus perspiciatis provident qui quia, sint tenetur.',	'Machine à transformer les chatons en pâté',	0);
+INSERT INTO `subject` (`id`, `description`, `name`) VALUES
+  (1,	'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, laborum quasi quo quod repudiandae similique voluptas? Adipisci at eius excepturi illum iusto minus natus perspiciatis provident qui quia, sint tenetur.',	'Gestion de projets de génie logiciel'),
+  (2,	'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, laborum quasi quo quod repudiandae similique voluptas? Adipisci at eius excepturi illum iusto minus natus perspiciatis provident qui quia, sint tenetur.',	'Grille d\'évaluation des APP'),
+  (3,	'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, laborum quasi quo quod repudiandae similique voluptas? Adipisci at eius excepturi illum iusto minus natus perspiciatis provident qui quia, sint tenetur.',	'Machine à transformer les chatons en pâté');

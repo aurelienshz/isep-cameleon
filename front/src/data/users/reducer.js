@@ -15,7 +15,9 @@ const RECEIVE_CLIENTS = 'users/RECEIVE_CLIENTS';
 export type UsersState = {
   awaitingToken: boolean,
   awaitingProfile: boolean,
-  loading: boolean,
+  awaitingClients: boolean,
+  clients: Object,
+  profile: Object,
   accessToken: ?string,
   error: ?any,
 };
@@ -26,7 +28,7 @@ type Action = {
 };
 
 const initialState = {
-  loading: false,
+  awaitingClients: false,
   awaitingToken: false,
   awaitingProfile: false,
   accessToken: null,
@@ -68,18 +70,19 @@ export default function servicesReducer(state: UsersState = initialState, action
     case REQUEST_CLIENTS:
       return {
         ...state,
-        loading: true,
+        awaitingClients: true,
       };
     case RECEIVE_CLIENTS:
       return {
         ...state,
-        loading: false,
+        awaitingClients: false,
         clients: action.clients,
       };
     case LOGOUT:
       return {
         ...state,
         accessToken: null,
+        profile: null,
       };
     default:
       return state;

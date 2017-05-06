@@ -3,6 +3,7 @@ package com.cameleon.chameleon.data.entity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity()
 public class Subject {
@@ -14,7 +15,8 @@ public class Subject {
 
     private String description;
 
-    private int number; // TODO is this really needed ?
+    @OneToOne
+    private User client;
 
     public Long getId() {
         return id;
@@ -32,19 +34,19 @@ public class Subject {
         this.name = name;
     }
 
-    public int getNumber() {
-        return number;
-    }
-
-    public void setNumber(int number) {
-        this.number = number;
-    }
-
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public User getClient() {
+        return client;
+    }
+
+    public void setClient(User client) {
+        this.client = client;
     }
 }

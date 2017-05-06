@@ -1,16 +1,18 @@
 // @flow
 
-import { getSubjectsList, createSubject as requestSubjectCreation } from './service';
+import { getSubjectsList, setSubjectClient as setSubjectClientService, createSubject as requestSubjectCreation } from './service';
 
 const initialState = {
   subjects: [],
   loading: false,
 };
 
-const REQUEST_SUBJECTS = "REQUEST_SUBJECT";
-const RECEIVE_SUBJECTS = "RECEIVE_SUBJECT";
-const REQUEST_SUBJECT_CREATION = "REQUEST_SUBJECT_CREATION";
-const CONFIRM_SUBJECT_CREATION = "CONFIRM_SUBJECT_CREATION";
+const REQUEST_SUBJECTS = "subject/REQUEST_SUBJECT";
+const RECEIVE_SUBJECTS = "subject/RECEIVE_SUBJECT";
+const REQUEST_SUBJECT_CREATION = "subject/REQUEST_SUBJECT_CREATION";
+const CONFIRM_SUBJECT_CREATION = "subject/CONFIRM_SUBJECT_CREATION";
+const REQUEST_SET_SUBJECT_CLIENT = "subject/REQUEST_SET_SUBJECT_CLIENT";
+const CONFIRM_SET_SUBJECT_CLIENT = "subject/CONFIRM_SET_SUBJECT_CLIENT";
 
 export default function subjectReducer(state = initialState, action) {
   switch (action.type) {
@@ -25,11 +27,13 @@ export default function subjectReducer(state = initialState, action) {
         subjects: action.subjects,
         loading: false,
       };
+    case REQUEST_SET_SUBJECT_CLIENT:
     case REQUEST_SUBJECT_CREATION:
       return {
         ...state,
         loading: true,
       };
+    case CONFIRM_SET_SUBJECT_CLIENT:
     case CONFIRM_SUBJECT_CREATION:
       return {
         ...state,
@@ -72,8 +76,25 @@ export function createSubject(subjectCreationRequest) {
       console.error(err); // TODO error management
     }
   }
-};
+}
 
+
+export function setSubjectClient(subjectId, clientId) {
+  return async (dispatch: Function) => {
+    dispatch({
+      type: REQUEST_SET_SUBJECT_CLIENT,
+    });
+    try {
+      await setSubjectClientService(subjectId, clientId);
+      dispatch({
+        type: CONFIRM_SET_SUBJECT_CLIENT,
+      });
+      dispatch(fetchSubjects());
+    } catch (er) {
+      console.error(er);
+    }
+  }
+}
 
 export const getLocalState = (state) => {
   return state.subject;

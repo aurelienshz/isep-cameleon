@@ -25,8 +25,8 @@ const styleSheet = createStyleSheet('TeamList', (theme) => ({
   },
   row: {
     display: 'flex',
-      justifyContent: 'center',
-      flexWrap: 'wrap',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
   },
   card: {
     marginBottom: 20,

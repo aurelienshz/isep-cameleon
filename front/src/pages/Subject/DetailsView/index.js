@@ -35,7 +35,6 @@ export default connect(
     const subjectState = getLocalState(state);
     const subjectId = parseInt(ownProps.match.params.id);
     const subject = subjectState.subjects.find(s => s.id === subjectId);
-    console.log(subjectState.subjects);
 
     return {
       subjectId,

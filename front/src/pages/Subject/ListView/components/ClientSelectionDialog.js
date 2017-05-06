@@ -20,16 +20,8 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import draftToHtml from 'draftjs-to-html';
 
 const STYLE_APPBAR = {
-  position: 'relative',
+  position: 'fixed',
   backgroundColor: colors.ISEP_PRIMARY,
-};
-
-const STYLE_FLEX = {
-  flex: 1,
-};
-
-const STYLE_INPUT = {
-  margin: 10,
 };
 
 const STYLE_BUTTON = {
@@ -39,44 +31,62 @@ const STYLE_BUTTON = {
   color: colors.ISEP_TERTIARY,
 };
 
-export default class AddSubjectDialog extends React.Component {
+export default class ClientSelectionDialog extends React.Component {
   state = {
-    title: '',
-    descriptionEditorState: null,
-  };
-
-  onEditorStateChange = (descriptionEditorState) => {
-    this.setState({
-      descriptionEditorState,
-    });
+    selectedId: -1,
   };
 
   onConfirm = () => {
-    const rawContentState = convertToRaw(this.state.descriptionEditorState.getCurrentContent());
-    const markup = draftToHtml(rawContentState);
-    this.props.onConfirm(this.state.title, markup);
+    const { selectedId } = this.state;
+    this.props.onConfirm(selectedId);
   };
 
+  handleChange = (e) => {
+    this.setState({ selectedId: e.target.value });
+  }
+
   render() {
+    const { open, loading, onRequestClose } = this.props;
+
+    // Mapping an empty array in render if we are still loading (to avoid clients === undefined)
+    const clients = this.props.clients || [];
+
     return (
       <Dialog
         maxWidth="md"
-        open={this.props.open}
-        onRequestClose={this.props.onRequestClose}
+        open={open}
+        onRequestClose={onRequestClose}
         transition={<Slide direction="up"/>}>
 
-        <div style={{height: '100%', display:'flex', flexDirection: 'column', overflow: 'auto' }}>
-          <AppBar style={STYLE_APPBAR}>
-            <Toolbar>
-              <IconButton contrast onClick={this.props.onRequestClose}>
-                <CloseIcon />
-              </IconButton>
-              <Typography type="title" colorInherit style={STYLE_FLEX}>Nouveau sujet</Typography>
-            </Toolbar>
-          </AppBar>
+        <AppBar style={STYLE_APPBAR}>
+          <Toolbar>
+            <IconButton contrast onClick={this.props.onRequestClose}>
+              <CloseIcon />
+            </IconButton>
+            <Typography type="title" colorInherit>Sélectionner un client</Typography>
+          </Toolbar>
+        </AppBar>
 
+        <div style={{ padding: '84px 20px 20px' }}>
+          <label>
+            Sélectionner un client :&nbsp;
+
+            { loading ?
+              <span>Chargement...</span>
+              :
+              <select onChange={this.handleChange} value={this.state.selectedId}>
+                <option value={-1} key={-1}>Choisir un client...</option>
+                {
+                  clients.map(client => (
+                    <option value={client.id} key={client.id}>{ client.firstName } {client.lastName }</option>
+                  ))
+                }
+              </select>
+            }
+          </label>
         </div>
-        <Button style={STYLE_BUTTON} onClick={this.onConfirm}>Ajouter</Button>
+
+        <Button style={STYLE_BUTTON} onClick={this.onConfirm} disabled={this.state.selectedId === -1}>Valider</Button>
       </Dialog>
     );
   }

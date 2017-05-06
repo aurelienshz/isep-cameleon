@@ -96,16 +96,6 @@ class AppBarLayout extends React.Component {
 
   handleRequestClose = () => this.setState({ open: false });
 
-  // TODO Aurélien
-  // componentWillReceiveProps(newProps) {
-  //   const condition = (newProps.profile === null && this.props.profile !== null)
-  //     || (newProps.profile !== null && this.props.profile === null)
-  //     || (newProps.profile.username && this.props.profile.username && newProps.profile.username !== this.props.profile.username);
-  //   if (condition) {
-  //     if(isAuthenticated()) this.props.fetchPromotion();
-  //   }
-  // }
-
   componentWillMount() {
     if(isAuthenticated()) this.props.fetchPromotion();
     if (!this.isProfileLoaded()) {

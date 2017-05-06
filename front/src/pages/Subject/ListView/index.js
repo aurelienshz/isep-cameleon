@@ -18,10 +18,11 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import FloatingActionButton from '../../../components/FloatingActionButton';
 import colors from '../../../colors';
 
-import { fetchSubjects, createSubject, getLocalState as getSubjectState } from '../../../data/subject/reducer';
+import { fetchSubjects, createSubject, setSubjectClient, getLocalState as getSubjectState } from '../../../data/subject/reducer';
 import { fetchClients, getLocalState as getUserState } from '../../../data/users/reducer';
 import SubjectList from './components/SubjectList';
 import AddSubjectDialog from './components/AddSubjectDialog';
+import ClientSelectionDialog from './components/ClientSelectionDialog';
 
 
 const STYLE_SEARCH = {
@@ -32,9 +33,9 @@ const STYLE_SEARCH = {
 class SubjectListView extends React.Component {
   state = {
     createSubjectOpen: false,
-    newSubjectTitle: "",
-    newSubjectDescription: "",
     filterString: "",
+    clientSelectionDialogOpen: false,
+    clientSelectionSubjectId: null,
   };
 
   componentWillMount() {
@@ -50,18 +51,36 @@ class SubjectListView extends React.Component {
     this.setState({ createSubjectOpen: false });
   };
 
+  openClientSelectionDialog = (id) => {
+    this.setState({
+      clientSelectionDialogOpen: true,
+      clientSelectionSubjectId: id,
+    });
+  };
+
+  closeClientSelectionDialog = () => {
+    this.setState({
+      clientSelectionDialogOpen: false,
+      clientSelectionSubjectId: null,
+    });
+  };
+
+  setClient = (clientId) => {
+    const subjectId = this.state.clientSelectionSubjectId;
+    this.props.setSubjectClient(subjectId, clientId);
+    this.closeClientSelectionDialog();
+  };
+
   createSubject = (title, htmlDescription) => {
     this.props.createSubject(title, htmlDescription);
     this.setState({
       createSubjectOpen: false,
-      newSubjectTitle: "",
-      newSubjectDescription: "",
     });
   };
 
   render() {
-    const { subjects, loading, goToDetails } = this.props;
-    const { filterString } = this.state;
+    const { subjects, loading, goToDetails, awaitingClients, clients } = this.props;
+    const { filterString, createSubjectOpen, clientSelectionDialogOpen } = this.state;
 
     const displayedSubjects = subjects.filter(subject => {
       return subject.name.toLowerCase().includes(filterString.toLowerCase()) || subject.description.toLowerCase().includes(filterString.toLowerCase());
@@ -72,9 +91,16 @@ class SubjectListView extends React.Component {
         <FloatingActionButton onClick={this.openCreateSubject} />
 
         <AddSubjectDialog
-          open={this.state.createSubjectOpen}
+          open={createSubjectOpen}
           onConfirm={this.createSubject}
           onRequestClose={this.closeCreateSubject} />
+
+        <ClientSelectionDialog
+          open={clientSelectionDialogOpen}
+          loading={awaitingClients}
+          clients={clients}
+          onConfirm={this.setClient}
+          onRequestClose={this.closeClientSelectionDialog} />
 
         <Layout>
           <TextField
@@ -92,7 +118,7 @@ class SubjectListView extends React.Component {
               showFunctionalitiesButton
               showAssignToClient
               onClickFunctionalities={(id) => {goToDetails(id)}}
-              onClickAssignClient={() => alert("Not implemented")} />
+              onClickAssignClient={(id) => this.openClientSelectionDialog(id)} />
         }
       </div>
     )
@@ -101,9 +127,12 @@ class SubjectListView extends React.Component {
 
 const mapStateToProps = (state) => {
   const subjectState = getSubjectState(state);
+  const userState = getUserState(state);
   return {
     subjects: subjectState.subjects,
     loading: subjectState.loading,
+    awaitingClients: userState.awaitingClients,
+    clients: userState.clients,
   }
 };
 
@@ -112,6 +141,7 @@ const mapDispatchToProps = (dispatch) => {
     fetchSubjects: () => dispatch(fetchSubjects()),
     fetchClients: () => dispatch(fetchClients()),
     createSubject: (name, description) => dispatch(createSubject({name, description})),
+    setSubjectClient: (subjectId, clientId) => dispatch(setSubjectClient(subjectId, clientId)),
     goToDetails: (id) => dispatch(push("/subject/" + id)),
   }
 };

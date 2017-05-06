@@ -5,6 +5,10 @@ import Layout from 'material-ui/Layout';
 import {Card, CardContent, CardActions} from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
+import Chip from 'material-ui/Chip';
+import Avatar from 'material-ui/Avatar';
+
+import FaceIcon from 'material-ui-icons/Face';
 
 const styleSheet = createStyleSheet('SubjectList', (theme) => ({
   chip: {
@@ -21,6 +25,12 @@ const styleSheet = createStyleSheet('SubjectList', (theme) => ({
   card: {
     marginBottom: 20,
   },
+  clientsRow: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+  }
 }));
 
 export default function SubjectList(props, context) {
@@ -41,7 +51,19 @@ export default function SubjectList(props, context) {
             <Card className={classes.card} key={subject.id}>
               <CardContent>
                 <Typography type="headline" component="h2">{subject.name}</Typography>
-                <p dangerouslySetInnerHTML={{ __html: subject.description }}></p>
+                <p dangerouslySetInnerHTML={{ __html: subject.description }} />
+                {
+                  subject.client &&
+                  <div className={classes.clientsRow}>
+                    <div>Client :</div>
+                    <Chip
+                      avatar={<Avatar><FaceIcon style={{ color: 'gray' }}/></Avatar>}
+                      label={subject.client.firstName + ' ' + subject.client.lastName}
+                      style={{ margin: 8 }}
+                    />
+                    <div><Button onClick={() => onClickAssignClient(subject.id)}>Modifier</Button></div>
+                  </div>
+                }
               </CardContent>
               <CardActions>
                 {
@@ -49,7 +71,7 @@ export default function SubjectList(props, context) {
                     <Button onClick={() => onClickFunctionalities(subject.id)} primary>Fonctionnalités</Button>
                 }
                 {
-                  showAssignToClient &&
+                  showAssignToClient && !subject.client &&
                   <Button onClick={() => onClickAssignClient(subject.id)} primary>Client</Button>
                 }
               </CardActions>

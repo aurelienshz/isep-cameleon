@@ -3,6 +3,7 @@ package com.cameleon.chameleon.controller;
 import com.cameleon.chameleon.data.entity.Subject;
 import com.cameleon.chameleon.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -46,5 +47,12 @@ public class SubjectController {
     @RolesAllowed(ROLE_TEACHER)
     public void deleteSubject(@PathVariable Long id) {
         subjectService.deleteSubjectById(id);
+    }
+
+    @PostMapping("/{id}/client/{clientId}")
+    @RolesAllowed(ROLE_TEACHER)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void setClient(@PathVariable Long id, @PathVariable Long clientId) {
+        subjectService.setSubjectClient(id, clientId);
     }
 }

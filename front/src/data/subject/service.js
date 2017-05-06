@@ -14,6 +14,10 @@ export async function getSubjectsList(): Promise<Array<Subject>> {
   return await getJson(REQUEST_PATH_PREFIX);
 }
 
+export async function setSubjectClient(subjectId, clientId): Promise<true> {
+  return await postJson(`${REQUEST_PATH_PREFIX}/${subjectId}/client/${clientId}`);
+}
+
 export async function getSubject(id: number): Promise<Subject> {
   return await getJson(REQUEST_PATH_PREFIX + `${id}`);
 }
