@@ -19,6 +19,7 @@ import FloatingActionButton from '../../../components/FloatingActionButton';
 import colors from '../../../colors';
 
 import { fetchSubjects, createSubject, getLocalState as getSubjectState } from '../../../data/subject/reducer';
+import { fetchClients, getLocalState as getUserState } from '../../../data/users/reducer';
 import SubjectList from './components/SubjectList';
 import AddSubjectDialog from './components/AddSubjectDialog';
 
@@ -38,6 +39,7 @@ class SubjectListView extends React.Component {
 
   componentWillMount() {
     this.props.fetchSubjects();
+    this.props.fetchClients();
   }
 
   openCreateSubject = () => {
@@ -108,6 +110,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchSubjects: () => dispatch(fetchSubjects()),
+    fetchClients: () => dispatch(fetchClients()),
     createSubject: (name, description) => dispatch(createSubject({name, description})),
     goToDetails: (id) => dispatch(push("/subject/" + id)),
   }

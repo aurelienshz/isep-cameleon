@@ -1,7 +1,7 @@
-import { requestToken, isAuthenticated } from './data/users/auth';
+import { requestToken, isAuthenticated } from './data/users/service';
 import fetch from 'isomorphic-fetch';
 
-import { ACCESS_TOKEN_LOCALSTORAGE_KEY } from './data/users/auth';
+import { ACCESS_TOKEN_LOCALSTORAGE_KEY } from './data/users/service';
 
 const createLocalStorageMock = () => {
   const storage = {};
@@ -17,7 +17,7 @@ global.localStorage = createLocalStorageMock();
 
 global.authenticate = () => {
   return requestToken({login: 'user', password: 'password'}).then(
-    (response) => {
+    (response) => {
       localStorage.setItem(ACCESS_TOKEN_LOCALSTORAGE_KEY, response.access_token);
       console.log("Authenticated successfully");
     }

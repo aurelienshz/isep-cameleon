@@ -15,7 +15,7 @@ import Button from 'material-ui/Button';
 import Loader from '../../components/Loader.js';
 
 import { submitLoginAction, getLocalState as getUsersState } from '../../data/users/reducer';
-import { isAuthenticated } from '../../data/users/auth';
+import { isAuthenticated } from '../../data/users/service';
 
 const styleSheet = createStyleSheet('GuttersLayout', () => {
   return {

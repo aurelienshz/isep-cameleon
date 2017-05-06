@@ -35,7 +35,7 @@ const STYLE_AVATAR = {
   marginRight: '30px',
 };
 
-const STYLE_INFO = {
+const STYLE_INFO = {
   color: '#005580',
   marginBottom: '5px',
 };
@@ -122,7 +122,6 @@ export default class Profil extends React.Component {
             alt="Victor ELY"
             src="/img/ely.jpg"
             style={STYLE_AVATAR}
-            onClick={this.handleClick}
           />
           <div>
             <h1 style={STYLE_INFO}>Victor ELY</h1>

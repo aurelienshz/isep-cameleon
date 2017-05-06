@@ -13,16 +13,11 @@ export function logout() {
   localStorage.removeItem(ACCESS_TOKEN_LOCALSTORAGE_KEY);
 }
 
-export function getToken() {
+export function getToken(): ?string {
   if (isAuthenticated()) {
     return localStorage.getItem(ACCESS_TOKEN_LOCALSTORAGE_KEY);
   }
   return null;
-}
-
-// TODO aurelien don't export ACCESS_TOKEN_LOCALSTORAGE_KEY, use this function from the reducer :
-export function setToken(token) {
-  localStorage.setItem(ACCESS_TOKEN_LOCALSTORAGE_KEY);
 }
 
 // TODO this is simpler now, we can use helpers/request.js
@@ -65,4 +60,8 @@ export async function requestToken({login, password}: {login: string, password: 
 
 export async function getProfile() {
   return await getJson('/user/me');
+}
+
+export async function getClients() {
+  return await getJson("/user/client");
 }

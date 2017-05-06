@@ -1,14 +1,21 @@
 // @flow
 
 import { getJson, postJson, deleteJson } from '../../services/helpers/request';
+import type { Subject } from '../subject/service';
 
 const REQUEST_PATH_PREFIX = '/project';
 
+export type ProjectCreationDTO = {
+  subjectId: number,
+  teamId: number,
+  clientsIds: Array<number>,
+}
+
 export type Project = {
-  name: string,
-  description: string,
-  number: number,
-};
+  subject: Subject,
+  team: Object, // TODO
+  clients: Array<Object>, // TODO
+}
 
 export async function getProjectsList(): Array<Project> {
   return await getJson(REQUEST_PATH_PREFIX);

@@ -1,18 +1,21 @@
 // @flow
 
-import { requestToken, getProfile, ACCESS_TOKEN_LOCALSTORAGE_KEY } from './auth';
+import { requestToken, getProfile, getClients, ACCESS_TOKEN_LOCALSTORAGE_KEY } from './service';
 import { push } from 'react-router-redux';
 
 const REQUEST_AUTH_TOKEN = 'users/REQUEST_AUTH_TOKEN';
 const RECEIVE_AUTH_TOKEN = 'users/RECEIVE_AUTH_TOKEN';
+const UNKNOWN_ERROR_LOGIN = 'users/UNKNOWN_ERROR_LOGIN';
 const REQUEST_PROFILE = 'users/REQUEST_PROFILE';
 const RECEIVE_PROFILE = 'users/RECEIVE_PROFILE';
 const LOGOUT = 'users/LOGOUT';
-const UNKNOWN_ERROR_LOGIN = 'users/UNKNOWN_ERROR_LOGIN';
+const REQUEST_CLIENTS = 'users/REQUEST_CLIENTS';
+const RECEIVE_CLIENTS = 'users/RECEIVE_CLIENTS';
 
 export type UsersState = {
   awaitingToken: boolean,
   awaitingProfile: boolean,
+  loading: boolean,
   accessToken: ?string,
   error: ?any,
 };
@@ -23,6 +26,7 @@ type Action = {
 };
 
 const initialState = {
+  loading: false,
   awaitingToken: false,
   awaitingProfile: false,
   accessToken: null,
@@ -57,9 +61,21 @@ export default function servicesReducer(state: UsersState = initialState, action
       };
     case RECEIVE_PROFILE:
       return {
+        ...state,
         awaitingProfile: false,
         profile: action.profile,
-      }
+      };
+    case REQUEST_CLIENTS:
+      return {
+        ...state,
+        loading: true,
+      };
+    case RECEIVE_CLIENTS:
+      return {
+        ...state,
+        loading: false,
+        clients: action.clients,
+      };
     case LOGOUT:
       return {
         ...state,
@@ -71,7 +87,7 @@ export default function servicesReducer(state: UsersState = initialState, action
 }
 
 export const fetchProfile = () => {
-  return async (dispatch) => {
+  return async (dispatch: Function) => {
     dispatch({
       type: REQUEST_PROFILE
     });
@@ -120,7 +136,7 @@ export const submitLoginAction = (credentials: {login: string, password: string}
 };
 
 export const logoutAction = () => {
-  return (dispatch) => {
+  return (dispatch: Function) => {
     dispatch({
       type: LOGOUT,
     });
@@ -128,6 +144,24 @@ export const logoutAction = () => {
     localStorage.removeItem(ACCESS_TOKEN_LOCALSTORAGE_KEY);
 
     dispatch(push('/login'));
+  }
+};
+
+export const fetchClients = () => {
+  return async (dispatch: Function) => {
+    dispatch({
+      type: REQUEST_CLIENTS,
+    });
+    try {
+      const clients = await getClients();
+
+      dispatch({
+        type: RECEIVE_CLIENTS,
+        clients,
+      });
+    } catch(er) {
+      console.error(er);
+    }
   }
 };
 

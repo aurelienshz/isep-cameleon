@@ -10,19 +10,19 @@ export type Subject = {
   number: number,
 };
 
-export async function getSubjectsList(): Array<Subject> {
+export async function getSubjectsList(): Promise<Array<Subject>> {
   return await getJson(REQUEST_PATH_PREFIX);
 }
 
-export async function getSubject(id: number): Subject {
+export async function getSubject(id: number): Promise<Subject> {
   return await getJson(REQUEST_PATH_PREFIX + `${id}`);
 }
 
-export async function createSubject(subject: Subject): Subject {
+export async function createSubject(subject: Subject): Promise<Subject> {
   return await postJson(REQUEST_PATH_PREFIX, subject);
 }
 
-export async function updateSubject(id: number, subject: Subject): Subject {
+export async function updateSubject(id: number, subject: Subject): Promise<Subject> {
   return await postJson(REQUEST_PATH_PREFIX + `/${id}`, subject);
 }
 

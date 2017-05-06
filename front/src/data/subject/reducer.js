@@ -58,7 +58,7 @@ export function fetchSubjects() {
 }
 
 export function createSubject(subjectCreationRequest) {
-  return async(dispatch) => {
+  return async(dispatch: Function) => {
     dispatch({
       type: REQUEST_SUBJECT_CREATION,
     });

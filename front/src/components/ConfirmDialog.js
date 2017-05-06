@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from 'material-ui/Dialog';
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from 'material-ui/Dialog';
 import Button from 'material-ui/Button';
 
 type Props = {

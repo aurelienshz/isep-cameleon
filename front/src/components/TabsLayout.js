@@ -29,7 +29,7 @@ const styleSheet = createStyleSheet('ClientPage', () => ({
   appBar: {
     backgroundColor: 'white',
   },
-  tab: {
+  tab: {
     color: colors.ISEP_PRIMARY,
   },
 }));

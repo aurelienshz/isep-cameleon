@@ -30,7 +30,7 @@ export default function promotionReducer(state = initialState, action) {
 }
 
 export const fetchPromotion = () => {
-  return async (dispatch) => {
+  return async (dispatch: Function) => {
     dispatch({
       type: REQUEST_PROMOTION_STATUS,
     });

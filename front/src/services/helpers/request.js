@@ -2,32 +2,28 @@
 
 import urljoin from 'url-join';
 
-import { isAuthenticated, getToken } from '../../data/users/auth';
+import { isAuthenticated, getToken } from '../../data/users/service';
 
-export const API_URL = process.env.REACT_APP_BACKEND_URL;
-
-type RequestOptions = {
-  method: string,
-  body?: ?Object,
-  headers: Headers,
-  mode?: string,
-  cache?: string,
-};
+export const API_URL: string = process.env.REACT_APP_BACKEND_URL || '';
 
 const attemptRequestOrThrow = async (method: string, url: string, body: ?Object) => {
-  const options: RequestOptions = {
+  const options = {
     method,
     body: JSON.stringify(body),
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: {},
   };
+
+  options.headers['Content-Type'] = 'application/json';
 
   // Handle authenticated requests :
   if (isAuthenticated()) {
     // Authorization using oAuth token :
     const token = getToken();
-    options.headers['Authorization'] = `Bearer ${token}`;
+    // guard for flow
+    if (token) {
+      options.headers = options.headers || {};
+      options.headers['authorization'] = `Bearer ${token}`;
+    }
   }
 
   // $FlowFixMe https://github.com/facebook/flow/issues/2164

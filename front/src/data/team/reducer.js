@@ -82,7 +82,7 @@ export function fetchTeams() {
 }
 
 export function createTeam(teamCreationRequest) {
-  return async(dispatch) => {
+  return async(dispatch: Function) => {
     dispatch({
       type: REQUEST_TEAM_CREATION,
     });
@@ -99,7 +99,7 @@ export function createTeam(teamCreationRequest) {
 };
 
 export function leaveTeam(id) {
-  return async(dispatch) => {
+  return async(dispatch: Function) => {
     dispatch({
       type: REQUEST_TEAM_LEAVE,
     });
@@ -116,7 +116,7 @@ export function leaveTeam(id) {
 }
 
 export function joinTeam(id) {
-  return async (dispatch) => {
+  return async (dispatch: Function) => {
     dispatch({
       type: REQUEST_TEAM_JOIN,
     });

@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import Button from 'material-ui/Button';
 import Layout from 'material-ui/Layout';
 import TextField from 'material-ui/TextField';
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from 'material-ui/Dialog';
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from 'material-ui/Dialog';
 import Paper from 'material-ui/Paper';
 import { Tabs, Tab } from 'material-ui/Tabs';
 

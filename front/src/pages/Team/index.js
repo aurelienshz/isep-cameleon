@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import { getLocalState as getUserState } from '../../data/users/reducer';
 import { ROLE_CLIENT, ROLE_STUDENT, ROLE_TEACHER, userHasRole } from '../../data/users/rolesHelpers';
 
