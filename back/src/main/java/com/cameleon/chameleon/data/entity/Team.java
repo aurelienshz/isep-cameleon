@@ -1,5 +1,8 @@
 package com.cameleon.chameleon.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -16,6 +19,10 @@ public class Team {
 
     @OneToMany
     private List<User> members;
+
+    @OneToOne(mappedBy="team")
+    @JsonIgnore
+    private Project project;
 
     @ManyToOne
     @JoinColumn(name = "group_id")
@@ -59,5 +66,13 @@ public class Team {
 
     public void setValidatedByTeacher(boolean validatedByTeacher) {
         this.validatedByTeacher = validatedByTeacher;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
     }
 }

@@ -4,6 +4,7 @@ import {
   getTeamsList,
   createTeam as requestTeamCreation,
   leaveTeam as requestTeamLeave,
+  validateTeam as requestTeamValidation,
   joinTeam as requestTeamJoin } from './service';
 
 const initialState = {
@@ -22,6 +23,9 @@ const CONFIRM_TEAM_LEAVE = 'team/CONFIRM_TEAM_LEAVE';
 
 const REQUEST_TEAM_JOIN = 'team/REQUEST_TEAM_JOIN';
 const CONFIRM_TEAM_JOIN = 'team/CONFIRM_TEAM_JOIN';
+
+const REQUEST_TEAM_VALIDATED = 'team/REQUEST_TEAM_VALIDATED';
+const CONFIRM_TEAM_VALIDATED = 'team/CONFIRM_TEAM_VALIDATED';
 
 // Reducers
 export default function equipesReducer(state = initialState, action: Object) {
@@ -49,12 +53,14 @@ export default function equipesReducer(state = initialState, action: Object) {
       };
     case REQUEST_TEAM_LEAVE:
     case REQUEST_TEAM_JOIN:
+    case REQUEST_TEAM_VALIDATED:
       return {
         ...state,
         loading: true,
       };
     case CONFIRM_TEAM_LEAVE:
     case CONFIRM_TEAM_JOIN:
+    case CONFIRM_TEAM_VALIDATED:
       return {
         ...state,
         loading: false,
@@ -132,6 +138,25 @@ export function joinTeam(id) {
     }
   }
 }
+
+export function validateTeam(id) {
+  return async (dispatch: Function) => {
+    dispatch({
+      type: REQUEST_TEAM_VALIDATED,
+    });
+
+    try {
+      await requestTeamValidation(id);
+      dispatch({
+        type: CONFIRM_TEAM_VALIDATED,
+      });
+      dispatch(fetchTeams());
+    } catch (err) {
+      console.error(err);
+    }
+  }
+}
+
 
 export const getLocalState = (state) => {
   return state.team;

@@ -31,6 +31,10 @@ export async function joinTeam(id: number) {
   return await postJson(REQUEST_PATH_PREFIX + `/${id}/join`);
 }
 
+export async function validateTeam(id: number) {
+  return await postJson(REQUEST_PATH_PREFIX + `/${id}/validate`);
+}
+
 export async function getTeam(id: number): Team {
   return await getJson(REQUEST_PATH_PREFIX + `/${id}`);
 }

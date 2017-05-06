@@ -17,9 +17,6 @@ public class Project {
     private Team team;
 
     @OneToMany
-    private List<User> clients;
-
-    @OneToMany
     private List<FeatureCategory> featureCategories;
 
     @OneToMany
@@ -39,14 +36,6 @@ public class Project {
 
     public void setTeam(Team team) {
         this.team = team;
-    }
-
-    public List<User> getClients() {
-        return clients;
-    }
-
-    public void setClients(List<User> clients) {
-        this.clients = clients;
     }
 
     public Long getId() {

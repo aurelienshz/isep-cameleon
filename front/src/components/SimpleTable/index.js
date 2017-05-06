@@ -23,7 +23,9 @@ export default function SimpleTable(props) {
       getTdProps={(state, rowInfo) => {
         if (props.selectable) {
           return {
-            onClick: () => props.clickHandler(rowInfo),
+            onClick: () => {
+              if (props.clickHandler) props.clickHandler(rowInfo)
+            }
           };
         }
         return {};

@@ -12,6 +12,19 @@ import java.util.List;
 
 @Entity
 public class User implements UserDetails {
+    public User() {
+
+    }
+
+    public User(String username, String firstName, String lastName, String password, String mail, List<Role> roles) {
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.mail = mail;
+        this.roles = roles;
+    }
+
     @Id
     @GeneratedValue
     private Long id;

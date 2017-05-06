@@ -6,6 +6,7 @@ import com.cameleon.chameleon.data.repository.ProjectRepository;
 import com.cameleon.chameleon.data.repository.SubjectRepository;
 import com.cameleon.chameleon.data.repository.TeamRepository;
 import com.cameleon.chameleon.data.repository.UserRepository;
+import com.cameleon.chameleon.exception.BusinessLogicException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,25 +28,22 @@ public class ProjectService {
         return projectRepository.findOne(id);
     }
 
-    public Project createProject(ProjectCreationDTO projectCreationDTO) {
+    public Project createProject(ProjectCreationDTO projectCreationDTO) throws BusinessLogicException {
         Project project = createProjectFromDTO(projectCreationDTO);
         return projectRepository.save(project);
     }
 
-    public Project createProjectFromDTO(ProjectCreationDTO projectCreationDTO) {
+    public Project createProjectFromDTO(ProjectCreationDTO projectCreationDTO) throws BusinessLogicException {
         // Find the team and subject :
         Team team = teamRepository.findOne(projectCreationDTO.getTeamId());
-        Subject subject = subjectRepository.findOne(projectCreationDTO.getTeamId());
+        if (team.getProject() != null) {
+            throw new BusinessLogicException("This team is already linked to a project");
+        }
 
-        // Find clients list :
-        Iterable<User> clients = userRepository.findAll(projectCreationDTO.getClientsIds());
-        // Iterable to List :
-        List<User> clientsList = new ArrayList<>();
-        clients.forEach(clientsList::add);
+        Subject subject = subjectRepository.findOne(projectCreationDTO.getSubjectId());
 
         // Hydrate a new project :
         Project project = new Project();
-        project.setClients(clientsList);
         project.setSubject(subject);
         project.setTeam(team);
 

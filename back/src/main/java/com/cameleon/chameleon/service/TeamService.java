@@ -87,4 +87,10 @@ public class TeamService {
 
         return team;
     }
+
+    public void validateTeam(Long teamId) {
+        Team team = teamRepository.findOne(teamId);
+        team.setValidatedByTeacher(true);
+        teamRepository.save(team);
+    }
 }

@@ -13,7 +13,7 @@ public class ChameleonApplication {
 	public static void main(String[] args) {
 		ConfigurableApplicationContext ac = SpringApplication.run(ChameleonApplication.class, args);
 		TestDatabaseSeeder tdbs = ac.getBeanFactory().createBean(TestDatabaseSeeder.class);
-		tdbs.qsdf();
+		tdbs.seedDatabase();
 //		ac.close();
 	}
 }

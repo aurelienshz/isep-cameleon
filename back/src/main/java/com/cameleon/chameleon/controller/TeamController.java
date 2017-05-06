@@ -10,7 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
+
+import static com.cameleon.chameleon.constants.RolesNames.ROLE_TEACHER;
 
 @RestController
 @RequestMapping("/team")
@@ -56,6 +59,12 @@ public class TeamController {
         teamService.deleteTeam(id);
     }
 
+    @PostMapping("/{id}/validate")
+    @RolesAllowed(ROLE_TEACHER)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void validateTeam(@PathVariable Long id) {
+        teamService.validateTeam(id);
+    }
+
     // TODO : disallow team join / leave when validated by teacher
-    // TODO : endpoints for the teacher to validate teams
 }

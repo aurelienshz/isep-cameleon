@@ -2,11 +2,15 @@ package com.cameleon.chameleon.controller;
 
 import com.cameleon.chameleon.data.dto.ProjectCreationDTO;
 import com.cameleon.chameleon.data.entity.Project;
+import com.cameleon.chameleon.exception.BusinessLogicException;
 import com.cameleon.chameleon.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
+
+import static com.cameleon.chameleon.constants.RolesNames.ROLE_TEACHER;
 
 @RestController
 @RequestMapping("/project")
@@ -25,7 +29,8 @@ public class ProjectController {
     }
 
     @PostMapping
-    public Project createProject(@RequestBody ProjectCreationDTO projectCreationDTO) {
+    @RolesAllowed(ROLE_TEACHER)
+    public Project createProject(@RequestBody ProjectCreationDTO projectCreationDTO) throws BusinessLogicException {
         return projectService.createProject(projectCreationDTO);
     }
 

@@ -8,7 +8,6 @@ const REQUEST_PATH_PREFIX = '/project';
 export type ProjectCreationDTO = {
   subjectId: number,
   teamId: number,
-  clientsIds: Array<number>,
 }
 
 export type Project = {
@@ -17,19 +16,19 @@ export type Project = {
   clients: Array<Object>, // TODO
 }
 
-export async function getProjectsList(): Array<Project> {
+export async function getProjectsList(): Promise<Array<Project>> {
   return await getJson(REQUEST_PATH_PREFIX);
 }
 
-export async function getProject(id: number): Project {
+export async function getProject(id: number): Promise<Project> {
   return await getJson(REQUEST_PATH_PREFIX + `/${id}`);
 }
 
-export async function createProject(subject: Project): Project {
-  return await postJson(REQUEST_PATH_PREFIX, subject);
+export async function createProject(projectCreationDTO: ProjectCreationDTO): Promise<Project> {
+  return await postJson(REQUEST_PATH_PREFIX, projectCreationDTO);
 }
 
-export async function updateProject(id: number, subject: Project): Project {
+export async function updateProject(id: number, subject: Project): Promise<Project> {
   return await postJson(REQUEST_PATH_PREFIX + `/${id}`, subject);
 }
 
