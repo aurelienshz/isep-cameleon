@@ -23,6 +23,7 @@ import { fetchClients, getLocalState as getUserState } from '../../../data/users
 import SubjectList from './components/SubjectList';
 import AddSubjectDialog from './components/AddSubjectDialog';
 import ClientSelectionDialog from './components/ClientSelectionDialog';
+import Loader from '../../../components/Loader.js';
 
 
 const STYLE_SEARCH = {
@@ -111,7 +112,7 @@ class SubjectListView extends React.Component {
 
         {
           loading ?
-            <div>Chargement...</div>
+            <div><Loader /></div>
             :
             <SubjectList
               subjects={displayedSubjects}

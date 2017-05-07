@@ -19,10 +19,15 @@ import { convertToRaw } from 'draft-js';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import draftToHtml from 'draftjs-to-html';
 
+import Loader from '../../../../components/Loader.js';
+
 const STYLE_APPBAR = {
   position: 'fixed',
   backgroundColor: colors.ISEP_PRIMARY,
+  width:'960px',
 };
+
+// TODO Change the width
 
 const STYLE_BUTTON = {
   maxWidth: 300,
@@ -72,7 +77,7 @@ export default class ClientSelectionDialog extends React.Component {
             Sélectionner un client :&nbsp;
 
             { loading ?
-              <span>Chargement...</span>
+              <span><Loader /></span>
               :
               <select onChange={this.handleChange} value={this.state.selectedId}>
                 <option value={-1} key={-1}>Choisir un client...</option>

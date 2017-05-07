@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 
 import { fetchSubjects, getLocalState } from '../../../data/subject/reducer';
 
+import Loader from '../../../components/Loader.js';
+
 class SubjectDetailsView extends React.Component {
   componentWillMount() {
     this.props.fetchSubjects();
@@ -12,7 +14,7 @@ class SubjectDetailsView extends React.Component {
     const { loading, subject } = this.props;
 
     if (loading) {
-      return <div>Chargement...</div>
+      return <div><Loader /></div>
     }
 
     if (!subject) {

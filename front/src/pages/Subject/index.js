@@ -8,6 +8,8 @@ import { ROLE_CLIENT, ROLE_STUDENT, ROLE_TEACHER, userHasRole } from '../../data
 import SubjectListView from './ListView';
 import SubjectDetailsView from './DetailsView';
 
+import Loader from '../../components/Loader.js';
+
 const VIEW_TYPE_LIST = "VIEW_TYPE_LIST";
 const VIEW_TYPE_ASSIGNED_SUBJECT = "VIEW_TYPE_ASSIGNED_SUBJECT";
 
@@ -15,7 +17,7 @@ class Subject extends React.Component {
   render() {
     if (this.props.loading) {
       return (
-        <div>Chargement...</div>
+        <div><Loader/></div>
       )
     }
 
