@@ -23,7 +23,7 @@ const styleSheet = createStyleSheet('GuttersLayout', () => {
       width: '100%',
       maxWidth: 800,
       margin: '0 auto',
-      height: '80%',
+      height: '100%',
       flexGrow: 1,
     },
     paper: {
@@ -32,6 +32,13 @@ const styleSheet = createStyleSheet('GuttersLayout', () => {
     },
     control: {
       padding: 12,
+    },
+    body: {
+      backgroundImage: 'url("img/background.jpg")', //TODO Change img
+      backgroundSize: 'cover',
+      height: '100%',
+      maxWidth: '100%',
+      backgroundAttachment: 'fixed',
     },
   };
 });
@@ -67,77 +74,79 @@ class LoginPage extends React.Component {
       return <Redirect to="/subject"/>
     }
     return (
-      <Layout container gutter={40} align="center" justify="center" className={classes.root}>
-        <Layout item xs={12} sm={6}>
-          <Paper>
-            <Layout>
+      <div className={classes.body}>
+        <Layout container gutter={40} align="center" justify="center" className={classes.root}>
+          <Layout item xs={12} sm={6}>
+            <Paper>
+              <Layout>
+                <Typography type="headline">
+                  Authentification ISEP
+                </Typography>
+                <Typography type="body1">
+                  Utilisez ce formulaire pour vous connecter si vous possédez des identifiants ISEP.
+                </Typography>
+
+                {
+                  error &&
+                  <Typography type="body1">
+                    {error.message}
+                  </Typography>
+                }
+
+                <Divider/>
+
+                {
+                  awaitingToken ?
+                    <Layout>
+                      <Typography><Loader/></Typography>
+                    </Layout>
+                    :
+                    <Layout>
+                      <TextField
+                        label="Login ISEP"
+                        value={this.state.isepLogin}
+                        onChange={(event) => this.setState({isepLogin: event.target.value})} />
+                      <TextField
+                        label="Mot de passe ISEP"
+                        type="password"
+                        value={this.state.isepPassword}
+                        onChange={(event) => this.setState({isepPassword: event.target.value})} />
+                      <Button raised primary onClick={this.submitIsepLogin}>Valider</Button>
+                    </Layout>
+                }
+              </Layout>
+            </Paper>
+          </Layout>
+          <Layout item xs={12} sm={6}>
+            <Paper>
               <Typography type="headline">
-                Authentification ISEP
+                Authentification extérieure
               </Typography>
               <Typography type="body1">
-                Utilisez ce formulaire pour vous connecter si vous possédez des identifiants ISEP.
+                Utilisez ce formulaire pour vous connecter avec les identifiants qui vous ont été fournis.
               </Typography>
 
-              {
-                error &&
-                <Typography type="body1">
-                  {error.message}
-                </Typography>
-              }
 
               <Divider/>
 
-              {
-                awaitingToken ?
-                  <Layout>
-                    <Typography><Loader/></Typography>
-                  </Layout>
-                  :
-                  <Layout>
-                    <TextField
-                      label="Login ISEP"
-                      value={this.state.isepLogin}
-                      onChange={(event) => this.setState({isepLogin: event.target.value})} />
-                    <TextField
-                      label="Mot de passe ISEP"
-                      type="password"
-                      value={this.state.isepPassword}
-                      onChange={(event) => this.setState({isepPassword: event.target.value})} />
-                    <Button raised primary onClick={this.submitIsepLogin}>Valider</Button>
-                  </Layout>
-              }
-            </Layout>
-          </Paper>
+              <TextField
+                label="Login"
+                value={this.state.externalLogin}
+                onChange={(event) => this.setState({externalLogin: event.target.value})}
+              />
+
+              <TextField
+                label="Mot de passe"
+                type="password"
+                value={this.state.externalPassword}
+                onChange={(event) => this.setState({externalPassword: event.target.value})}
+              />
+
+              <Button raised primary onClick={this.submitExternalLogin}>Valider</Button>
+            </Paper>
+          </Layout>
         </Layout>
-        <Layout item xs={12} sm={6}>
-          <Paper>
-            <Typography type="headline">
-              Authentification extérieure
-            </Typography>
-            <Typography type="body1">
-              Utilisez ce formulaire pour vous connecter avec les identifiants qui vous ont été fournis.
-            </Typography>
-
-
-            <Divider/>
-
-            <TextField
-              label="Login"
-              value={this.state.externalLogin}
-              onChange={(event) => this.setState({externalLogin: event.target.value})}
-            />
-
-            <TextField
-              label="Mot de passe"
-              type="password"
-              value={this.state.externalPassword}
-              onChange={(event) => this.setState({externalPassword: event.target.value})}
-            />
-
-            <Button raised primary onClick={this.submitExternalLogin}>Valider</Button>
-          </Paper>
-        </Layout>
-      </Layout>
+      </div>
     );
   }
 }

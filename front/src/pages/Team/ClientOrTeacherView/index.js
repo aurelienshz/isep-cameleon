@@ -18,6 +18,8 @@ import { getLocalState as getTeamState, fetchTeams, validateTeam } from '../../.
 import { getLocalState as getSubjetState, fetchSubjects } from '../../../data/subject/reducer';
 import { getLocalState as getProjectState, fetchProjects, createProject } from '../../../data/project/reducer';
 
+import Loader from '../../../components/Loader.js';
+
 const style = {
   MESSAGE_STYLE: {
     textAlign: 'left',
@@ -303,7 +305,7 @@ class ValidateEquipes extends React.Component {
                     }
                   </select>
                   :
-                  "Chargement..."
+                  <Loader />
                 }
               </DialogContentText>
             </DialogContent>

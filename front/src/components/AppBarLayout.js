@@ -13,6 +13,8 @@ import { Menu, MenuItem } from 'material-ui/Menu';
 
 import {Link,NavLink} from 'react-router-dom';
 
+import Loader from '../components/Loader.js';
+
 import colors from '../colors';
 
 import {isAuthenticated} from '../data/users/service';
@@ -114,11 +116,10 @@ class AppBarLayout extends React.Component {
     return (
       <div style={{height: '100%', width: '100%'}}>
         <div className={classes.root}>
+          { isAuthenticated() &&
           <AppBar className={classes.appBar}>
             <Toolbar>
               <Typography type="title" colorInherit className={classes.flex}>Cameleon</Typography>
-
-              { isAuthenticated() &&
               <div className={classes.group}>
                 <Link className={classes.link} to="/subject"><Button contrast>Sujets</Button></Link>
                 <Link className={classes.link} to="/team"><Button contrast>Équipe</Button></Link>
@@ -129,7 +130,7 @@ class AppBarLayout extends React.Component {
                         this.isProfileLoaded() && !awaitingProfile ?
                           profile.firstName + ' ' + profile.lastName
                           :
-                          'Chargement...'
+                          <Loader />
                       }
                     </div>
                     <div className={classes.badge} title="Rôle de l'utilisateur">
@@ -156,14 +157,15 @@ class AppBarLayout extends React.Component {
                   </Menu>
                 </div>
               </div>
-              }
+
 
             </Toolbar>
           </AppBar>
+          }
         </div>
 
         { isAuthenticated() ?
-          (awaitingPromotion ? "Loading promotion..." : this.props.children)
+          (awaitingPromotion ? <Loader /> : this.props.children)
           :
           this.props.children
         }
