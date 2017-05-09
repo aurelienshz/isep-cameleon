@@ -8,10 +8,10 @@ const initialState = {
   projects: null,
 };
 
-const FETCH_PROJECTS = "FETCH_PROJECTS";
-const RECEIVE_PROJECTS = "RECEIVE_PROJECTS";
-const REQUEST_PROJECT_CREATION = "REQUEST_PROJECT_CREATION";
-const CONFIRM_PROJECT_CREATION = "CONFIRM_PROJECT_CREATION";
+const FETCH_PROJECTS = "project/FETCH_PROJECTS";
+const RECEIVE_PROJECTS = "project/RECEIVE_PROJECTS";
+const REQUEST_PROJECT_CREATION = "project/REQUEST_PROJECT_CREATION";
+const CONFIRM_PROJECT_CREATION = "project/CONFIRM_PROJECT_CREATION";
 
 export default function projectReducer(state = initialState, action) {
   switch (action.type) {

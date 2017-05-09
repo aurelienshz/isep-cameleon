@@ -100,11 +100,20 @@ class AppBarLayout extends React.Component {
 
   handleRequestClose = () => this.setState({ open: false });
 
-  componentWillMount() {
+  fetchProfileAndPromotion = () => {
     if(isAuthenticated()) this.props.fetchPromotion();
+
     if (!this.isProfileLoaded()) {
       this.props.loadProfile();
     }
+  };
+
+  componentWillMount() {
+    this.fetchProfileAndPromotion();
+  }
+
+  componentWillReceiveProps() {
+    // this.fetchProfileAndPromotion();
   }
 
   isProfileLoaded = () => {
@@ -128,8 +137,11 @@ class AppBarLayout extends React.Component {
             <Toolbar>
               <Typography type="title" colorInherit className={classes.flex}>Cameleon</Typography>
               <div className={classes.group}>
+
                 <Link className={classes.link} to="/subject"><Button contrast>Sujets</Button></Link>
-                <Link className={classes.link} to="/team"><Button contrast>Équipe</Button></Link>
+                <Link className={classes.link} to="/team"><Button contrast>Équipes</Button></Link>
+                <Link className={classes.link} to="/promotion"><Button contrast>Promotion</Button></Link>
+
                 <div className={classes.subGroup}>
                   <div className={classes.detail}>
                     <div className={classes.name} onClick={this.handleClick}>
@@ -171,11 +183,7 @@ class AppBarLayout extends React.Component {
           }
         </div>
 
-        { isAuthenticated() ?
-          (awaitingPromotion ? <Loader /> : this.props.children)
-          :
-          this.props.children
-        }
+        { this.props.children }
 
       </div>
     );
@@ -184,12 +192,9 @@ class AppBarLayout extends React.Component {
 
 export default connect((state) => {
   const userState = getUserState(state);
-  const promotionState = getPromotionState(state);
   return {
     awaitingProfile: userState.awaitingProfile,
     profile: userState.profile,
-    awaitingPromotion: promotionState.loading,
-    promotion: promotionState.promotion,
   };
 }, (dispatch) => {
   return {
