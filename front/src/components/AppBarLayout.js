@@ -9,7 +9,7 @@ import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import Avatar from 'material-ui/Avatar';
-import { Menu, MenuItem } from 'material-ui/Menu';
+import Menu, { MenuItem } from 'material-ui/Menu';
 
 import {Link,NavLink} from 'react-router-dom';
 

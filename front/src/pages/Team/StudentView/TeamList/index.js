@@ -3,7 +3,7 @@ import {createStyleSheet} from 'jss-theme-reactor';
 import customPropTypes from 'material-ui/utils/customPropTypes';
 import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';
-import Layout from 'material-ui/Layout';
+import Grid from 'material-ui/Grid';
 import TextField from 'material-ui/TextField';
 
 import TeamListComponent from './components/TeamList';
@@ -113,13 +113,13 @@ export default class TeamList extends React.Component {
           onCancel={this.closeTeamCreationDialog}
           onConfirm={(name) => this.createTeam(name)} />
 
-        <Layout>
+        <Grid>
           <TextField
             className={classes.searchField}
             label="Filtrer les équipes"
             value={this.state.filterString}
             onChange={this.handleFilterChange} />
-        </Layout>
+        </Grid>
 
         <TeamListComponent teams={filteredTeams} onRequestJoin={this.requestJoinTeam} />
       </div>

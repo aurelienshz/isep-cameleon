@@ -3,11 +3,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import Button from 'material-ui/Button';
-import Layout from 'material-ui/Layout';
+import Grid from 'material-ui/Grid';
 import TextField from 'material-ui/TextField';
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from 'material-ui/Dialog';
+import Dialog, { DialogTitle, DialogContent, DialogContentText, DialogActions } from 'material-ui/Dialog';
 import Paper from 'material-ui/Paper';
-import { Tabs, Tab } from 'material-ui/Tabs';
+import Tabs, { Tab } from 'material-ui/Tabs';
 
 import SimpleTable from '../../../components/SimpleTable/index';
 import ConfirmDialog from '../../../components/ConfirmDialog';
@@ -269,12 +269,12 @@ class ValidateEquipes extends React.Component {
     return (
       <div style={style.BODY}>
         <h1>Équipes</h1>
-        <Layout>
+        <Grid>
           <TextField
             style={style.searchField}
             onChange={e => this.setState({filterString: e.target.value})}
             label="Filtrer les équipes" />
-        </Layout>
+        </Grid>
 
         { teamBeingValidated && validPopupOpen &&
           <ConfirmDialog

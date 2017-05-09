@@ -7,7 +7,7 @@ import {Redirect} from 'react-router';
 
 import customPropTypes from 'material-ui/utils/customPropTypes';
 import Paper from 'material-ui/Paper';
-import Layout from 'material-ui/Layout';
+import Grid from 'material-ui/Grid';
 import Typography from 'material-ui/Typography';
 import Divider from 'material-ui/Divider';
 import TextField from 'material-ui/TextField';
@@ -75,10 +75,10 @@ class LoginPage extends React.Component {
     }
     return (
       <div className={classes.body}>
-        <Layout container gutter={40} align="center" justify="center" className={classes.root}>
-          <Layout item xs={12} sm={6}>
+        <Grid container gutter={40} align="center" justify="center" className={classes.root}>
+          <Grid item xs={12} sm={6}>
             <Paper>
-              <Layout>
+              <Grid>
                 <Typography type="headline">
                   Authentification ISEP
                 </Typography>
@@ -97,11 +97,11 @@ class LoginPage extends React.Component {
 
                 {
                   awaitingToken ?
-                    <Layout>
+                    <Grid>
                       <Typography><Loader/></Typography>
-                    </Layout>
+                    </Grid>
                     :
-                    <Layout>
+                    <Grid>
                       <TextField
                         label="Login ISEP"
                         value={this.state.isepLogin}
@@ -112,12 +112,12 @@ class LoginPage extends React.Component {
                         value={this.state.isepPassword}
                         onChange={(event) => this.setState({isepPassword: event.target.value})} />
                       <Button raised primary onClick={this.submitIsepLogin}>Valider</Button>
-                    </Layout>
+                    </Grid>
                 }
-              </Layout>
+              </Grid>
             </Paper>
-          </Layout>
-          <Layout item xs={12} sm={6}>
+          </Grid>
+          <Grid item xs={12} sm={6}>
             <Paper>
               <Typography type="headline">
                 Authentification extérieure
@@ -144,8 +144,8 @@ class LoginPage extends React.Component {
 
               <Button raised primary onClick={this.submitExternalLogin}>Valider</Button>
             </Paper>
-          </Layout>
-        </Layout>
+          </Grid>
+        </Grid>
       </div>
     );
   }

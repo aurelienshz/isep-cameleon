@@ -3,7 +3,7 @@
 import React from 'react';
 import Avatar from 'material-ui/Avatar';
 import Button from 'material-ui/Button';
-import { Dialog } from 'material-ui/Dialog';
+import Dialog from 'material-ui/Dialog';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import IconButton from 'material-ui/IconButton';

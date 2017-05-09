@@ -1,8 +1,8 @@
 import React from 'react';
 import {createStyleSheet} from 'jss-theme-reactor';
 import customPropTypes from 'material-ui/utils/customPropTypes';
-import Layout from 'material-ui/Layout';
-import {Card, CardContent, CardActions} from 'material-ui/Card';
+import Grid from 'material-ui/Grid';
+import Card, { CardContent, CardActions } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import Chip from 'material-ui/Chip';
@@ -44,7 +44,7 @@ export default function SubjectList(props, context) {
 
   const classes = context.styleManager.render(styleSheet);
   return (
-    <Layout>
+    <Grid>
       {
         subjects.map((subject) => {
           return (
@@ -79,7 +79,7 @@ export default function SubjectList(props, context) {
           );
         })
       }
-    </Layout>
+    </Grid>
   )
 }
 

@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
-import { Dialog } from 'material-ui/Dialog';
+import Dialog from 'material-ui/Dialog';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
-import Layout from 'material-ui/Layout';
+import Grid from 'material-ui/Grid';
 import IconButton from 'material-ui/IconButton';
 import Typography from 'material-ui/Typography';
 import CloseIcon from 'material-ui-icons/Close';
@@ -103,12 +103,12 @@ class SubjectListView extends React.Component {
           onConfirm={this.setClient}
           onRequestClose={this.closeClientSelectionDialog} />
 
-        <Layout>
+        <Grid>
           <TextField
             style={STYLE_SEARCH}
             label="Filtrer les sujets"
             onChange={(e) => this.setState({filterString: e.target.value})} />
-        </Layout>
+        </Grid>
 
         {
           loading ?

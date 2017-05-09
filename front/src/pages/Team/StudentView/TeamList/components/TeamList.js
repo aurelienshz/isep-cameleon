@@ -1,8 +1,8 @@
 import React from 'react';
 import {createStyleSheet} from 'jss-theme-reactor';
 import customPropTypes from 'material-ui/utils/customPropTypes';
-import Layout from 'material-ui/Layout';
-import {Card, CardContent, CardActions} from 'material-ui/Card';
+import Grid from 'material-ui/Grid';
+import Card, { CardContent, CardActions} from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 import Chip from 'material-ui/Chip';
 import Avatar from 'material-ui/Avatar';
@@ -53,7 +53,7 @@ const MembersRow = function({ members, styleClasses }) {
 export default function TeamList({ teams, onRequestJoin }, context) {
   const classes = context.styleManager.render(styleSheet);
   return (
-    <Layout>
+    <Grid>
       {
         teams.map((team) => {
           return (
@@ -69,7 +69,7 @@ export default function TeamList({ teams, onRequestJoin }, context) {
           );
         })
       }
-    </Layout>
+    </Grid>
   )
 }
 
