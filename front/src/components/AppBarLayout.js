@@ -36,6 +36,7 @@ const styleSheet = createStyleSheet('AuthenticatedLayout', () => ({
   avatar: {
     margin: 10,
     border: '2px solid white',
+    cursor: 'pointer',
   },
   row: {
     display: 'flex',
@@ -65,6 +66,7 @@ const styleSheet = createStyleSheet('AuthenticatedLayout', () => ({
     display: 'block',
     textAlign: 'right',
     textTransform: 'capitalize',
+    cursor: 'pointer',
   },
   badge: {
     display: 'block',
@@ -110,9 +112,14 @@ class AppBarLayout extends React.Component {
     return Boolean(profile) && Boolean(profile.firstName) && Boolean(profile.lastName);
   };
 
+  logout = () => {
+    this.setState({ open: false });
+    this.props.logout();
+  };
+
   render() {
     const classes = this.context.styleManager.render(styleSheet);
-    const { logout, awaitingProfile, profile, awaitingPromotion } = this.props;
+    const { awaitingProfile, profile, awaitingPromotion } = this.props;
     return (
       <div style={{height: '100%', width: '100%'}}>
         <div className={classes.root}>
@@ -153,7 +160,7 @@ class AppBarLayout extends React.Component {
                     onRequestClose={this.handleRequestClose}
                   >
                     <NavLink className={classes.link} to="/profil" onClick={this.handleRequestClose}><MenuItem >Mon profil</MenuItem></NavLink>
-                    <MenuItem onClick={logout} title="Cliquez ici pour vous déconnecter">Déconnexion</MenuItem>
+                    <MenuItem onClick={this.logout} title="Cliquez ici pour vous déconnecter">Déconnexion</MenuItem>
                   </Menu>
                 </div>
               </div>
