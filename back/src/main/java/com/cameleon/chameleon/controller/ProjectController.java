@@ -10,6 +10,7 @@ import com.cameleon.chameleon.exception.BusinessLogicException;
 
 import com.cameleon.chameleon.data.entity.User;
 
+import com.cameleon.chameleon.service.FeatureService;
 import com.cameleon.chameleon.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -27,6 +28,10 @@ import static com.cameleon.chameleon.constants.RolesNames.ROLE_TEACHER;
 public class ProjectController {
     @Autowired
     private ProjectService projectService;
+
+    @Autowired
+    private FeatureService featureService;
+
 
     @GetMapping
     public List<Project> getAllProjects() {
@@ -79,7 +84,8 @@ public class ProjectController {
     }
 
     @PostMapping("/{id}/feature-category/{fcId}/feature/{featureId}")
-    public Feature editFeature() {
-        return null; // TODO ADE
+    public Feature editFeature(@PathVariable Long featureId, @RequestBody FeatureDTO featureDto) {
+        return featureService.editFeature(featureDto);
+
     }
 }

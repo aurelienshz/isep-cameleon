@@ -50,7 +50,7 @@ public class TeamController {
     }
 
     @GetMapping("/my-team")
-    public Team getBelongingTeam(@AuthenticationPrincipal User user) {
+    public Team getBelongingTeam(@AuthenticationPrincipal User user) throws BusinessLogicException {
         return teamService.findBelongingTeam(user);
     }
 
