@@ -35,6 +35,10 @@ INSERT INTO `user_roles` (user_id, roles_id) VALUES (
   (SELECT id from role where authority='ROLE_CLIENT')
 );
 
+INSERT INTO `promotion` (`id`, `status`) VALUES (
+    1, 'BUILDING_SESSION'
+);
+
 -- Dummy subjects :
 
 INSERT INTO `subject` (`id`, `description`, `name`) VALUES
