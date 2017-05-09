@@ -1,5 +1,6 @@
 package com.cameleon.chameleon.controller;
 
+import com.cameleon.chameleon.data.entity.FeatureCategory;
 import com.cameleon.chameleon.data.entity.Subject;
 import com.cameleon.chameleon.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;

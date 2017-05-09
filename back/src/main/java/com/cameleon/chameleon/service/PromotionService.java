@@ -16,6 +16,7 @@ public class PromotionService {
     }
 
     public Promotion startProjects() {
+        // TODO check business logic allows starting projects (all teams validated etc...)
         Promotion promotion = promotionRepository.findOne(1L);
         promotion.setStatus(PromotionStatus.PROJECTS_STARTED);
         promotionRepository.save(promotion);

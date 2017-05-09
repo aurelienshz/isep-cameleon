@@ -1,5 +1,6 @@
 package com.cameleon.chameleon.service;
 
+import com.cameleon.chameleon.data.entity.FeatureCategory;
 import com.cameleon.chameleon.data.entity.Subject;
 import com.cameleon.chameleon.data.entity.User;
 import com.cameleon.chameleon.data.repository.SubjectRepository;

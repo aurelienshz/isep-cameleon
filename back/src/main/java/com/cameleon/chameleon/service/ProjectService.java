@@ -1,5 +1,6 @@
 package com.cameleon.chameleon.service;
 
+import com.cameleon.chameleon.data.dto.FeatureCategoryCreationDTO;
 import com.cameleon.chameleon.data.dto.ProjectCreationDTO;
 import com.cameleon.chameleon.data.entity.*;
 import com.cameleon.chameleon.data.repository.ProjectRepository;
@@ -23,7 +24,7 @@ public class ProjectService {
     @Autowired
     private SubjectRepository subjectRepository;
     @Autowired
-    private UserRepository userRepository;
+    private FeatureService featureService;
 
     public Project getProject(Long id) {
         return projectRepository.findOne(id);
@@ -52,11 +53,20 @@ public class ProjectService {
         return project;
     }
 
+    public List<FeatureCategory> getFeatureCategories(Long id) {
+        Project project = projectRepository.findOne(id);
+        return project.getFeatureCategories();
+    }
+
     public void deleteProject(Long id) {
         projectRepository.delete(id);
     }
 
     public List<Project> getAllProjects() {
         return projectRepository.findAll();
+    }
+
+    public FeatureCategory addFeatureCategory(Long id, FeatureCategoryCreationDTO dto) {
+        return null; // TODO ADE
     }
 }
