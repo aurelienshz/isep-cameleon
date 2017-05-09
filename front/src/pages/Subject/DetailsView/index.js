@@ -1,8 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { fetchSubjects, getLocalState } from '../../../data/subject/reducer';
+import { fetchSubjects, getLocalState as getSubjectState } from '../../../data/subject/reducer';
+import { fetchMyProject, getLocalState as getProjectState } from '../../../data/project/reducer';
 
+import FeatureEditor from './components/FeatureEditor';
 import Loader from '../../../components/Loader.js';
 
 class SubjectDetailsView extends React.Component {
@@ -11,9 +13,9 @@ class SubjectDetailsView extends React.Component {
   }
 
   render() {
-    const { loading, subject } = this.props;
+    const { loadingSubject, subject, loadingProject, project } = this.props;
 
-    if (loading) {
+    if (loadingSubject) {
       return <div><Loader /></div>
     }
 
@@ -27,6 +29,15 @@ class SubjectDetailsView extends React.Component {
         <p>{ subject.description }</p>
         <hr/>
         <h2>Fonctionnalités</h2>
+
+        {
+          loadingProject ?
+            <Loader />
+          :
+          <div>
+            <FeatureEditor project={project} />
+          </div>
+        }
       </div>
     );
   }
@@ -34,14 +45,17 @@ class SubjectDetailsView extends React.Component {
 
 export default connect(
   (state, ownProps) => {
-    const subjectState = getLocalState(state);
+    const subjectState = getSubjectState(state);
+    const projectState = getProjectState(state);
+
     const subjectId = parseInt(ownProps.match.params.id);
     const subject = subjectState.subjects.find(s => s.id === subjectId);
 
     return {
       subjectId,
-      loading: subjectState.loading,
       subject,
+      loadingSubject: subjectState.loading,
+      loadingProject: projectState.loadingProject,
     };
   },
   (dispatch) => {

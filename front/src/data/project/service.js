@@ -20,6 +20,10 @@ export async function getProjectsList(): Promise<Array<Project>> {
   return await getJson(REQUEST_PATH_PREFIX);
 }
 
+export async function getMyProject(): Promise<Project> {
+  return await getJson(REQUEST_PATH_PREFIX + "/my-project");
+}
+
 export async function getProject(id: number): Promise<Project> {
   return await getJson(REQUEST_PATH_PREFIX + `/${id}`);
 }

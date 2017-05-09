@@ -46,7 +46,7 @@ const styleSheet = createStyleSheet('GuttersLayout', () => {
 class LoginPage extends React.Component {
   static contextTypes = {
     styleManager: customPropTypes.muiRequired,
-  }
+  };
 
   state = {
     isepLogin: "",
@@ -88,7 +88,7 @@ class LoginPage extends React.Component {
 
                 {
                   error &&
-                  <Typography type="body1">
+                  <Typography type="body1" style={{color: 'red'}}>
                     {error.message}
                   </Typography>
                 }

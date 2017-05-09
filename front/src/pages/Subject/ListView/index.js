@@ -20,6 +20,7 @@ import colors from '../../../colors';
 
 import { fetchSubjects, createSubject, setSubjectClient, getLocalState as getSubjectState } from '../../../data/subject/reducer';
 import { fetchClients, getLocalState as getUserState } from '../../../data/users/reducer';
+import { userHasRole, ROLE_TEACHER } from '../../../data/users/rolesHelpers';
 import SubjectList from './components/SubjectList';
 import AddSubjectDialog from './components/AddSubjectDialog';
 import ClientSelectionDialog from './components/ClientSelectionDialog';
@@ -80,7 +81,7 @@ class SubjectListView extends React.Component {
   };
 
   render() {
-    const { subjects, loading, goToDetails, awaitingClients, clients } = this.props;
+    const { isTeacher, currentUserId, subjects, loading, goToDetails, awaitingClients, clients } = this.props;
     const { filterString, createSubjectOpen, clientSelectionDialogOpen } = this.state;
 
     const displayedSubjects = subjects.filter(subject => {
@@ -115,10 +116,10 @@ class SubjectListView extends React.Component {
             <div><Loader /></div>
             :
             <SubjectList
+              userId={currentUserId}
               subjects={displayedSubjects}
-              showFunctionalitiesButton
-              showAssignToClient
-              onClickFunctionalities={(id) => {goToDetails(id)}}
+              showAssignToClient={isTeacher}
+              onClickFeatures={(id) => {goToDetails(id)}}
               onClickAssignClient={(id) => this.openClientSelectionDialog(id)} />
         }
       </div>
@@ -129,7 +130,12 @@ class SubjectListView extends React.Component {
 const mapStateToProps = (state) => {
   const subjectState = getSubjectState(state);
   const userState = getUserState(state);
+
+  const isTeacher = userHasRole(state, ROLE_TEACHER);
+
   return {
+    isTeacher,
+    currentUserId: userState.profile.id,
     subjects: subjectState.subjects,
     loading: subjectState.loading,
     awaitingClients: userState.awaitingClients,

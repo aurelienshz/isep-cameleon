@@ -36,10 +36,10 @@ const styleSheet = createStyleSheet('SubjectList', (theme) => ({
 export default function SubjectList(props, context) {
   const {
     subjects,
-    showFunctionalitiesButton,
-    onClickFunctionalities,
+    onClickFeatures,
     showAssignToClient,
-    onClickAssignClient
+    onClickAssignClient,
+    userId
   } = props;
 
   const classes = context.styleManager.render(styleSheet);
@@ -47,6 +47,7 @@ export default function SubjectList(props, context) {
     <Grid>
       {
         subjects.map((subject) => {
+          const showFeatures = subject.client && subject.client.id === userId;
           return (
             <Card className={classes.card} key={subject.id}>
               <CardContent>
@@ -65,16 +66,19 @@ export default function SubjectList(props, context) {
                   </div>
                 }
               </CardContent>
-              <CardActions>
-                {
-                  showFunctionalitiesButton &&
-                    <Button onClick={() => onClickFunctionalities(subject.id)} primary>Fonctionnalités</Button>
-                }
-                {
-                  showAssignToClient && !subject.client &&
-                  <Button onClick={() => onClickAssignClient(subject.id)} primary>Client</Button>
-                }
-              </CardActions>
+              {
+                (showAssignToClient || showFeatures) &&
+                <CardActions>
+                  {
+                    showFeatures &&
+                      <Button onClick={() => onClickFeatures(subject.id)} primary>Fonctionnalités</Button>
+                  }
+                  {
+                    showAssignToClient && !subject.client &&
+                    <Button onClick={() => onClickAssignClient(subject.id)} primary>Client</Button>
+                  }
+                </CardActions>
+              }
             </Card>
           );
         })

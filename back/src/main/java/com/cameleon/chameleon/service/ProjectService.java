@@ -22,6 +22,8 @@ public class ProjectService {
     @Autowired
     private TeamRepository teamRepository;
     @Autowired
+    private TeamService teamService;
+    @Autowired
     private SubjectRepository subjectRepository;
     @Autowired
     private FeatureService featureService;
@@ -68,5 +70,10 @@ public class ProjectService {
 
     public FeatureCategory addFeatureCategory(Long id, FeatureCategoryCreationDTO dto) {
         return null; // TODO ADE
+    }
+
+    public Project getBelongingProject(User user) {
+        Team team = teamService.findBelongingTeam(user);
+        return team.getProject();
     }
 }

@@ -19,6 +19,7 @@ import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 import static com.cameleon.chameleon.constants.RolesNames.ROLE_CLIENT;
+import static com.cameleon.chameleon.constants.RolesNames.ROLE_STUDENT;
 import static com.cameleon.chameleon.constants.RolesNames.ROLE_TEACHER;
 
 @RestController
@@ -35,6 +36,12 @@ public class ProjectController {
     @GetMapping("/{id}")
     public Project getProject(@PathVariable Long id) {
         return projectService.getProject(id);
+    }
+
+    @GetMapping("/my-project")
+    @RolesAllowed(ROLE_STUDENT)
+    public Project getMyProject(@AuthenticationPrincipal User user) {
+        return projectService.getBelongingProject(user);
     }
 
     @PostMapping
