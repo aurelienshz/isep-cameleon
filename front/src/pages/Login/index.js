@@ -150,7 +150,7 @@ class LoginPage extends React.Component {
                     <div className={classes.form}>
                       <input className={classes.input} placeholder='Login' value={this.state.isepLogin} onChange={(event) => this.setState({isepLogin: event.target.value})}></input>
                       <input className={classes.input} placeholder='Password' value={this.state.isepPassword} onChange={(event) => this.setState({isepPassword: event.target.value})}></input>
-                      <a className={classes.link} href='https://moncompte.isep.fr/login.php'> Mot de passe oublié ? </a>
+                      <a className={classes.link} href='https://moncompte.isep.fr/login.php' target="_blank"> Mot de passe oublié ? </a>
                       <button className={classes.button} onClick={this.submitIsepLogin}> Connexion </button>
                       {
                         error &&
