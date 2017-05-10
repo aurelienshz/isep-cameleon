@@ -6,13 +6,9 @@ import {createStyleSheet} from 'jss-theme-reactor';
 import {Redirect} from 'react-router';
 
 import customPropTypes from 'material-ui/utils/customPropTypes';
-import Paper from 'material-ui/Paper';
-import Grid from 'material-ui/Grid';
 import Typography from 'material-ui/Typography';
-import Divider from 'material-ui/Divider';
-import TextField from 'material-ui/TextField';
-import Button from 'material-ui/Button';
 import Loader from '../../components/Loader.js';
+import Grid from 'material-ui/Grid';
 
 import { submitLoginAction, getLocalState as getUsersState } from '../../data/users/reducer';
 import { isAuthenticated } from '../../data/users/service';
@@ -21,6 +17,10 @@ import colors from '../../colors.js';
 
 const styleSheet = createStyleSheet('GuttersLayout', () => {
   return {
+    root: {
+      margin: '0 auto',
+      flexGrow: 1,
+    },
     background: {
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'center',
@@ -70,6 +70,7 @@ const styleSheet = createStyleSheet('GuttersLayout', () => {
       outline: 'none',
       marginBottom: '10px',
       borderRadius: '4px',
+      boxSizing: 'border-box',
     },
     button: {
       background: colors.ISEP_PRIMARY,
@@ -98,7 +99,11 @@ const styleSheet = createStyleSheet('GuttersLayout', () => {
       lineHeight: 1,
       cursor: 'pointer',
       textDecoration: 'none',
-    }
+    },
+    h1: {
+      textAlign: 'center',
+      color: colors.ISEP_TERTIARY,
+    },
   };
 });
 
@@ -136,37 +141,44 @@ class LoginPage extends React.Component {
       <div className={classes.background}>
         <div className={classes.layout}>
           <div className={classes.sticky}>
+            <h1 className={classes.h1}>Chameleon</h1>
             <div className={classes.content}>
-              <div className={classes.card}>
-                <h1 className={classes.title}>Authentification ISEP</h1>
-                <div className={classes.form}>
-                  <input className={classes.input} placeholder='Login' value={this.state.isepLogin} onChange={(event) => this.setState({isepLogin: event.target.value})}></input>
-                  <input className={classes.input} placeholder='Password' value={this.state.isepPassword} onChange={(event) => this.setState({isepPassword: event.target.value})}></input>
-                  <a className={classes.link} href='https://moncompte.isep.fr/login.php'> Mot de passe oublié ? </a>
-                  <button className={classes.button} onClick={this.submitIsepLogin}> Connexion </button>
-                  {
-                    error &&
-                    <Typography type="body1" style={{color: 'red'}}>
-                      {error.message}
-                    </Typography>
-                  }
-                </div>
-              </div>
-              <div className={classes.card}>
-                <h1 className={classes.title}>Authentification extérieure</h1>
-                <div className={classes.form}>
-                  <input className={classes.input} placeholder='Login' value={this.state.externalLogin} onChange={(event) => this.setState({externalLogin: event.target.value})}></input>
-                  <input className={classes.input} placeholder='Password' value={this.state.externalPassword} onChange={(event) => this.setState({externalPassword: event.target.value})}></input>
-                  <a className={classes.link}> Mot de passe oublié ? </a>
-                  <button className={classes.button} onClick={this.submitExternalLogin}> Connexion </button>
-                  {
-                    error &&
-                    <Typography type="body1" style={{color: 'red'}}>
-                      {error.message}
-                    </Typography>
-                  }
-                </div>
-              </div>
+              <Grid container gutter={40} className={classes.root}>
+                <Grid item xs={12} sm={6}>
+                  <div className={classes.card}>
+                    <h1 className={classes.title}>Authentification ISEP</h1>
+                    <div className={classes.form}>
+                      <input className={classes.input} placeholder='Login' value={this.state.isepLogin} onChange={(event) => this.setState({isepLogin: event.target.value})}></input>
+                      <input className={classes.input} placeholder='Password' value={this.state.isepPassword} onChange={(event) => this.setState({isepPassword: event.target.value})}></input>
+                      <a className={classes.link} href='https://moncompte.isep.fr/login.php'> Mot de passe oublié ? </a>
+                      <button className={classes.button} onClick={this.submitIsepLogin}> Connexion </button>
+                      {
+                        error &&
+                        <Typography type="body1" style={{color: 'red'}}>
+                          {error.message}
+                        </Typography>
+                      }
+                    </div>
+                  </div>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <div className={classes.card}>
+                    <h1 className={classes.title}>Authentification extérieure</h1>
+                    <div className={classes.form}>
+                      <input className={classes.input} placeholder='Login' value={this.state.externalLogin} onChange={(event) => this.setState({externalLogin: event.target.value})}></input>
+                      <input className={classes.input} placeholder='Password' value={this.state.externalPassword} onChange={(event) => this.setState({externalPassword: event.target.value})}></input>
+                      <a className={classes.link}> Mot de passe oublié ? </a>
+                      <button className={classes.button} onClick={this.submitExternalLogin}> Connexion </button>
+                      {
+                        error &&
+                        <Typography type="body1" style={{color: 'red'}}>
+                          {error.message}
+                        </Typography>
+                      }
+                    </div>
+                  </div>
+                </Grid>
+              </Grid>
             </div>
             <footer className={classes.footer}> Copyright © 2017 ISEP All Rights Reserved. </footer>
           </div>
