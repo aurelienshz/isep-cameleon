@@ -48,36 +48,41 @@ public class TeamService {
         return teamRepository.findByMemberId(user.getId());
     }
 
-    public boolean freeToJoin(Team team){
-        return team.isValidatedByTeacher();
+    public void checkIfValidated(Team team) throws BusinessLogicException{
+        if (!team.isValidatedByTeacher()){
+            throw new BusinessLogicException("team already validated");
+        }
     }
 
+    public void checkIfBelongToThisTeam (User user , Team team) throws BusinessLogicException {
+        if (findBelongingTeam(user) != team) {
+            throw new BusinessLogicException("User doesn't belong to team");
+        }
+    }
 
-    public Team addUserToTeam(User user, Team team) throws BusinessLogicException {
+    public void checkIfBelongToATeam (User user , Team team) throws BusinessLogicException{
         if (findBelongingTeam(user) != null) {
             throw new BusinessLogicException("User can't be member of several teams simultaneously");
-        }else if (freeToJoin(team)!=false){
-            throw new BusinessLogicException("This team has already been validated");
         }
+    }
+
+    public Team addUserToTeam(User user, Team team) throws BusinessLogicException {
+
+        checkIfValidated(team);
+        checkIfBelongToATeam(user,team);
         team.getMembers().add(user);
         teamRepository.save(team);
         return team;
     }
 
     public void removeUserFromTeam(User user, Team team) throws BusinessLogicException {
-        if (findBelongingTeam(user) != team) {
-            throw new BusinessLogicException("User doesn't belong to requested team");
-        }else if (freeToJoin(team)!=false){
-            throw new BusinessLogicException("This team has already been validated");
-        }
-
-
+        checkIfValidated(team);
+        checkIfBelongToThisTeam(user,team);
         List<User> newMembers = team.getMembers().stream()
                 // Keep all other members :
                 .filter(m -> !(m.getId().equals(user.getId())))
                 .collect(Collectors.toList());
-
-        // If the member who just left was the only one, we delete the team :
+        // If the member who just left was the last one, we delete the team :
         if (newMembers.size() == 0) {
             teamRepository.delete(team);
         } else {
@@ -87,7 +92,6 @@ public class TeamService {
     }
 
     public void deleteTeam(Long id) {
-
         teamRepository.delete(id);
     }
     public Team createTeamFromDTO(TeamCreationDTO teamCreationDTO) {
