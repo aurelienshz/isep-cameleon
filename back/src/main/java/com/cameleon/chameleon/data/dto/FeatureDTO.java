@@ -1,29 +1,41 @@
 package com.cameleon.chameleon.data.dto;
 
-import java.util.Locale;
-
 public class FeatureDTO {
-    private Long id;
+
     private String name;
-    private  Long catid;
+    private Long categoryId;
+    private Long discoveredMeetingId;
+    private boolean expected;
 
-    public void setFeatureName(String name){ this.name= name;}
-    public String getFeatureName(){ return name;}
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public Long getCategoryId(){ return catid;}
+    public Long getCategoryId() {
+        return categoryId;
+    }
 
-    public void setId(Long id){ this.id= id;}
-    public Long getId(){ return id;}
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
 
+    public boolean isExpected() {
+        return expected;
+    }
 
+    public void setExpected(boolean expected) {
+        this.expected = expected;
+    }
 
+    public Long getDiscoveredMeetingId() {
+        return discoveredMeetingId;
+    }
 
-
-
-
-
-
-
-
+    public void setDiscoveredMeetingId(Long discoveredMeetingId) {
+        this.discoveredMeetingId = discoveredMeetingId;
+    }
 }

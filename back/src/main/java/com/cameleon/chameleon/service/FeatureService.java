@@ -6,6 +6,7 @@ import com.cameleon.chameleon.data.entity.FeatureCategory;
 
 import com.cameleon.chameleon.data.dto.FeatureCategoryCreationDTO;
 import com.cameleon.chameleon.data.entity.FeatureCategory;
+import com.cameleon.chameleon.data.entity.Meeting;
 import com.cameleon.chameleon.data.entity.Project;
 import com.cameleon.chameleon.data.repository.FeatureCategoryRepository;
 import com.cameleon.chameleon.data.repository.FeatureRepository;
@@ -26,7 +27,10 @@ public class FeatureService {
     @Autowired
     private FeatureCategoryRepository featureCategoryRepository;
 
-    public FeatureCategory addFeatureCategory(FeatureCategoryCreationDTO dto, Long projectId) {
+    @Autowired
+    private MeetingService meetingService;
+
+    public FeatureCategory addFeatureCategory(Long projectId, FeatureCategoryCreationDTO dto) {
         Project project = projectRepository.findOne(projectId);
         FeatureCategory featureCategory = createFeatureCategoryFromDTO(dto);
         featureCategory.setProject(project);
@@ -46,8 +50,7 @@ public class FeatureService {
 
     public Feature createFeatureFromDTO(FeatureDTO featureDTO,Long fcid){
         Feature feature =  new Feature();
-        feature.setName(featureDTO.getFeatureName());
-        feature.setId(featureDTO.getId());
+        feature.setName(featureDTO.getName());
         feature.setCategory(findFeatureCategory(fcid));
 
         return feature;
@@ -55,17 +58,25 @@ public class FeatureService {
 
     public FeatureCategory findFeatureCategory(Long id){
        return featureCategoryRepository.findOne(id);
-
     }
 
+    public Feature editFeature(Long featureId, FeatureDTO featureDto) {
+        // Fetch feature :
+        Feature feature = findFeature(featureId);
 
-    public Feature editFeature(Long id ,FeatureDTO featureDto) {
-        Feature feature = findFeature(id);
-        feature.setName(featureDto.getFeatureName());
-        feature.setCategory(findFeatureCategory(featureDto.getCategoryId()));
+        // Handle updates :
+        feature.setName(featureDto.getName());
 
+        Meeting discoveredAtMeeting = meetingService.findMeeting(featureDto.getDiscoveredMeetingId());
+        feature.setDiscoveredAtMeeting(discoveredAtMeeting);
 
+        FeatureCategory category = findFeatureCategory(featureDto.getCategoryId());
+        feature.setCategory(category);
 
+        feature.setExpected(featureDto.isExpected());
+
+        // Save in database :
+        featureRepository.save(feature);
         return feature;
     }
 

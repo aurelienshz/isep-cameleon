@@ -8,7 +8,6 @@ import com.cameleon.chameleon.data.entity.Feature;
 import com.cameleon.chameleon.data.entity.FeatureCategory;
 import com.cameleon.chameleon.data.entity.Project;
 
-
 import com.cameleon.chameleon.exception.BusinessLogicException;
 
 import com.cameleon.chameleon.data.entity.User;
@@ -78,28 +77,17 @@ public class ProjectController {
         return featureService.createFeatureFromDTO(dto,fcId);
     }
 
-    @PostMapping("/{id}/get-feature")
+    @GetMapping("/{id}/feature")
     @RolesAllowed({ ROLE_TEACHER, ROLE_CLIENT })
     public List<FeatureCategory> getFeatures(@PathVariable Long id) {
+        // We return the feature categories, and they will come with the nested features serialized inside,
+        // hence this endpoint's name (but it gives categories AND features in a single hit)
         return projectService.getFeatureCategories(id);
     }
 
-    @PostMapping("/{id}/set-feature")
-    @RolesAllowed({ROLE_CLIENT})
-    public Feature setFeature(@PathVariable Long id, FeatureDTO dto){
-        return featureService.editFeature(id,dto);
-
+    @PostMapping("/{projectId}/feature/{featureId}")
+    public Feature editFeature(@PathVariable Long projectId, @PathVariable Long featureId, @RequestBody FeatureDTO featureDto) {
+        // TODO check feature belongs to project, check user has permission to edit this project
+        return featureService.editFeature(featureId, featureDto);
     }
-
-
-
-
-
-
-
-    /*@PostMapping("/{id}/feature-category/{fcId}/feature/{featureId}")
-    public Feature editFeature(@PathVariable Long featureId, @RequestBody FeatureCreationDTO featureDto) {
-        return featureService.editFeature(featureDto,featureId);
-
-    }*/
 }
