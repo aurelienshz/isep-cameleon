@@ -23,11 +23,9 @@ public class ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
     @Autowired
-    private TeamRepository teamRepository;
+    private TeamService teamService;
     @Autowired
     private SubjectRepository subjectRepository;
-    @Autowired
-    private FeatureService featureService;
 
     public Project getProject(Long id) {
         return projectRepository.findOne(id);
@@ -40,7 +38,7 @@ public class ProjectService {
 
     public Project createProjectFromDTO(ProjectCreationDTO projectCreationDTO) throws BusinessLogicException {
         // Find the team and subject :
-        Team team = teamRepository.findOne(projectCreationDTO.getTeamId());
+        Team team = teamService.findTeam(projectCreationDTO.getTeamId());
 
         if (team.getProject() != null) {
             throw new BusinessLogicException("This team is already linked to a project");
@@ -69,17 +67,8 @@ public class ProjectService {
         return projectRepository.findAll();
     }
 
-    public FeatureCategory addFeatureCategory(Long id, FeatureCategoryCreationDTO dto) {
-        return null; // TODO ADE
-    }
-
-    public Project getBelongingProject(User user){
-
-        Team team = teamRepository.findByMemberId(user.getId());
-
-        Project project = team.getProject();
-
-       return project;
-
+    public Project getBelongingProject(User user) {
+        Team team = teamService.findBelongingTeam(user);
+        return team.getProject();
     }
 }
