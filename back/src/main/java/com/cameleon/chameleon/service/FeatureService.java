@@ -31,7 +31,7 @@ public class FeatureService {
         FeatureCategory featureCategory = createFeatureCategoryFromDTO(dto);
         featureCategory.setProject(project);
 
-        return featureCategory; // TODO ADE
+        return featureCategory;
     }
 
     public FeatureCategory createFeatureCategoryFromDTO(FeatureCategoryCreationDTO dto) {

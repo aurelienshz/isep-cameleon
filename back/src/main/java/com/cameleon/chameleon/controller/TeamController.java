@@ -66,7 +66,6 @@ public class TeamController {
         teamService.validateTeam(id);
     }
 
-    // TODO : disallow team join / leave when validated by teacher
 
 
 
