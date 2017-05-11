@@ -139,7 +139,7 @@ class LoginPage extends React.Component {
           <div className={classes.sticky}>
             <h1 className={classes.h1}>Chameleon</h1>
             <div className={classes.content}>
-              <Grid container gutter={0}>
+              <Grid container gutter={8}>
                 <Grid item xs={12} sm={6}>
                   <div className={classes.card}>
                     <h1 className={classes.title}>Authentification ISEP</h1>

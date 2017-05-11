@@ -161,8 +161,33 @@ export default class Profil extends React.Component {
               />
               <Typography>Date de naissance</Typography>
               <InfiniteCalendar
-                width={300}
-                height={300}
+                width={350}
+                height={350}
+                theme={{
+                  selectionColor: colors.ISEP_PRIMARY,
+                  textColor: {
+                    default: '#333',
+                    active: '#FFF'
+                  },
+                  weekdayColor: colors.ISEP_PRIMARY,
+                  headerColor: colors.ISEP_PRIMARY,
+                  floatingNav: {
+                  background: colors.ISEP_PRIMARY_LIGHTER,
+                  color: '#FFF',
+                  chevron: colors.ISEP_SECONDARY,
+                  }
+                }}
+                locale={{
+                  locale: require('date-fns/locale/fr'),
+                  headerFormat: 'dddd, D MMM',
+                  weekdays: ["Dim","Lun","Mar","Mer","Jeu","Ven","Sam"],
+                  blank: 'Aucune date selectionnee',
+                  todayLabel: {
+                    long: 'Aujourd\'hui',
+                    short: 'Auj.'
+                  }
+                }}
+                display="years" selected={'1990'}
               />
             </div>
             <Button style={STYLE_BUTTON_ONMODAL} onClick={this.handleRequestClose}>Enregistrer</Button>
