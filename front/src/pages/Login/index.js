@@ -17,10 +17,6 @@ import colors from '../../colors.js';
 
 const styleSheet = createStyleSheet('GuttersLayout', () => {
   return {
-    root: {
-      margin: '0 auto',
-      flexGrow: 1,
-    },
     background: {
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'center',
@@ -143,13 +139,13 @@ class LoginPage extends React.Component {
           <div className={classes.sticky}>
             <h1 className={classes.h1}>Chameleon</h1>
             <div className={classes.content}>
-              <Grid container gutter={40} className={classes.root}>
+              <Grid container gutter={0}>
                 <Grid item xs={12} sm={6}>
                   <div className={classes.card}>
                     <h1 className={classes.title}>Authentification ISEP</h1>
                     <div className={classes.form}>
-                      <input className={classes.input} placeholder='Login' value={this.state.isepLogin} onChange={(event) => this.setState({isepLogin: event.target.value})}></input>
-                      <input className={classes.input} placeholder='Password' value={this.state.isepPassword} onChange={(event) => this.setState({isepPassword: event.target.value})}></input>
+                      <input className={classes.input} type="text" placeholder='Login' value={this.state.isepLogin} onChange={(event) => this.setState({isepLogin: event.target.value})}></input>
+                      <input className={classes.input} type="password" placeholder='Password' value={this.state.isepPassword} onChange={(event) => this.setState({isepPassword: event.target.value})}></input>
                       <a className={classes.link} href='https://moncompte.isep.fr/login.php' target="_blank"> Mot de passe oublié ? </a>
                       <button className={classes.button} onClick={this.submitIsepLogin}> Connexion </button>
                       {
@@ -165,8 +161,8 @@ class LoginPage extends React.Component {
                   <div className={classes.card}>
                     <h1 className={classes.title}>Authentification extérieure</h1>
                     <div className={classes.form}>
-                      <input className={classes.input} placeholder='Login' value={this.state.externalLogin} onChange={(event) => this.setState({externalLogin: event.target.value})}></input>
-                      <input className={classes.input} placeholder='Password' value={this.state.externalPassword} onChange={(event) => this.setState({externalPassword: event.target.value})}></input>
+                      <input className={classes.input} type="text" placeholder='Login' value={this.state.externalLogin} onChange={(event) => this.setState({externalLogin: event.target.value})}></input>
+                      <input className={classes.input} type="password" placeholder='Password' value={this.state.externalPassword} onChange={(event) => this.setState({externalPassword: event.target.value})}></input>
                       <a className={classes.link}> Mot de passe oublié ? </a>
                       <button className={classes.button} onClick={this.submitExternalLogin}> Connexion </button>
                       {
