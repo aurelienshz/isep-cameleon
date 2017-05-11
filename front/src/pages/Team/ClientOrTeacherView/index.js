@@ -31,7 +31,7 @@ const style = {
     color: colors.ISEP_PRIMARY,
   },
   BODY: {
-    margin: 20,
+    padding: 20,
   },
   searchField: {
     maxWidth: 400,
@@ -325,6 +325,7 @@ class ValidateEquipes extends React.Component {
             <Tab label="Équipes en attente de validation" />
             <Tab label="Équipes validées sans sujet" />
             <Tab label="Équipes validées avec sujet" />
+            <Tab label="Équipes dont le projet est terminé" />
           </Tabs>
         </Paper>
 
