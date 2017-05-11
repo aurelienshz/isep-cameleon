@@ -3,7 +3,7 @@ package com.cameleon.chameleon.data.dto;
 public class TeamCreationDTO {
     private String name;
 
-    public String getName() {
+public String getName() {
         return name;
     }
 

@@ -7,9 +7,11 @@ import com.cameleon.chameleon.data.repository.ProjectRepository;
 import com.cameleon.chameleon.data.repository.SubjectRepository;
 import com.cameleon.chameleon.data.repository.TeamRepository;
 import com.cameleon.chameleon.data.repository.UserRepository;
+import com.cameleon.chameleon.service.TeamService;
 import com.cameleon.chameleon.exception.BusinessLogicException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class ProjectService {
+
     @Autowired
     private ProjectRepository projectRepository;
     @Autowired
@@ -68,5 +71,15 @@ public class ProjectService {
 
     public FeatureCategory addFeatureCategory(Long id, FeatureCategoryCreationDTO dto) {
         return null; // TODO ADE
+    }
+
+    public Project getBelongingProject(User user){
+
+        Team team = teamRepository.findByMemberId(user.getId());
+
+        Project project = team.getProject();
+
+       return project;
+
     }
 }

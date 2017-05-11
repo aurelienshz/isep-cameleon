@@ -1,10 +1,13 @@
 package com.cameleon.chameleon.controller;
 
 import com.cameleon.chameleon.data.dto.FeatureCategoryCreationDTO;
+import com.cameleon.chameleon.data.dto.FeatureDTO;
+
 import com.cameleon.chameleon.data.dto.ProjectCreationDTO;
 import com.cameleon.chameleon.data.entity.Feature;
 import com.cameleon.chameleon.data.entity.FeatureCategory;
 import com.cameleon.chameleon.data.entity.Project;
+
 
 import com.cameleon.chameleon.exception.BusinessLogicException;
 
@@ -26,6 +29,7 @@ import static com.cameleon.chameleon.constants.RolesNames.ROLE_TEACHER;
 @RestController
 @RequestMapping("/project")
 public class ProjectController {
+
     @Autowired
     private ProjectService projectService;
 
@@ -51,7 +55,7 @@ public class ProjectController {
 
     @PostMapping
     @RolesAllowed(ROLE_TEACHER)
-    public Project createProject(@RequestBody ProjectCreationDTO projectCreationDTO) throws BusinessLogicException {
+    public Project createProject(@RequestBody ProjectCreationDTO projectCreationDTO,Long id) throws BusinessLogicException {
         return projectService.createProject(projectCreationDTO);
     }
 
@@ -60,32 +64,42 @@ public class ProjectController {
         projectService.deleteProject(id);
     }
 
-    @PostMapping("/{id}/feature")
-    @RolesAllowed({ ROLE_TEACHER, ROLE_CLIENT })
-    public List<FeatureCategory> getFeatures(@PathVariable Long id) {
-        return projectService.getFeatureCategories(id);
-    }
-
     @PostMapping("/{id}/feature-category")
     @RolesAllowed({ ROLE_TEACHER, ROLE_CLIENT })
     public FeatureCategory createFeatureCategory(@PathVariable Long id, FeatureCategoryCreationDTO dto) {
         return projectService.addFeatureCategory(id, dto);
     }
 
-    @PostMapping("/{id}/feature-category/{fcId}")
-    @RolesAllowed({ ROLE_TEACHER, ROLE_CLIENT })
-    public FeatureCategory createFeatureCategory(FeatureCategoryCreationDTO dto, @PathVariable Long fcId) {
-        return null;
-    }
 
     @PostMapping("/{id}/feature-category/{fcId}/feature")
-    public Feature createFeature() {
-        return null; // TODO ADE
+    @RolesAllowed({ ROLE_TEACHER, ROLE_CLIENT })
+    public Feature createFeature(FeatureDTO dto , Long fcId) {
+
+        return featureService.createFeatureFromDTO(dto,fcId);
     }
 
-    @PostMapping("/{id}/feature-category/{fcId}/feature/{featureId}")
-    public Feature editFeature(@PathVariable Long featureId, @RequestBody FeatureDTO featureDto) {
-        return featureService.editFeature(featureDto);
+    @PostMapping("/{id}/get-feature")
+    @RolesAllowed({ ROLE_TEACHER, ROLE_CLIENT })
+    public List<FeatureCategory> getFeatures(@PathVariable Long id) {
+        return projectService.getFeatureCategories(id);
+    }
+
+    @PostMapping("/{id}/set-feature")
+    @RolesAllowed({ROLE_CLIENT})
+    public Feature setFeature(@PathVariable Long id, FeatureDTO dto){
+        return featureService.editFeature(id,dto);
 
     }
+
+
+
+
+
+
+
+    /*@PostMapping("/{id}/feature-category/{fcId}/feature/{featureId}")
+    public Feature editFeature(@PathVariable Long featureId, @RequestBody FeatureCreationDTO featureDto) {
+        return featureService.editFeature(featureDto,featureId);
+
+    }*/
 }
