@@ -1,19 +1,15 @@
 package com.cameleon.chameleon.data.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.*;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
 import java.util.Collection;
 import java.util.List;
 
 @Entity
 public class User implements UserDetails {
     public User() {
-
     }
 
     public User(String username, String firstName, String lastName, String password, String mail, List<Role> roles) {
@@ -43,7 +39,7 @@ public class User implements UserDetails {
     @JsonIgnore
     private String token;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles;
 
     public Long getId() {

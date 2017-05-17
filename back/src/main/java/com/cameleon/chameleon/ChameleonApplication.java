@@ -12,7 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
 public class ChameleonApplication {
 	public static void main(String[] args) {
 		ConfigurableApplicationContext ac = SpringApplication.run(ChameleonApplication.class, args);
-		TestDatabaseSeeder tdbs = ac.getBeanFactory().createBean(TestDatabaseSeeder.class);
+		DatabaseSeeder tdbs = ac.getBeanFactory().createBean(DatabaseSeeder.class);
 		tdbs.seedDatabase();
 //		ac.close();
 	}
