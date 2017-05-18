@@ -1,10 +1,12 @@
 package com.cameleon.chameleon.service;
 
+import com.cameleon.chameleon.data.entity.Feature;
 import com.cameleon.chameleon.data.entity.FeatureCategory;
 import com.cameleon.chameleon.data.entity.Subject;
 import com.cameleon.chameleon.data.entity.User;
 import com.cameleon.chameleon.data.repository.SubjectRepository;
 import com.cameleon.chameleon.data.repository.UserRepository;
+import com.cameleon.chameleon.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +31,7 @@ public class SubjectService {
         return subjectRepository.findAll();
     }
 
-    public Subject getById(Long id) {
+    public Subject findSubject(Long id) {
         return subjectRepository.findOne(id);
     }
 
@@ -46,5 +48,16 @@ public class SubjectService {
         User client = userRepository.findOne(clientId);
         subject.setClient(client);
         subjectRepository.save(subject);
+    }
+
+    public List<FeatureCategory> getFeatureCategories(Long id) {
+        Subject subject = subjectRepository.findOne(id);
+        if (subject == null) throw new ResourceNotFoundException();
+        List<FeatureCategory> fcs = subject.getFeatureCategories();
+        fcs.forEach(fc -> {
+            List<Feature> f = fc.getFeatures();
+            System.out.println(f.size());
+        });
+        return fcs;
     }
 }

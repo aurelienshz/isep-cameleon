@@ -1,21 +1,15 @@
 package com.cameleon.chameleon.service;
 
-import com.cameleon.chameleon.data.dto.FeatureCategoryCreationDTO;
 import com.cameleon.chameleon.data.dto.ProjectCreationDTO;
 import com.cameleon.chameleon.data.entity.*;
 import com.cameleon.chameleon.data.repository.ProjectRepository;
 import com.cameleon.chameleon.data.repository.SubjectRepository;
-import com.cameleon.chameleon.data.repository.TeamRepository;
-import com.cameleon.chameleon.data.repository.UserRepository;
-import com.cameleon.chameleon.service.TeamService;
 import com.cameleon.chameleon.exception.BusinessLogicException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ProjectService {
@@ -26,17 +20,19 @@ public class ProjectService {
     private TeamService teamService;
     @Autowired
     private SubjectRepository subjectRepository;
+    @Autowired
+    private FeatureService featureService;
 
     public Project getProject(Long id) {
         return projectRepository.findOne(id);
     }
 
-    public Project createProject(ProjectCreationDTO projectCreationDTO) throws BusinessLogicException {
+    public Project createProject(ProjectCreationDTO projectCreationDTO) {
         Project project = createProjectFromDTO(projectCreationDTO);
         return projectRepository.save(project);
     }
 
-    public Project createProjectFromDTO(ProjectCreationDTO projectCreationDTO) throws BusinessLogicException {
+    public Project createProjectFromDTO(ProjectCreationDTO projectCreationDTO) {
         // Find the team and subject :
         Team team = teamService.findTeam(projectCreationDTO.getTeamId());
 
@@ -52,11 +48,6 @@ public class ProjectService {
         project.setTeam(team);
 
         return project;
-    }
-
-    public List<FeatureCategory> getFeatureCategories(Long id) {
-        Project project = projectRepository.findOne(id);
-        return project.getFeatureCategories();
     }
 
     public void deleteProject(Long id) {

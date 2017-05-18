@@ -1,5 +1,7 @@
 package com.cameleon.chameleon.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity()
@@ -8,10 +10,20 @@ public class Feature {
     @GeneratedValue
     private Long id;
 
+    public Feature() {
+
+    }
+
+    public Feature(String name, FeatureCategory category) {
+        this.name = name;
+        this.category = category;
+    }
+
     private String name;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
+    @JsonIgnore
     private FeatureCategory category;
 
     @ManyToOne

@@ -16,8 +16,9 @@ public class Project {
     @JoinColumn(name = "team_id")
     private Team team;
 
-    @OneToMany
-    private List<FeatureCategory> featureCategories;
+    // For now, only subjects contain features :
+//    @OneToMany
+//    private List<FeatureCategory> featureCategories;
 
     @OneToMany
     private List<Deliverable> deliverables;
@@ -52,13 +53,5 @@ public class Project {
 
     public void setDeliverables(List<Deliverable> deliverables) {
         this.deliverables = deliverables;
-    }
-
-    public List<FeatureCategory> getFeatureCategories() {
-        return featureCategories;
-    }
-
-    public void setFeatureCategories(List<FeatureCategory> featureCategories) {
-        this.featureCategories = featureCategories;
     }
 }

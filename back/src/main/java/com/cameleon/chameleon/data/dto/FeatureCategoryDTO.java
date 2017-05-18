@@ -4,7 +4,7 @@ import com.cameleon.chameleon.data.entity.Project;
 
 import javax.persistence.ManyToOne;
 
-public class FeatureCategoryCreationDTO {
+public class FeatureCategoryDTO {
     private String name;
 
     public String getName() {

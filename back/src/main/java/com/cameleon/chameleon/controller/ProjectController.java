@@ -1,11 +1,6 @@
 package com.cameleon.chameleon.controller;
 
-import com.cameleon.chameleon.data.dto.FeatureCategoryCreationDTO;
-import com.cameleon.chameleon.data.dto.FeatureDTO;
-
 import com.cameleon.chameleon.data.dto.ProjectCreationDTO;
-import com.cameleon.chameleon.data.entity.Feature;
-import com.cameleon.chameleon.data.entity.FeatureCategory;
 import com.cameleon.chameleon.data.entity.Project;
 
 import com.cameleon.chameleon.exception.BusinessLogicException;
@@ -21,20 +16,17 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
-import static com.cameleon.chameleon.constants.RolesNames.ROLE_CLIENT;
 import static com.cameleon.chameleon.constants.RolesNames.ROLE_STUDENT;
 import static com.cameleon.chameleon.constants.RolesNames.ROLE_TEACHER;
 
 @RestController
 @RequestMapping("/project")
 public class ProjectController {
-
     @Autowired
     private ProjectService projectService;
 
     @Autowired
     private FeatureService featureService;
-
 
     @GetMapping
     public List<Project> getAllProjects() {
@@ -54,40 +46,12 @@ public class ProjectController {
 
     @PostMapping
     @RolesAllowed(ROLE_TEACHER)
-    public Project createProject(@RequestBody ProjectCreationDTO projectCreationDTO,Long id) throws BusinessLogicException {
+    public Project createProject(@RequestBody ProjectCreationDTO projectCreationDTO,Long id) {
         return projectService.createProject(projectCreationDTO);
     }
 
     @DeleteMapping("/{id}")
     public void deleteProject(@PathVariable Long id) {
         projectService.deleteProject(id);
-    }
-
-    @PostMapping("/{id}/feature-category")
-    @RolesAllowed({ ROLE_TEACHER, ROLE_CLIENT })
-    public FeatureCategory createFeatureCategory(@PathVariable Long id, FeatureCategoryCreationDTO dto) {
-        return projectService.addFeatureCategory(id, dto);
-    }
-
-
-    @PostMapping("/{id}/feature-category/{fcId}/feature")
-    @RolesAllowed({ ROLE_TEACHER, ROLE_CLIENT })
-    public Feature createFeature(FeatureDTO dto , Long fcId) {
-
-        return featureService.createFeatureFromDTO(dto,fcId);
-    }
-
-    @GetMapping("/{id}/feature")
-    @RolesAllowed({ ROLE_TEACHER, ROLE_CLIENT })
-    public List<FeatureCategory> getFeatures(@PathVariable Long id) {
-        // We return the feature categories, and they will come with the nested features serialized inside,
-        // hence this endpoint's name (but it gives categories AND features in a single hit)
-        return projectService.getFeatureCategories(id);
-    }
-
-    @PostMapping("/{projectId}/feature/{featureId}")
-    public Feature editFeature(@PathVariable Long projectId, @PathVariable Long featureId, @RequestBody FeatureDTO featureDto) {
-        // TODO check feature belongs to project, check user has permission to edit this project
-        return featureService.editFeature(featureId, featureDto);
     }
 }

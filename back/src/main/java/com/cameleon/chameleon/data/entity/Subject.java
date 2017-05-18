@@ -1,9 +1,7 @@
 package com.cameleon.chameleon.data.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity()
 public class Subject {
@@ -14,6 +12,9 @@ public class Subject {
     private String name;
 
     private String description;
+
+    @OneToMany
+    private List<FeatureCategory> featureCategories;
 
     @OneToOne
     private User client;
@@ -55,5 +56,13 @@ public class Subject {
 
     public void setClient(User client) {
         this.client = client;
+    }
+
+    public List<FeatureCategory> getFeatureCategories() {
+        return featureCategories;
+    }
+
+    public void setFeatureCategories(List<FeatureCategory> featureCategories) {
+        this.featureCategories = featureCategories;
     }
 }

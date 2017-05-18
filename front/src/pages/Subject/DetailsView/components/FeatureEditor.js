@@ -2,10 +2,14 @@ import React from 'react';
 
 export default class FeatureEditor extends React.Component {
   render() {
-    const { project } = this.props;
+    const { subject } = this.props;
+    console.log(subject);
     return (
       <div>
         <h3>Features</h3>
+
+
+
       </div>
     );
   }

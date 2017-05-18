@@ -1,25 +1,19 @@
 package com.cameleon.chameleon.service;
 import com.cameleon.chameleon.data.dto.FeatureDTO;
 
-import com.cameleon.chameleon.data.entity.Feature;
-import com.cameleon.chameleon.data.entity.FeatureCategory;
+import com.cameleon.chameleon.data.entity.*;
 
-import com.cameleon.chameleon.data.dto.FeatureCategoryCreationDTO;
-import com.cameleon.chameleon.data.entity.FeatureCategory;
-import com.cameleon.chameleon.data.entity.Meeting;
-import com.cameleon.chameleon.data.entity.Project;
+import com.cameleon.chameleon.data.dto.FeatureCategoryDTO;
 import com.cameleon.chameleon.data.repository.FeatureCategoryRepository;
 import com.cameleon.chameleon.data.repository.FeatureRepository;
-import com.cameleon.chameleon.data.repository.ProjectRepository;
+import com.cameleon.chameleon.exception.BusinessLogicException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Locale;
 
 @Service
 public class FeatureService {
     @Autowired
-    private ProjectRepository projectRepository;
+    private SubjectService subjectService;
 
     @Autowired
     private FeatureRepository featureRepository;
@@ -30,37 +24,48 @@ public class FeatureService {
     @Autowired
     private MeetingService meetingService;
 
-    public FeatureCategory addFeatureCategory(Long projectId, FeatureCategoryCreationDTO dto) {
-        Project project = projectRepository.findOne(projectId);
-        FeatureCategory featureCategory = createFeatureCategoryFromDTO(dto);
-        featureCategory.setProject(project);
-
-        return featureCategory;
-    }
-
-    public FeatureCategory createFeatureCategoryFromDTO(FeatureCategoryCreationDTO dto) {
-        FeatureCategory fc = new FeatureCategory();
-        fc.setName(dto.getName());
-        return fc;
-    }
-
     public Feature findFeature(long id){
         return featureRepository.findOne(id);
-    }
-
-    public Feature createFeatureFromDTO(FeatureDTO featureDTO,Long fcid){
-        Feature feature =  new Feature();
-        feature.setName(featureDTO.getName());
-        feature.setCategory(findFeatureCategory(fcid));
-
-        return feature;
     }
 
     public FeatureCategory findFeatureCategory(Long id){
        return featureCategoryRepository.findOne(id);
     }
 
-    public Feature editFeature(Long featureId, FeatureDTO featureDto) {
+    public void checkFeatureBelongsToSujectOrThrow(Feature feature, Long subjectId) {
+        if (! feature.getCategory().getSubject().getId().equals(subjectId))
+            throw new BusinessLogicException("Requested feature doesn't belong to requested subject");
+    }
+
+    public void checkFeatureCategoryBelongsToSujectOrThrow(FeatureCategory featureCategory, Long subjectId) {
+        if (! featureCategory.getSubject().getId().equals(subjectId))
+            throw new BusinessLogicException("Requested feature category doesn't belong to requested subject");
+    }
+
+    public FeatureCategory createFeatureCategory(Long subjectId, FeatureCategoryDTO dto) {
+        Subject subject = subjectService.findSubject(subjectId);
+        FeatureCategory featureCategory = createFeatureCategoryFromDTO(dto);
+        featureCategory.setSubject(subject);
+
+        return featureCategory;
+    }
+
+    public FeatureCategory createFeatureCategoryFromDTO(FeatureCategoryDTO dto) {
+        FeatureCategory fc = new FeatureCategory();
+        fc.setName(dto.getName());
+        return fc;
+    }
+
+    public Feature createFeatureFromDTO(FeatureDTO featureDTO){
+        Feature feature =  new Feature();
+        feature.setName(featureDTO.getName());
+        FeatureCategory fc = findFeatureCategory(featureDTO.getCategoryId());
+        feature.setCategory(fc);
+
+        return feature;
+    }
+
+    public Feature editFeature(Long subjectId, Long featureId, FeatureDTO featureDto) {
         // Fetch feature :
         Feature feature = findFeature(featureId);
 
@@ -80,4 +85,37 @@ public class FeatureService {
         return feature;
     }
 
+    public Feature createFeature(Long subjectId, FeatureDTO featureDTO) {
+        Feature feature = createFeatureFromDTO(featureDTO);
+
+        FeatureCategory fc = feature.getCategory();
+        checkFeatureCategoryBelongsToSujectOrThrow(fc, subjectId);
+
+        featureRepository.save(feature);
+        return feature;
+    }
+
+    public void deleteFeature(Long subjectId, Long featureId) {
+        Feature feature = findFeature(featureId);
+        checkFeatureBelongsToSujectOrThrow(feature, subjectId);
+
+        featureRepository.delete(featureId);
+    }
+
+    public FeatureCategory editFeatureCategory(Long subjectId, Long fcId, FeatureCategoryDTO dto) {
+        FeatureCategory featureCategory = featureCategoryRepository.findOne(fcId);
+        checkFeatureCategoryBelongsToSujectOrThrow(featureCategory, subjectId);
+
+        // handle updates here :
+        featureCategory.setName(dto.getName());
+
+        featureCategoryRepository.save(featureCategory);
+        return featureCategory;
+    }
+
+    public void deleteFeatureCategory(Long subjectId, Long fcId) {
+        FeatureCategory featureCategory = featureCategoryRepository.findOne(fcId);
+        checkFeatureCategoryBelongsToSujectOrThrow(featureCategory, subjectId);
+        featureCategoryRepository.delete(fcId);
+    }
 }

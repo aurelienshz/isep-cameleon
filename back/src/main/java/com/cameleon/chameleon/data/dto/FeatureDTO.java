@@ -1,7 +1,6 @@
 package com.cameleon.chameleon.data.dto;
 
 public class FeatureDTO {
-
     private String name;
     private Long categoryId;
     private Long discoveredMeetingId;

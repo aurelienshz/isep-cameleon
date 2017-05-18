@@ -35,7 +35,7 @@ class SubjectDetailsView extends React.Component {
             <Loader />
           :
           <div>
-            <FeatureEditor project={project} />
+            <FeatureEditor subject={subject} />
           </div>
         }
       </div>
@@ -54,6 +54,7 @@ export default connect(
     return {
       subjectId,
       subject,
+      project: projectState.selectedProject,
       loadingSubject: subjectState.loading,
       loadingProject: projectState.loadingProject,
     };

@@ -1,9 +1,7 @@
 package com.cameleon.chameleon.data.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity()
 public class FeatureCategory {
@@ -11,19 +9,23 @@ public class FeatureCategory {
     @GeneratedValue
     private Long id;
     private String name;
+
     @ManyToOne
-    private Project project;
+    private Subject subject;
+
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
+    private List<Feature> features;
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public Project getProject() {
-        return project;
+    public Subject getSubject() {
+        return subject;
     }
 
-    public void setProject(Project project) {
-        this.project = project;
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 
     public String getName() {
@@ -42,4 +44,11 @@ public class FeatureCategory {
         this.id = id;
     }
 
+    public List<Feature> getFeatures() {
+        return features;
+    }
+
+    public void setFeatures(List<Feature> features) {
+        this.features = features;
+    }
 }

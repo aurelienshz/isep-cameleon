@@ -28,7 +28,7 @@ public class TeamService {
         return teamRepository.findAll();
     }
 
-    public Team createTeam(TeamCreationDTO teamCreationDTO) throws BusinessLogicException {
+    public Team createTeam(TeamCreationDTO teamCreationDTO) {
         Team team = createTeamFromDTO(teamCreationDTO);
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -48,25 +48,25 @@ public class TeamService {
         return teamRepository.findByMemberId(user.getId());
     }
 
-    public void checkIfValidated(Team team) throws BusinessLogicException{
+    public void checkIfValidated(Team team) {
         if (!team.isValidatedByTeacher()){
             throw new BusinessLogicException("team already validated");
         }
     }
 
-    public void checkIfBelongToThisTeam (User user , Team team) throws BusinessLogicException {
+    public void checkIfBelongToThisTeam (User user , Team team) {
         if (findBelongingTeam(user) != team) {
             throw new BusinessLogicException("User doesn't belong to team");
         }
     }
 
-    public void checkIfBelongToATeam (User user , Team team) throws BusinessLogicException{
+    public void checkIfBelongToATeam (User user , Team team) {
         if (findBelongingTeam(user) != null) {
             throw new BusinessLogicException("User can't be member of several teams simultaneously");
         }
     }
 
-    public Team addUserToTeam(User user, Team team) throws BusinessLogicException {
+    public Team addUserToTeam(User user, Team team) {
 
         checkIfValidated(team);
         checkIfBelongToATeam(user,team);
@@ -75,7 +75,7 @@ public class TeamService {
         return team;
     }
 
-    public void removeUserFromTeam(User user, Team team) throws BusinessLogicException {
+    public void removeUserFromTeam(User user, Team team) {
         checkIfValidated(team);
         checkIfBelongToThisTeam(user,team);
         List<User> newMembers = team.getMembers().stream()

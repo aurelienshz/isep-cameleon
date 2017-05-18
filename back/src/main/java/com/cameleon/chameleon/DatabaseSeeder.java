@@ -2,14 +2,8 @@ package com.cameleon.chameleon;
 
 import com.cameleon.chameleon.configuration.security.PasswordEncrypter;
 import com.cameleon.chameleon.constants.PromotionStatus;
-import com.cameleon.chameleon.data.entity.Promotion;
-import com.cameleon.chameleon.data.entity.Role;
-import com.cameleon.chameleon.data.entity.Subject;
-import com.cameleon.chameleon.data.entity.User;
-import com.cameleon.chameleon.data.repository.PromotionRepository;
-import com.cameleon.chameleon.data.repository.RoleRepository;
-import com.cameleon.chameleon.data.repository.SubjectRepository;
-import com.cameleon.chameleon.data.repository.UserRepository;
+import com.cameleon.chameleon.data.entity.*;
+import com.cameleon.chameleon.data.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +29,12 @@ public class DatabaseSeeder {
 
     @Autowired
     private SubjectRepository subjectRepository;
+
+    @Autowired
+    private FeatureCategoryRepository featureCategoryRepository;
+
+    @Autowired
+    private FeatureRepository featureRepository;
 
     public void seedDatabase() {
         if (isDatabaseSeeded()) {
@@ -76,7 +76,7 @@ public class DatabaseSeeder {
 
         User sacha = new User("smettoudi", "Sacha", "METTOUDI", "test", null, lRoleStudent);
         User yvan = new User("ybezard", "Yvan", "BEZARD", "test", null, lRoleStudent);
-        User tim = new User("thoudoyer", "Timothé", "Houdoyer", "test", null, lRoleStudent);
+        User tim = new User("thoudoyer", "Timothée", "Houdoyer", "test", null, lRoleStudent);
         User aurel = new User("aschiltz", "Aurélien", "SCHILTZ", "test", null, lRoleStudent);
         User victor = new User("vely", "Victor", "ELY", "test", null, lRoleStudent);
 
@@ -104,5 +104,31 @@ public class DatabaseSeeder {
 
         ArrayList<Subject> subjects = new ArrayList<>(Arrays.asList(s1, s2, s3));
         subjectRepository.save(subjects);
+
+        // 4/ Seed feature & feature categories :
+
+        FeatureCategory fc1 = new FeatureCategory();
+        fc1.setName("Front-end");
+
+//        fc1.setSubject(s1);
+        FeatureCategory fc2 = new FeatureCategory();
+        fc2.setName("Back-end");
+//        fc2.setSubject(s1);
+
+
+        List<FeatureCategory> fclist = new ArrayList<>(Arrays.asList(fc1, fc2));
+        featureCategoryRepository.save(fclist);
+
+        s1.setFeatureCategories(fclist);
+        subjectRepository.save(s1);
+
+
+        Feature feature1 = new Feature("Interface de connexion", fc1);
+        Feature feature2 = new Feature("Liste des élèves", fc1);
+        Feature feature3 = new Feature("Connexion au LDAP", fc2);
+        Feature feature4 = new Feature("Modèle de données", fc2);
+        List<Feature> flist = new ArrayList<>(Arrays.asList(feature1, feature2, feature3, feature4));
+
+        featureRepository.save(flist);
     }
 }

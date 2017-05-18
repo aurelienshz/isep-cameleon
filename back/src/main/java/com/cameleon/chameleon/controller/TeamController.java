@@ -32,25 +32,25 @@ public class TeamController {
     }
 
     @PostMapping
-    public Team createTeam(@RequestBody TeamCreationDTO teamCreationDTO) throws BusinessLogicException {
+    public Team createTeam(@RequestBody TeamCreationDTO teamCreationDTO) {
         return teamService.createTeam(teamCreationDTO);
     }
 
     @PostMapping("/{teamId}/join")
-    public Team joinTeam(@PathVariable Long teamId, @AuthenticationPrincipal User user) throws BusinessLogicException {
+    public Team joinTeam(@PathVariable Long teamId, @AuthenticationPrincipal User user) {
         Team team = teamService.findTeam(teamId);
         return teamService.addUserToTeam(user, team);
     }
 
     @PostMapping("/{teamId}/leave")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void leaveTeam(@PathVariable Long teamId, @AuthenticationPrincipal User user) throws BusinessLogicException {
+    public void leaveTeam(@PathVariable Long teamId, @AuthenticationPrincipal User user) {
         Team team = teamService.findTeam(teamId);
         teamService.removeUserFromTeam(user, team);
     }
 
     @GetMapping("/my-team")
-    public Team getBelongingTeam(@AuthenticationPrincipal User user) throws BusinessLogicException {
+    public Team getBelongingTeam(@AuthenticationPrincipal User user) {
         return teamService.findBelongingTeam(user);
     }
 
