@@ -14,9 +14,10 @@ public class Feature {
 
     }
 
-    public Feature(String name, FeatureCategory category) {
+    public Feature(String name, FeatureCategory category, Integer featureOrder) {
         this.name = name;
         this.category = category;
+        this.featureOrder = featureOrder;
 
         category.addFeature(this);
     }
@@ -27,6 +28,13 @@ public class Feature {
     @JoinColumn(name = "category_id", nullable = false)
     @JsonIgnore
     private FeatureCategory category;
+
+    /**
+     * References the order in the category
+     * See : http://docs.jboss.org/hibernate/stable/annotations/reference/en/html_single/#entity-hibspec-collection-extratype-indexbidir
+     */
+    @Column(name="feature_order")
+    private Integer featureOrder;
 
     @ManyToOne
     @JoinColumn(name = "meeting_discovered_id")
@@ -73,5 +81,13 @@ public class Feature {
 
     public void setDiscoveredAtMeeting(Meeting discoveredAtMeeting) {
         this.discoveredAtMeeting = discoveredAtMeeting;
+    }
+
+    public Integer getFeatureOrder() {
+        return featureOrder;
+    }
+
+    public void setFeatureOrder(Integer featureOrder) {
+        this.featureOrder = featureOrder;
     }
 }

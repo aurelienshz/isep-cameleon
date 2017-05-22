@@ -2,11 +2,14 @@ package com.cameleon.chameleon;
 
 import com.cameleon.chameleon.configuration.security.PasswordEncrypter;
 import com.cameleon.chameleon.constants.PromotionStatus;
+import com.cameleon.chameleon.data.dto.FeatureDTO;
 import com.cameleon.chameleon.data.entity.*;
 import com.cameleon.chameleon.data.repository.*;
+import com.cameleon.chameleon.service.FeatureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -32,6 +35,9 @@ public class DatabaseSeeder {
 
     @Autowired
     private FeatureCategoryRepository featureCategoryRepository;
+
+    @Autowired
+    private FeatureService featureService;
 
     @Autowired
     private FeatureRepository featureRepository;
@@ -116,26 +122,27 @@ public class DatabaseSeeder {
         s1.addFeatureCategory(fc1);
         s1.addFeatureCategory(fc2);
 
+        featureCategoryRepository.save(fc1);
+        featureCategoryRepository.save(fc2);
 
         List<FeatureCategory> fclist = new ArrayList<>(Arrays.asList(fc1, fc2));
-        featureCategoryRepository.save(fclist);
-
         s1.setFeatureCategories(fclist);
         subjectRepository.save(s1);
 
-//        Feature feature1 = new Feature("Interface de connexion", fc1);
-//        Feature feature2 = new Feature("Liste des élèves", fc1);
-//        Feature feature3 = new Feature("Liste des fonctionnalités", fc1);
-//        Feature feature4 = new Feature("Liste des projets", fc1);
-//        Feature feature5 = new Feature("Gestion des réunions", fc1);
-//        Feature feature6 = new Feature("Gestion des livrables", fc1);
-//        Feature feature7 = new Feature("Connexion au LDAP", fc2);
-//        Feature feature8 = new Feature("Modèle de données", fc2);
-//
-//        List<Feature> flist = new ArrayList<>(Arrays.asList(feature1, feature2, feature3, feature4, feature5, feature6, feature7, feature8));
-//        featureRepository.save(flist);
-//
-//        featureCategoryRepository.save(fc1);
-//        featureCategoryRepository.save(fc2);
+        Feature f11 = new Feature("Interface de gestion du swag", fc1, 0);
+        Feature f12 = new Feature("Interface des suivi des chatons", fc1, 1);
+        Feature f13 = new Feature("Interface de reporting de la productivité des esclaves", fc1, 2);
+        Feature f21 = new Feature("Script de création de données de test", fc2, 0);
+        Feature f22 = new Feature("CRUD sur les chatons", fc2, 1);
+
+        ArrayList<Feature> f1 = new ArrayList<>(Arrays.asList(f11, f12, f13));
+        ArrayList<Feature> f2 = new ArrayList<>(Arrays.asList(f21, f22));
+        f1.forEach(fc1::addFeature);
+        featureRepository.save(f1);
+        featureCategoryRepository.save(fc1);
+        f2.forEach(fc2::addFeature);
+        featureRepository.save(f2);
+        featureCategoryRepository.save(fc2);
     }
 }
+

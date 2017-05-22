@@ -4,7 +4,6 @@ import com.cameleon.chameleon.data.dto.TeamCreationDTO;
 import com.cameleon.chameleon.data.entity.Team;
 import com.cameleon.chameleon.data.entity.User;
 import com.cameleon.chameleon.data.repository.TeamRepository;
-import com.cameleon.chameleon.data.repository.UserRepository;
 import com.cameleon.chameleon.exception.BusinessLogicException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,10 +46,9 @@ public class TeamService {
         return teamRepository.findByMemberId(user.getId());
     }
 
-    public void checkIfValidated(Team team) {
-        if (!team.isValidatedByTeacher()){
-            throw new BusinessLogicException("team already validated");
-        }
+    public void checkIfNotValidatedOrThrow(Team team) {
+        if (team.isValidatedByTeacher())
+            throw new BusinessLogicException("Team has already been validated by a teacher");
     }
 
     public void checkIfBelongToThisTeam (User user , Team team) {
@@ -60,23 +57,22 @@ public class TeamService {
         }
     }
 
-    public void checkIfBelongToATeam (User user , Team team) {
+    public void checkUserCanJoinOrThrow(User user) {
         if (findBelongingTeam(user) != null) {
             throw new BusinessLogicException("User can't be member of several teams simultaneously");
         }
     }
 
     public Team addUserToTeam(User user, Team team) {
-
-        checkIfValidated(team);
-        checkIfBelongToATeam(user,team);
+        checkIfNotValidatedOrThrow(team);
+        checkUserCanJoinOrThrow(user);
         team.getMembers().add(user);
         teamRepository.save(team);
         return team;
     }
 
     public void removeUserFromTeam(User user, Team team) {
-        checkIfValidated(team);
+        checkIfNotValidatedOrThrow(team);
         checkIfBelongToThisTeam(user,team);
         List<User> newMembers = team.getMembers().stream()
                 // Keep all other members :

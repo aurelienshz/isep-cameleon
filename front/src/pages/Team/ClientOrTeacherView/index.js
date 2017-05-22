@@ -46,93 +46,51 @@ const style = {
   },
 };
 
-const columnsMain = [
+const commonColumns = [
   {
     header: 'Nom',
     accessor: 'name',
-  }, {
+  },
+  {
     header: 'Membres',
-    accessor: 'membre',
-    render: (row) => {
+    // accessor: 'members',
+    render: (rowData) => {
+      const members = rowData.row.members;
       return (
-        <table>
-          <tbody>
-            <tr>
-              <td>qsdf</td>
-              <td>qsdf</td>
-              <td>qsdf</td>
-            </tr>
-            <tr>
-              <td>qsdf</td>
-              <td>qsdf</td>
-              <td>qsdf</td>
-            </tr>
-          </tbody>
-        </table>
+        <ul>
+          {
+            members.map((m, index) => (
+              <li key={index}>{m.firstName} {m.lastName}</li>
+            ))
+          }
+        </ul>
       )
     }
-  }, {
+  },
+];
+
+const columnsMain = [
+  ...commonColumns,
+  {
     header: 'Validation',
     accessor: 'validation',
   },
 ];
 
 const columnsToAssignSubject = [
+  ...commonColumns,
   {
-    header: 'Nom',
-    accessor: 'name',
-  }, {
-    header: 'Membres',
-    accessor: 'membre',
-    render: (row) => (
-      <table>
-        <tbody>
-          <tr>
-            <td>qsdf</td>
-            <td>qsdf</td>
-            <td>qsdf</td>
-          </tr>
-          <tr>
-            <td>qsdf</td>
-            <td>qsdf</td>
-            <td>qsdf</td>
-          </tr>
-        </tbody>
-      </table>
-    )
-  }, {
     header: 'Sujet',
-    accessor: 'subject',
+    accessor: 'addSubject',
   },
 ];
 
 
 const columnsValidated = [
+  ...commonColumns,
   {
-    header: 'Nom',
-    accessor: 'name',
-  }, {
-    header: 'Membres',
-    accessor: 'membre',
-    render: (row) => (
-      <table>
-        <tbody>
-        <tr>
-          <td>qsdf</td>
-          <td>qsdf</td>
-          <td>qsdf</td>
-        </tr>
-        <tr>
-          <td>qsdf</td>
-          <td>qsdf</td>
-          <td>qsdf</td>
-        </tr>
-        </tbody>
-      </table>
-    )
-  }, {
     header: 'Sujet',
-    accessor: 'project.subject.name',
+    accessor: 'subjectName',
   },
 ];
 
@@ -202,7 +160,7 @@ class ValidateEquipes extends React.Component {
   addSubjectControl = (equipes) => {
     return equipes.map(team => ({
       ...team,
-      subject: (
+      addSubject: (
         <div>
           <Button onClick={() => this.setState({ assignSubjectOpen: true, teamBeingAssignedSubject: team })}>
             Attribuer un sujet
@@ -235,7 +193,7 @@ class ValidateEquipes extends React.Component {
           columns={columnsMain} />;
       case 1:
         const teamsWithoutProject = filteredTeams.filter(team => {
-          return team.validatedByTeacher && this.props.projects.findIndex(p => p.team.id = team.id) === -1;
+          return team.validatedByTeacher && this.props.projects.findIndex(p => p.team.id === team.id) === -1;
         });
         const teamsToAssignSubject = this.addSubjectControl(teamsWithoutProject);
         return <SimpleTable
@@ -245,10 +203,13 @@ class ValidateEquipes extends React.Component {
           data={teamsToAssignSubject}
           columns={columnsToAssignSubject} />;
       case 2:
-        const teamsWithProject = filteredTeams.filter(team => {
-          return team.validatedByTeacher && this.props.projects.findIndex(p => p.team.id = team.id) > -1;
+        // A validated team is a project :
+        const validatedTeams = this.props.projects.map(p => {
+          return {
+            ...p.team,
+            subjectName: p.subject.name,
+          }
         });
-        const validatedTeams = this.addSubjectControl(teamsWithProject);
         return <SimpleTable
           selectable={true}
           style={style.TABLE}
@@ -320,7 +281,6 @@ class ValidateEquipes extends React.Component {
             <Tab label="Équipes en attente de validation" />
             <Tab label="Équipes validées sans sujet" />
             <Tab label="Équipes validées avec sujet" />
-            <Tab label="Équipes dont le projet est terminé" />
           </Tabs>
         </Paper>
 
