@@ -94,7 +94,10 @@ public class FeatureService {
         FeatureCategory fc = feature.getCategory();
         checkFeatureCategoryBelongsToSujectOrThrow(fc, subjectId);
 
+        fc.addFeature(feature);
+
         featureRepository.save(feature);
+        featureCategoryRepository.save(fc);
         return feature;
     }
 
@@ -128,11 +131,13 @@ public class FeatureService {
             return f1IndexInDto.compareTo(f2IndexInDto);
         });
 
-        features.forEach(f -> System.out.println(f.getId()));
-
         featureCategory.setFeatures(features);
+        features.forEach(f -> {
+            f.setCategory(featureCategory);
+        });
 
         featureCategoryRepository.save(featureCategory);
+        featureRepository.save(features);
         return featureCategory;
     }
 

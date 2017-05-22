@@ -10,16 +10,19 @@ export default class FeatureEditor extends React.Component {
     this.setState({ subject: props.subject });
   }
 
-  updateFeatures = (featureCategoryId, featuresIds) => {
-    return (featureCategoryId, ) => {
-      const feature = this.props.subject.featureCategories.find(fc => fc.id === featureCategoryId);
+  updateFeatures = () => {
+    this.state.subject.featureCategories.forEach(featureCategory => {
+      const featuresIds = featureCategory.features
+        .filter(f => f !== null)
+        .map(f => {
+        if (f !== null) return f.id;
+      });
       const dto = {
-        name: feature.name,
+        name: featureCategory.name,
         featuresIds,
       };
-      console.log(dto);
-      // this.props.updateFeatureCategory(featureCategoryId, dto);
-    }
+      this.props.updateFeatureCategory(featureCategory.id, dto);
+    });
   };
 
   addFeature = (fcToAdd) => {
@@ -40,6 +43,12 @@ export default class FeatureEditor extends React.Component {
         ],
       };
       this.setState({ subject });
+
+      const dto = {
+        name,
+        categoryId: featureCategory.id,
+      };
+      this.props.createFeature(subject.id, dto);
     }
   };
 
@@ -47,6 +56,7 @@ export default class FeatureEditor extends React.Component {
     return (featureIndex) => {
       const featureCategoryIndex = this.state.subject.featureCategories.findIndex(fc => fc.id === fcToUpdate.id);
       const featureCategory = { ...this.state.subject.featureCategories[featureCategoryIndex] };
+      const featureId = featureCategory.features[featureIndex].id;
 
       featureCategory.features.splice(featureIndex, 1);
 
@@ -59,13 +69,15 @@ export default class FeatureEditor extends React.Component {
         ],
       };
       this.setState({ subject });
+
+      this.props.deleteFeature(featureId);
     }
   };
 
   changeFeatureCategory = (featureId, oldCategoryId, newCategoryId, newIndex) => {
     const oldCategory = this.state.subject.featureCategories.find(fc => fc.id === oldCategoryId);
 
-    const featureIndex = oldCategory.features.findIndex(f => f.id === featureId);
+    const featureIndex = oldCategory.features.findIndex(f => f !== null && f.id === featureId);
 
     const feature = { ...oldCategory.features[featureIndex] };
 
@@ -137,7 +149,7 @@ export default class FeatureEditor extends React.Component {
               onDeleteFeature={this.deleteFeature(fc)}
               moveFeature={this.changeFeatureCategory}
               reorderFeature={this.reorderFeature}
-              updateFeatures={this.updateFeatures(fc.id)} />
+              updateFeatures={this.updateFeatures} />
           ))
         }
       </div>

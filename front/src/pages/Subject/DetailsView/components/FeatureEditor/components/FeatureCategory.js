@@ -34,7 +34,7 @@ const featureCategoryTarget = {
     }
   },
   drop(props, monitor, component) {
-    // props.updateFeatures();
+    props.updateFeatures();
   }
 };
 
@@ -50,8 +50,7 @@ class FeatureCategory extends React.Component {
   };
 
   updateFeatures = () => {
-    const featuresIds = this.state.features.map(f => f.id);
-    this.props.updateFeatures(featuresIds);
+    this.props.updateFeatures();
   };
 
   handleKeyUp = (e) => {
@@ -80,6 +79,7 @@ class FeatureCategory extends React.Component {
         <List>
           {
             featureCategory.features.map((feature, index) => {
+              if (feature === null) return;
               return (
                 <Feature
                   key={index}

@@ -123,19 +123,19 @@ public class DatabaseSeeder {
         s1.setFeatureCategories(fclist);
         subjectRepository.save(s1);
 
-        Feature feature1 = new Feature("Interface de connexion", fc1);
-        Feature feature2 = new Feature("Liste des élèves", fc1);
-        Feature feature3 = new Feature("Liste des fonctionnalités", fc1);
-        Feature feature4 = new Feature("Liste des projets", fc1);
-        Feature feature5 = new Feature("Gestion des réunions", fc1);
-        Feature feature6 = new Feature("Gestion des livrables", fc1);
-        Feature feature7 = new Feature("Connexion au LDAP", fc2);
-        Feature feature8 = new Feature("Modèle de données", fc2);
-
-        List<Feature> flist = new ArrayList<>(Arrays.asList(feature1, feature2, feature3, feature4, feature5, feature6, feature7, feature8));
-        featureRepository.save(flist);
-
-        featureCategoryRepository.save(fc1);
-        featureCategoryRepository.save(fc2);
+//        Feature feature1 = new Feature("Interface de connexion", fc1);
+//        Feature feature2 = new Feature("Liste des élèves", fc1);
+//        Feature feature3 = new Feature("Liste des fonctionnalités", fc1);
+//        Feature feature4 = new Feature("Liste des projets", fc1);
+//        Feature feature5 = new Feature("Gestion des réunions", fc1);
+//        Feature feature6 = new Feature("Gestion des livrables", fc1);
+//        Feature feature7 = new Feature("Connexion au LDAP", fc2);
+//        Feature feature8 = new Feature("Modèle de données", fc2);
+//
+//        List<Feature> flist = new ArrayList<>(Arrays.asList(feature1, feature2, feature3, feature4, feature5, feature6, feature7, feature8));
+//        featureRepository.save(flist);
+//
+//        featureCategoryRepository.save(fc1);
+//        featureCategoryRepository.save(fc2);
     }
 }

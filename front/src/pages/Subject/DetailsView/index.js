@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { fetchSubjects, updateFeatureCategory, getLocalState as getSubjectState } from '../../../data/subject/reducer';
+import { fetchSubjects, updateFeatureCategory, createFeature, deleteFeature, getLocalState as getSubjectState } from '../../../data/subject/reducer';
 
 import FeatureEditor from './components/FeatureEditor';
 import Loader from '../../../components/Loader.js';
@@ -17,7 +17,7 @@ class SubjectDetailsView extends React.Component {
   };
 
   render() {
-    const { loadingSubject, subject } = this.props;
+    const { loadingSubject, subject, subjectId } = this.props;
 
     if (loadingSubject) {
       return <div><Loader /></div>
@@ -38,7 +38,11 @@ class SubjectDetailsView extends React.Component {
             <Loader />
           :
           <div>
-            <FeatureEditor subject={subject} updateFeatureCategory={this.updateFeatureCategory} />
+            <FeatureEditor
+              subject={subject}
+              createFeature={this.props.createFeature}
+              deleteFeature={(featureId) => this.props.deleteFeature(subjectId, featureId)}
+              updateFeatureCategory={this.updateFeatureCategory} />
           </div>
         }
       </div>
@@ -63,6 +67,8 @@ export default connect(
     return {
       fetchSubjects: () => dispatch(fetchSubjects()),
       updateFeatureCategory: (subjectId, fcId, dto) => dispatch(updateFeatureCategory(subjectId, fcId, dto)),
+      createFeature: (subjectId, dto) => dispatch(createFeature(subjectId, dto)),
+      deleteFeature: (subjectId, featureId) => dispatch(deleteFeature(subjectId, featureId)),
     }
   }
 )(SubjectDetailsView);

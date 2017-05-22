@@ -24,7 +24,6 @@ public class Feature {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
     @JsonIgnore
     private FeatureCategory category;
 

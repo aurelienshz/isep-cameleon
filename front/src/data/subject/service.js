@@ -37,3 +37,11 @@ export async function deleteSubject(id: number) {
 export async function updateFeatureCategory(subjectId, fcId, dto) {
   return await postJson(`${REQUEST_PATH_PREFIX}/${subjectId}/feature-category/${fcId}`, dto);
 }
+
+export async function createFeature(subjectId, dto) {
+  return await postJson(`${REQUEST_PATH_PREFIX}/${subjectId}/feature`, dto);
+}
+
+export async function deleteFeature(subjectId, featureId) {
+  return await deleteJson(`${REQUEST_PATH_PREFIX}/${subjectId}/feature/${featureId}`);
+}

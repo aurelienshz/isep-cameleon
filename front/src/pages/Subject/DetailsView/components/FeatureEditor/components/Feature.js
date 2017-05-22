@@ -78,7 +78,7 @@ const featureTarget = {
     }
   },
   drop(props, monitor, component) {
-    // props.updateFeatures();
+    props.updateFeatures();
   }
 };
 
@@ -100,7 +100,7 @@ class Feature extends React.Component {
     const { feature, connectDragSource, connectDropTarget, isDragging, onDelete } = this.props;
     return connectDragSource(connectDropTarget(
       <div>
-        <ListItem style={{ opacity: isDragging ? 0.5 : 1 }} key={feature.id}>
+        <ListItem>
           <ListItemText primary={feature.name} />
           <ListItemSecondaryAction>
             <IconButton onClick={onDelete}>

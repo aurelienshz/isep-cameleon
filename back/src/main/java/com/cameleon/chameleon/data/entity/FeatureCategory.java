@@ -19,8 +19,8 @@ public class FeatureCategory {
     @JsonIgnore
     private Subject subject;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @OrderColumn
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
+    @OrderColumn(name="feature_order")
     private List<Feature> features;
 
     public void setId(Long id) {
