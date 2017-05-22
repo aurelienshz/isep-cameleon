@@ -17,12 +17,14 @@ public class Feature {
     public Feature(String name, FeatureCategory category) {
         this.name = name;
         this.category = category;
+
+        category.addFeature(this);
     }
 
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", nullable = false)
     @JsonIgnore
     private FeatureCategory category;
 

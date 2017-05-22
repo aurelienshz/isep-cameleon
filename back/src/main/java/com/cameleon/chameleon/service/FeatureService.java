@@ -10,6 +10,9 @@ import com.cameleon.chameleon.exception.BusinessLogicException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
+import java.util.List;
+
 @Service
 public class FeatureService {
     @Autowired
@@ -108,6 +111,26 @@ public class FeatureService {
 
         // handle updates here :
         featureCategory.setName(dto.getName());
+        List<Feature> features = featureRepository.findByIdIn(dto.getFeaturesIds());
+
+        features.sort((f1, f2) -> {
+            List<Long> featuresIds = dto.getFeaturesIds();
+            Integer f1IndexInDto = -1;
+            Integer f2IndexInDto = -1;
+            for (int i = 0; i < featuresIds.size(); i++) {
+                if (featuresIds.get(i) == f1.getId())
+                    f1IndexInDto = i;
+
+                if (featuresIds.get(i) == f2.getId())
+                    f2IndexInDto = i;
+            }
+
+            return f1IndexInDto.compareTo(f2IndexInDto);
+        });
+
+        features.forEach(f -> System.out.println(f.getId()));
+
+        featureCategory.setFeatures(features);
 
         featureCategoryRepository.save(featureCategory);
         return featureCategory;

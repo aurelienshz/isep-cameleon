@@ -8,6 +8,9 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import createHistory from 'history/createBrowserHistory';
 
+import HTML5Backend from 'react-dnd-html5-backend';
+import { DragDropContext } from 'react-dnd';
+
 // Material UI setup
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
@@ -45,7 +48,9 @@ const App = () => (
   </Provider>
 );
 
+const DDApp = DragDropContext(HTML5Backend)(App);
+
 ReactDOM.render(
-  <App />,
+  <DDApp />,
   document.getElementById('root')
 );

@@ -17,11 +17,14 @@ public class Project {
     private Team team;
 
     // For now, only subjects contain features :
-//    @OneToMany
-//    private List<FeatureCategory> featureCategories;
+    // @OneToMany
+    // private List<FeatureCategory> featureCategories;
 
     @OneToMany
     private List<Deliverable> deliverables;
+
+    @OneToMany
+    private List<MeetingRequest> meetingRequests;
 
     public Subject getSubject() {
         return subject;
@@ -53,5 +56,13 @@ public class Project {
 
     public void setDeliverables(List<Deliverable> deliverables) {
         this.deliverables = deliverables;
+    }
+
+    public List<MeetingRequest> getMeetingRequests() {
+        return meetingRequests;
+    }
+
+    public void setMeetingRequests(List<MeetingRequest> meetingRequests) {
+        this.meetingRequests = meetingRequests;
     }
 }

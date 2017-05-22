@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { fetchSubjects, getLocalState as getSubjectState } from '../../../data/subject/reducer';
+import { fetchSubjects, updateFeatureCategory, getLocalState as getSubjectState } from '../../../data/subject/reducer';
 import { fetchMyProject, getLocalState as getProjectState } from '../../../data/project/reducer';
 
 import FeatureEditor from './components/FeatureEditor';
@@ -11,6 +11,11 @@ class SubjectDetailsView extends React.Component {
   componentWillMount() {
     this.props.fetchSubjects();
   }
+
+  updateFeatureCategory = (id, dto) => {
+    const { subjectId } = this.props;
+    this.props.updateFeatureCategory(subjectId, id, dto);
+  };
 
   render() {
     const { loadingSubject, subject, loadingProject, project } = this.props;
@@ -35,7 +40,7 @@ class SubjectDetailsView extends React.Component {
             <Loader />
           :
           <div>
-            <FeatureEditor subject={subject} />
+            <FeatureEditor subject={subject} updateFeatureCategory={this.updateFeatureCategory} />
           </div>
         }
       </div>
@@ -62,6 +67,7 @@ export default connect(
   (dispatch) => {
     return {
       fetchSubjects: () => dispatch(fetchSubjects()),
+      updateFeatureCategory: (subjectId, fcId, dto) => dispatch(updateFeatureCategory(subjectId, fcId, dto)),
     }
   }
 )(SubjectDetailsView);

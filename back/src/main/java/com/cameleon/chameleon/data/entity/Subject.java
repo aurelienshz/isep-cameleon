@@ -1,6 +1,9 @@
 package com.cameleon.chameleon.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity()
@@ -13,7 +16,7 @@ public class Subject {
 
     private String description;
 
-    @OneToMany
+    @OneToMany(mappedBy = "subject")
     private List<FeatureCategory> featureCategories;
 
     @OneToOne
@@ -64,5 +67,13 @@ public class Subject {
 
     public void setFeatureCategories(List<FeatureCategory> featureCategories) {
         this.featureCategories = featureCategories;
+    }
+
+    public void addFeatureCategory(FeatureCategory fc) {
+        List<FeatureCategory> featureCategories = this.featureCategories;
+        if (featureCategories == null) featureCategories = new ArrayList<>();
+        featureCategories.add(fc);
+        fc.setSubject(this);
+        this.setFeatureCategories(featureCategories);
     }
 }

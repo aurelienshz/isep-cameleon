@@ -1,6 +1,10 @@
 package com.cameleon.chameleon.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Fetch;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity()
@@ -11,9 +15,12 @@ public class FeatureCategory {
     private String name;
 
     @ManyToOne
+    @JoinColumn(name="subject_id")
+    @JsonIgnore
     private Subject subject;
 
-    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER)
+    @OrderColumn
     private List<Feature> features;
 
     public void setId(Long id) {
@@ -50,5 +57,14 @@ public class FeatureCategory {
 
     public void setFeatures(List<Feature> features) {
         this.features = features;
+    }
+
+    public void addFeature(Feature feature) {
+        List<Feature> features = this.features;
+        if (features == null) features = new ArrayList<>();
+
+        features.add(feature);
+        feature.setCategory(this);
+        this.setFeatures(features);
     }
 }

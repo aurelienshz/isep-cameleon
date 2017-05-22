@@ -1,6 +1,11 @@
 // @flow
 
-import { getSubjectsList, setSubjectClient as setSubjectClientService, createSubject as requestSubjectCreation } from './service';
+import {
+  getSubjectsList,
+  setSubjectClient as setSubjectClientService,
+  createSubject as requestSubjectCreation,
+  updateFeatureCategory as updateFeatureCategoryService
+} from './service';
 
 const initialState = {
   subjects: [],
@@ -13,6 +18,8 @@ const REQUEST_SUBJECT_CREATION = "subject/REQUEST_SUBJECT_CREATION";
 const CONFIRM_SUBJECT_CREATION = "subject/CONFIRM_SUBJECT_CREATION";
 const REQUEST_SET_SUBJECT_CLIENT = "subject/REQUEST_SET_SUBJECT_CLIENT";
 const CONFIRM_SET_SUBJECT_CLIENT = "subject/CONFIRM_SET_SUBJECT_CLIENT";
+const REQUEST_UPDATE_FEATURE_CATEGORY = "subject/REQUEST_UPDATE_FEATURE_CATEGORY";
+const CONFIRM_UPDATE_FEATURE_CATEGORY = "subject/CONFIRM_UPDATE_FEATURE_CATEGORY";
 
 export default function subjectReducer(state = initialState, action) {
   switch (action.type) {
@@ -88,6 +95,23 @@ export function setSubjectClient(subjectId, clientId) {
       await setSubjectClientService(subjectId, clientId);
       dispatch({
         type: CONFIRM_SET_SUBJECT_CLIENT,
+      });
+      dispatch(fetchSubjects());
+    } catch (er) {
+      console.error(er);
+    }
+  }
+}
+
+export function updateFeatureCategory(subjectId, fcId, dto) {
+  return async (dispatch: Function) => {
+    dispatch({
+      type: REQUEST_UPDATE_FEATURE_CATEGORY,
+    });
+    try {
+      await updateFeatureCategoryService(subjectId, fcId, dto);
+      dispatch({
+        type: CONFIRM_UPDATE_FEATURE_CATEGORY,
       });
       dispatch(fetchSubjects());
     } catch (er) {

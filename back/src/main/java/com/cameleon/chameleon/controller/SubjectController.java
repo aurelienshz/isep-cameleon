@@ -98,7 +98,7 @@ public class SubjectController {
 
     @PostMapping("/{subjectId}/feature-category/{fcId}")
     @RolesAllowed({ ROLE_TEACHER, ROLE_CLIENT })
-    public FeatureCategory editFeatureCategory(@PathVariable Long subjectId, @RequestBody FeatureCategoryDTO dto, @PathVariable Long fcId) {
+    public FeatureCategory editFeatureCategory(@PathVariable Long subjectId, @PathVariable Long fcId, @RequestBody FeatureCategoryDTO dto) {
         return featureService.editFeatureCategory(subjectId, fcId, dto);
     }
 
