@@ -18,7 +18,7 @@ class SubjectDetailsView extends React.Component {
   };
 
   render() {
-    const { loadingSubject, subject, loadingProject, project } = this.props;
+    const { loadingSubject, subject, loadingProject } = this.props;
 
     if (loadingSubject) {
       return <div><Loader /></div>
@@ -34,9 +34,8 @@ class SubjectDetailsView extends React.Component {
         <p>{ subject.description }</p>
         <hr/>
         <h2>Fonctionnalités</h2>
-
         {
-          loadingProject ?
+          loadingSubject ?
             <Loader />
           :
           <div>

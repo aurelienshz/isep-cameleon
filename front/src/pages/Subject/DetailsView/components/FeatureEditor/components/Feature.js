@@ -2,6 +2,12 @@ import React from 'react';
 import { DragSource, DropTarget } from 'react-dnd';
 import { findDOMNode } from 'react-dom';
 
+import { ListItem, ListItemText, ListItemSecondaryAction } from 'material-ui/List';
+
+import IconButton from 'material-ui/IconButton';
+import DeleteIcon from 'material-ui-icons/Delete';
+
+
 /**
  * Implements the drag source contract.
  */
@@ -9,6 +15,7 @@ const featureSource = {
   beginDrag(props) {
     return {
       id: props.feature.id,
+      categoryId: props.categoryId,
       index: props.index,
     };
   }
@@ -16,8 +23,13 @@ const featureSource = {
 
 const featureTarget = {
   hover(props, monitor, component) {
+    const dragId = monitor.getItem().id;
+
     const dragIndex = monitor.getItem().index;
     const hoverIndex = props.index;
+
+    const dragCategoryId = monitor.getItem().categoryId;
+    const hoverCategoryId = props.categoryId;
 
     // Don't replace items with themselves
     if (dragIndex === hoverIndex) {
@@ -50,17 +62,23 @@ const featureTarget = {
       return;
     }
 
-    // Time to actually perform the action
-    props.moveFeature(dragIndex, hoverIndex);
+    if (hoverCategoryId === dragCategoryId) {
+      // Time to actually perform the action
+      props.reorderFeature(dragIndex, hoverIndex);
 
-    // Note: we're mutating the monitor item here!
-    // Generally it's better to avoid mutations,
-    // but it's good here for the sake of performance
-    // to avoid expensive index searches.
-    monitor.getItem().index = hoverIndex;
+      // Note: we're mutating the monitor item here!
+      // Generally it's better to avoid mutations,
+      // but it's good here for the sake of performance
+      // to avoid expensive index searches.
+      monitor.getItem().index = hoverIndex;
+    } else {
+      props.moveFeature(dragId, dragCategoryId, hoverCategoryId, hoverIndex);
+      monitor.getItem().index = hoverIndex;
+      monitor.getItem().categoryId = hoverCategoryId;
+    }
   },
   drop(props, monitor, component) {
-    props.updateFeatures();
+    // props.updateFeatures();
   }
 };
 
@@ -79,10 +97,17 @@ function collectDropTarget(connect) {
 
 class Feature extends React.Component {
   render() {
-    const { feature, connectDragSource, connectDropTarget, isDragging } = this.props;
+    const { feature, connectDragSource, connectDropTarget, isDragging, onDelete } = this.props;
     return connectDragSource(connectDropTarget(
-      <div style={{ opacity: isDragging ? 0.5 : 1, margin: 3, padding:3 }} key={feature.id}>
-        {feature.name}
+      <div>
+        <ListItem style={{ opacity: isDragging ? 0.5 : 1 }} key={feature.id}>
+          <ListItemText primary={feature.name} />
+          <ListItemSecondaryAction>
+            <IconButton onClick={onDelete}>
+              <DeleteIcon />
+            </IconButton>
+          </ListItemSecondaryAction>
+        </ListItem>
       </div>
     ));
   }
