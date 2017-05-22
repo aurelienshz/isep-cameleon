@@ -1,6 +1,4 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {push} from 'react-router-redux';
 import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
 import Dialog from 'material-ui/Dialog';

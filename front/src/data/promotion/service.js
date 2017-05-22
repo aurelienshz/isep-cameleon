@@ -1,4 +1,4 @@
-import { getJson, postJson, deleteJson } from '../../services/helpers/request';
+import { getJson, postJson } from '../../services/helpers/request';
 
 export async function getCurrentPromotionStatus() {
   return await getJson("/promotion/current-status");

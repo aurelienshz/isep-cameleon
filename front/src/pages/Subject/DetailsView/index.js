@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { fetchSubjects, updateFeatureCategory, getLocalState as getSubjectState } from '../../../data/subject/reducer';
-import { fetchMyProject, getLocalState as getProjectState } from '../../../data/project/reducer';
 
 import FeatureEditor from './components/FeatureEditor';
 import Loader from '../../../components/Loader.js';
@@ -18,7 +17,7 @@ class SubjectDetailsView extends React.Component {
   };
 
   render() {
-    const { loadingSubject, subject, loadingProject } = this.props;
+    const { loadingSubject, subject } = this.props;
 
     if (loadingSubject) {
       return <div><Loader /></div>
@@ -50,17 +49,14 @@ class SubjectDetailsView extends React.Component {
 export default connect(
   (state, ownProps) => {
     const subjectState = getSubjectState(state);
-    const projectState = getProjectState(state);
 
-    const subjectId = parseInt(ownProps.match.params.id);
+    const subjectId = parseInt(ownProps.match.params.id, 10);
     const subject = subjectState.subjects.find(s => s.id === subjectId);
 
     return {
       subjectId,
       subject,
-      project: projectState.selectedProject,
       loadingSubject: subjectState.loading,
-      loadingProject: projectState.loadingProject,
     };
   },
   (dispatch) => {

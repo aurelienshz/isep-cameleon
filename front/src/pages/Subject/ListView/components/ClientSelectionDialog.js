@@ -1,8 +1,5 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {push} from 'react-router-redux';
 import Button from 'material-ui/Button';
-import TextField from 'material-ui/TextField';
 import Dialog from 'material-ui/Dialog';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
@@ -10,13 +7,10 @@ import IconButton from 'material-ui/IconButton';
 import Typography from 'material-ui/Typography';
 import CloseIcon from 'material-ui-icons/Close';
 import Slide from 'material-ui/transitions/Slide';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 import colors from '../../../../colors';
 
-import { Editor } from 'react-draft-wysiwyg';
-import { convertToRaw } from 'draft-js';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import draftToHtml from 'draftjs-to-html';
 
 import Loader from '../../../../components/Loader.js';
 

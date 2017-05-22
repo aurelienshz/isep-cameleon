@@ -224,6 +224,7 @@ class ValidateEquipes extends React.Component {
 
     switch(this.state.index) {
       case 0:
+      default:
         const teams = filteredTeams.filter(team => !team.validatedByTeacher);
         const teamsToValidate = this.addValidationControl(teams);
         return <SimpleTable
@@ -254,12 +255,6 @@ class ValidateEquipes extends React.Component {
           loading={this.props.loading}
           data={validatedTeams}
           columns={columnsValidated} />;
-    }
-
-    if (this.state.index === 1) { // selected tabs for validated teams :
-
-    } else {
-
     }
   };
 

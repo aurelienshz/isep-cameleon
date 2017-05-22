@@ -19,7 +19,7 @@ import colors from '../colors';
 
 import {isAuthenticated} from '../data/users/service';
 import {logoutAction, fetchProfile, getLocalState as getUserState} from '../data/users/reducer';
-import {fetchPromotion, getLocalState as getPromotionState} from '../data/promotion/reducer';
+import { fetchPromotion } from '../data/promotion/reducer';
 
 const styleSheet = createStyleSheet('AuthenticatedLayout', () => ({
   root: {
@@ -128,7 +128,7 @@ class AppBarLayout extends React.Component {
 
   render() {
     const classes = this.context.styleManager.render(styleSheet);
-    const { awaitingProfile, profile, awaitingPromotion } = this.props;
+    const { awaitingProfile, profile } = this.props;
     return (
       <div style={{height: '100%', width: '100%'}}>
         <div className={classes.root}>

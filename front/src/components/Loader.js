@@ -1,8 +1,6 @@
 // @flow
 
 import React, { Component } from 'react';
-import { createStyleSheet } from 'jss-theme-reactor';
-import customPropTypes from 'material-ui/utils/customPropTypes';
 import { LinearProgress } from 'material-ui/Progress';
 
 const STYLE_ROOT = {

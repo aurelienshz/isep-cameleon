@@ -1,22 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
-import Dialog from 'material-ui/Dialog';
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
 import Grid from 'material-ui/Grid';
-import IconButton from 'material-ui/IconButton';
-import Typography from 'material-ui/Typography';
-import CloseIcon from 'material-ui-icons/Close';
-import Slide from 'material-ui/transitions/Slide';
 
-import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 import FloatingActionButton from '../../../components/FloatingActionButton';
-import colors from '../../../colors';
 
 import { fetchSubjects, createSubject, setSubjectClient, getLocalState as getSubjectState } from '../../../data/subject/reducer';
 import { fetchClients, getLocalState as getUserState } from '../../../data/users/reducer';

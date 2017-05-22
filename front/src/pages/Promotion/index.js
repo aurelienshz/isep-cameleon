@@ -1,7 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
-import { userHasRole, ROLE_TEACHER } from '../../data/users/rolesHelpers';
 import { getLocalState as getPromotionState, fetchPromotion, startProjects, endProjects } from '../../data/promotion/reducer';
 import { BUILDING_SESSION, PROJECTS_STARTED, SESSION_ENDED } from '../../data/promotion/constants';
 

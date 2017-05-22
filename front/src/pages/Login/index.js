@@ -7,7 +7,6 @@ import {Redirect} from 'react-router';
 
 import customPropTypes from 'material-ui/utils/customPropTypes';
 import Typography from 'material-ui/Typography';
-import Loader from '../../components/Loader.js';
 import Grid from 'material-ui/Grid';
 
 import { submitLoginAction, getLocalState as getUsersState } from '../../data/users/reducer';
@@ -128,7 +127,7 @@ class LoginPage extends React.Component {
   render() {
     const classes = this.context.styleManager.render(styleSheet);
 
-    const { awaitingToken, error } = this.props;
+    const { error } = this.props;
 
     if (isAuthenticated()) {
       return <Redirect to="/subject"/>
