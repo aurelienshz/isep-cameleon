@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class SubjectService {
@@ -53,11 +54,6 @@ public class SubjectService {
     public List<FeatureCategory> getFeatureCategories(Long id) {
         Subject subject = subjectRepository.findOne(id);
         if (subject == null) throw new ResourceNotFoundException();
-        List<FeatureCategory> fcs = subject.getFeatureCategories();
-        fcs.forEach(fc -> {
-            List<Feature> f = fc.getFeatures();
-            System.out.println(f.size());
-        });
-        return fcs;
+        return subject.getFeatureCategories();
     }
 }
