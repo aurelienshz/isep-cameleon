@@ -14,7 +14,6 @@ import java.util.Hashtable;
 
 /**
  * Created by Victor ELY on 23/05/2017.
- * gcfa-back
  */
 
 @Service

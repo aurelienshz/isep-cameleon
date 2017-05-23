@@ -2,7 +2,6 @@ package com.cameleon.chameleon.data.dto;
 
 /**
  * Created by Victor ELY on 23/05/2017.
- * gcfa-back
  */
 public class LDAPUserDTO {
 
