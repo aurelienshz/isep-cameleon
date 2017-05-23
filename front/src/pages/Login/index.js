@@ -98,6 +98,7 @@ const styleSheet = createStyleSheet('GuttersLayout', () => {
     h1: {
       textAlign: 'center',
       color: colors.ISEP_TERTIARY,
+      fontSize: '6em',
     },
   };
 });
@@ -164,12 +165,6 @@ class LoginPage extends React.Component {
                       <input className={classes.input} type="password" placeholder='Password' value={this.state.externalPassword} onChange={(event) => this.setState({externalPassword: event.target.value})}></input>
                       <a className={classes.link}> Mot de passe oublié ? </a>
                       <button className={classes.button} onClick={this.submitExternalLogin}> Connexion </button>
-                      {
-                        error &&
-                        <Typography type="body1" style={{color: 'red'}}>
-                          {error.message}
-                        </Typography>
-                      }
                     </div>
                   </div>
                 </Grid>
