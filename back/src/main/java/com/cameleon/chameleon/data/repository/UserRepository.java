@@ -20,4 +20,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
     User findByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
 
     List<User> findByRolesContains(Role role);
+
+
 }
+

@@ -24,6 +24,8 @@ public class Project {
     private List<Deliverable> deliverables;
 
     @OneToMany
+    private List<Meeting> meetingList;
+
     private List<MeetingRequest> meetingRequests;
 
     public Subject getSubject() {

@@ -7,6 +7,7 @@ import com.cameleon.chameleon.data.entity.*;
 import com.cameleon.chameleon.exception.BusinessLogicException;
 
 import com.cameleon.chameleon.service.FeatureService;
+import com.cameleon.chameleon.service.MeetingService;
 import com.cameleon.chameleon.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -27,6 +28,9 @@ public class ProjectController {
 
     @Autowired
     private FeatureService featureService;
+
+    @Autowired
+    private MeetingService meetingService;
 
     @GetMapping
     public List<Project> getAllProjects() {
@@ -57,12 +61,12 @@ public class ProjectController {
 
     @GetMapping("/{id}/meeting")
     public List<Meeting> getMeetings(@PathVariable Long id) {
-        return null; // TODO
+        return meetingService.findAllMeetings(id);
     }
 
     @PostMapping("/{id}/meeting")
     public Meeting addMeeting(@PathVariable Long id, @RequestBody MeetingDTO meeting) {
-        return null; // TODO
+        return meetingService.addMeeting(meeting);
     }
 
     @PostMapping("/{pId}/meeting/{mId")
@@ -102,13 +106,13 @@ public class ProjectController {
 
     @GetMapping("/{pId}/deliverable")
     public List<Deliverable> getDeliverables(@PathVariable Long pId) {
-        return null; // TODO
+        return meetingService.findDeliverables();
     }
 
     @PostMapping("/{pId}/deliverable")
     @RolesAllowed({ ROLE_TEACHER, ROLE_CLIENT })
     public Deliverable addDeliverable(@PathVariable Long pId) {
-        return null; // TODO
+        return meetingService.addDeliverable(pId);
     }
 
     @PostMapping("/{pId}/deliverable/{dId}")

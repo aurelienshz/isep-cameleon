@@ -14,6 +14,8 @@ public class Meeting {
     private TimeSlot timeSlot;
 
     @OneToMany
+    private Project project;
+
     private List<User> attendees;
 
     public TimeSlot getTimeSlot() {
@@ -23,6 +25,10 @@ public class Meeting {
     public void setTimeSlot(TimeSlot timeSlot) {
         this.timeSlot = timeSlot;
     }
+
+    public Project getProject(){ return project; }
+
+    public void setProject(Project project) { this.project = project; }
 
     public List<User> getAttendees() {
         return attendees;
