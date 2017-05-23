@@ -8,6 +8,7 @@
     "flow": "^0.2.3",
     "material-ui": "^1.0.0-alpha.13",
     "material-ui-icons": "^1.0.0-alpha.3",
+    "moment": "^2.18.1",
     "react": "^15.4.4",
     "react-addons-css-transition-group": "^15.5.2",
     "react-dnd": "^2.4.0",
