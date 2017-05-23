@@ -251,6 +251,37 @@ export default class Profil extends React.Component {
             </tbody>
           </table>
         </div>
+        <div style={STYLE_SEC}>
+          <h2 style={STYLE_TITLE_CAPS}>Mes données</h2>
+        </div>
+        <table style={STYLE_INFO_TABLE}>
+          <tbody>
+            <tr style={STYLE_INFO_TABLE_TR}>
+              <th style={STYLE_INFO_TABLE_TH}>
+                Nom du groupe
+              </th>
+              <td>
+                Test
+              </td>
+            </tr>
+            <tr style={STYLE_INFO_TABLE_TR}>
+              <th style={STYLE_INFO_TABLE_TH}>
+                Nom du sujet
+              </th>
+              <td>
+                Coucou
+              </td>
+            </tr>
+            <tr style={STYLE_INFO_TABLE_TR}>
+              <th style={STYLE_INFO_TABLE_TH}>
+                Avancement
+              </th>
+              <td>
+                Phase -1
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     );
   }
