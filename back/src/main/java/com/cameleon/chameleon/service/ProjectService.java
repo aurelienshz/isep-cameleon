@@ -23,7 +23,7 @@ public class ProjectService {
     @Autowired
     private FeatureService featureService;
 
-    public Project getProject(Long id) {
+    public Project findProject(Long id) {
         return projectRepository.findOne(id);
     }
 

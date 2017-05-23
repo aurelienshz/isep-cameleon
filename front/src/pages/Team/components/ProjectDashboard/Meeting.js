@@ -12,6 +12,7 @@ import { Switch, Route } from 'react-router-dom';
 import MeetingDetails from './components/MeetingDetails';
 
 import { formatFrenchDuration } from '../../../../data/datetime';
+import Loader from '../../../../components/Loader';
 
 const styleSheet = createStyleSheet('Dashboard', (theme) => ({
   leftColumn: {
@@ -85,7 +86,7 @@ const MeetingList = ({ meetings, classes, selectedId, selectMeeting }) => {
         meetings.map((meeting, index) => {
           const hasReport = Boolean(meeting.report);
           const primaryText = <span>09/02/2017 { !hasReport && <span className={classes.listWarningBadge}>Pas de compte-rendu</span> }</span>
-          const duration = "Durée : " + formatFrenchDuration(meeting.timeslot.end - meeting.timeslot.beginning);
+          const duration = "Durée : " + formatFrenchDuration(meeting.timeSlot.end - meeting.timeSlot.beginning);
           return (
             <ListItem
               button key={index}
@@ -105,7 +106,7 @@ const MeetingList = ({ meetings, classes, selectedId, selectMeeting }) => {
   );
 };
 
-class TeamDashboard extends React.Component {
+class ProjectMeetings extends React.Component {
   state = {
     selectedIndex: null,
   };
@@ -115,7 +116,20 @@ class TeamDashboard extends React.Component {
   };
 
   render() {
-    const { classes, meetings, match } = this.props;
+    const { project, loading, classes, match } = this.props;
+
+    if (loading) {
+      return (
+        <div style={{ padding: 20, backgroundColor: "#FAFAFA", height: 'calc(100% - 64px)', boxSizing: 'border-box' }}>
+          <h1 style={{ textAlign: 'center' }}>Réunions</h1>
+
+          <Loader />
+        </div>
+      )
+    }
+
+    const meetings = project.meetings;
+
     if (match.params.id) {
       const selectedId = parseInt(this.props.match.params.id, 10);
       const selectedMeeting = meetings.find(m => m.id === selectedId);
@@ -167,14 +181,11 @@ class TeamDashboard extends React.Component {
   }
 }
 
-const StyledTeamDashboard = withStyles(styleSheet)(TeamDashboard);
+const StyledTeamDashboard = withStyles(styleSheet)(ProjectMeetings);
 
 const ConnectedTeamDashboard = connect(
-  (state, ownProps) => {
-    return {
-      meetings: __meetings,
-    }
-  },
+  () => ({
+  }),
   (dispatch) => {
     return {
       pushLocation: (location) => dispatch(push(location)),
@@ -182,11 +193,11 @@ const ConnectedTeamDashboard = connect(
   }
 )(StyledTeamDashboard);
 
-export default function() {
+export default function(props) {
   return (
-    <Switch>
-      <Route exact path="/team/meeting" component={ConnectedTeamDashboard} />
-      <Route path="/team/meeting/:id" component={ConnectedTeamDashboard} />
+    <Switch location={props.location}>
+      <Route exact path="/team/meeting" component={(routerProps) => <ConnectedTeamDashboard {...props} {...routerProps} />} />
+      <Route path="/team/meeting/:id" component={(routerProps) => <ConnectedTeamDashboard {...props} {...routerProps} />} />
     </Switch>
   );
 };

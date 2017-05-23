@@ -6,10 +6,10 @@ import { formatFrenchDate, formatFrenchDateTime, formatFrenchDuration } from '..
 export default class MeetingDetails extends React.Component {
   render() {
     const { meeting } = this.props;
-    const date = formatFrenchDate(meeting.timeslot.beginning);
-    const begin = formatFrenchDateTime(meeting.timeslot.beginning);
-    const end = formatFrenchDateTime(meeting.timeslot.end);
-    const duration = formatFrenchDuration(meeting.timeslot.end - meeting.timeslot.beginning);
+    const date = formatFrenchDate(meeting.timeSlot.beginning);
+    const begin = formatFrenchDateTime(meeting.timeSlot.beginning);
+    const end = formatFrenchDateTime(meeting.timeSlot.end);
+    const duration = formatFrenchDuration(meeting.timeSlot.end - meeting.timeSlot.beginning);
     return (
       <div>
         <h3>Réunion du { date }</h3>

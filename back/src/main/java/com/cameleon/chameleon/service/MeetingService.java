@@ -2,19 +2,15 @@ package com.cameleon.chameleon.service;
 
 
 import com.cameleon.chameleon.data.dto.MeetingDTO;
-import com.cameleon.chameleon.data.entity.Deliverable;
 import com.cameleon.chameleon.data.entity.Meeting;
+import com.cameleon.chameleon.data.entity.Project;
 import com.cameleon.chameleon.data.entity.TimeSlot;
 import com.cameleon.chameleon.data.entity.User;
-import com.cameleon.chameleon.data.repository.DeliverableRepository;
-import com.cameleon.chameleon.data.repository.MeetingRepository;
-import com.cameleon.chameleon.data.repository.ProjectRepository;
-import com.cameleon.chameleon.data.repository.UserRepository;
+import com.cameleon.chameleon.data.repository.*;
+import com.cameleon.chameleon.exception.BusinessLogicException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.jws.soap.SOAPBinding;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,56 +22,76 @@ public class MeetingService {
     private UserRepository userRepository;
 
     @Autowired
-    private DeliverableRepository deliverableRepository;
-
-    @Autowired
     private ProjectRepository projectRepository;
 
     @Autowired
     private ProjectService projectService;
 
+    @Autowired
+    private TimeSlotRepository timeSlotRepository;
+
     public Meeting findMeeting (Long id) {
         return meetingRepository.findOne(id);
     }
-    public Meeting addMeeting(MeetingDTO meetingDTO){
-        Meeting meeting = addMeetingFromDTO(meetingDTO);
-        return meetingRepository.save(meeting);
+
+    public Meeting addMeeting(Long projectId, MeetingDTO meetingDTO){
+        Project project = projectRepository.findOne(projectId);
+        Meeting meeting = createMeetingFromDTO(meetingDTO);
+        project.addMeeting(meeting);
+
+        TimeSlot timeSlot = meeting.getTimeSlot();
+        timeSlotRepository.save(timeSlot);
+        meetingRepository.save(meeting);
+        projectRepository.save(project);
+
+        return meeting;
     }
 
-    private Meeting addMeetingFromDTO(MeetingDTO meetingDTO) {
+    private Meeting createMeetingFromDTO(MeetingDTO meetingDTO) {
         Meeting meeting = new Meeting();
         TimeSlot timeSlot = new TimeSlot();
-        timeSlot.setBeginning(meetingDTO.getBegin());
+        timeSlot.setBeginning(meetingDTO.getBeginning());
         timeSlot.setEnd(meetingDTO.getEnd());
         meeting.setTimeSlot(timeSlot);
-        List<User> attendeesUser = findAllUsers(meetingDTO.getAttendees());
+        List<User> attendeesUser = userRepository.findByIdIn(meetingDTO.getAttendees());
         meeting.setAttendees(attendeesUser);
         return meeting;
     }
-    public List<User> findAllUsers(List<Long> attendeesId){
-        List<User> attendeesUser = new ArrayList<>();
-        for(int i=0; i<attendeesId.size();i++){
-            User user = userRepository.findOne(attendeesId.get(i));
-            attendeesUser.add(user);
 
-        }
-        return attendeesUser;
+    public List<Meeting> findAllMeetings(Long projectId) {
+        Project project = projectService.findProject(projectId);
+        return meetingRepository.findByProject(project);
     }
 
-    public List<Meeting> findAllMeetings(Long id) {
-        return (List<Meeting>) meetingRepository.findAll();
-    }
-    public Deliverable addDeliverable(Long pid) {
-        Deliverable deliverable = addDeliverableFromDTO(pid);
-        return deliverableRepository.save(deliverable);
+    public Meeting updateMeeting(Long pId, Long mId, MeetingDTO meetingDto) {
+        Meeting meeting = meetingRepository.findOne(mId);
+        checkMeetingBelongsToProjectOrThrow(meeting, pId);
+
+        // Handle actual updates :
+
+        TimeSlot timeSlot = meeting.getTimeSlot();
+        timeSlot.setBeginning(meetingDto.getBeginning());
+        timeSlot.setEnd(meetingDto.getEnd());
+        timeSlotRepository.save(timeSlot);
+
+        List<User> attendees = userRepository.findByIdIn(meetingDto.getAttendees());
+        meeting.setAttendees(attendees);
+
+        meetingRepository.save(meeting);
+
+        return meeting;
     }
 
-    private Deliverable addDeliverableFromDTO(Long pid) {
-        return null; // TODO
+    private void checkMeetingBelongsToProjectOrThrow(Meeting meeting, Long pId) {
+        if (!meeting.getProject().getId().equals(pId))
+            throw new BusinessLogicException("Requested meeting does not belong to requested project");
     }
 
-    public List<Deliverable> findDeliverables() {
-        return (List<Deliverable>) deliverableRepository.findAll();
+    public void deleteMeeting(Long pId, Long mId) {
+        Meeting meeting = meetingRepository.findOne(mId);
+        checkMeetingBelongsToProjectOrThrow(meeting, pId);
+
+        meetingRepository.delete(meeting);
     }
 }
 

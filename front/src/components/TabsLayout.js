@@ -46,9 +46,8 @@ class TabsLayout extends React.Component {
     this.props.pushLocation(baseLocation + path); // TODO urljoin
   };
 
-  render() {
+  componentWillMount() {
     const { baseLocation, tabs, router } = this.props;
-    const styles = this.context.styleManager.render(styleSheet);
 
     const pathname = router.location.pathname;
     const activeTabIndex = this.props.tabs.findIndex(tab => {
@@ -56,6 +55,18 @@ class TabsLayout extends React.Component {
     });
 
     if (activeTabIndex === -1) this.transitionTo(tabs[0].path);
+  }
+
+  render() {
+    const { baseLocation, tabs, router, ...otherProps } = this.props;
+    const styles = this.context.styleManager.render(styleSheet);
+
+    const pathname = router.location.pathname;
+    const activeTabIndex = this.props.tabs.findIndex(tab => {
+      return pathname.startsWith(baseLocation + tab.path);
+    });
+
+    // if (activeTabIndex === -1) this.transitionTo(tabs[0].path);
 
     return (
       <div>
@@ -85,8 +96,12 @@ class TabsLayout extends React.Component {
         <Switch location={this.props.router.location}>
           {
             tabs.map((tab, index) => {
+              const Component = tab.component;
               return (
-                <Route key={index} path={`${baseLocation}${tab.path}`} component={tab.component} />
+                <Route
+                  key={index}
+                  path={`${baseLocation}${tab.path}`}
+                  component={(routeProps) => <Component {...routeProps} {...otherProps} />} />
               )
             })
           }

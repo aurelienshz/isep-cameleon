@@ -1,26 +1,29 @@
 package com.cameleon.chameleon.data.dto;
 
-import java.sql.Time;
+import javax.persistence.Column;
+import java.sql.Timestamp;
 import java.util.List;
 
 public class MeetingDTO {
-    private Time begin;
-    private Time end;
+    private Timestamp beginning;
+
+    private Timestamp end;
+
     private List<Long> attendees;
 
-    public Time getBegin() {
-        return begin;
+    public Timestamp getBeginning() {
+        return beginning;
     }
 
-    public void setBegin(Time begin) {
-        this.begin = begin;
+    public void setBeginning(Timestamp beginning) {
+        this.beginning = beginning;
     }
 
-    public Time getEnd() {
+    public Timestamp getEnd() {
         return end;
     }
 
-    public void setEnd(Time end) {
+    public void setEnd(Timestamp end) {
         this.end = end;
     }
 

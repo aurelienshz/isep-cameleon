@@ -4,8 +4,7 @@ import com.cameleon.chameleon.data.dto.MeetingDTO;
 import com.cameleon.chameleon.data.dto.ProjectCreationDTO;
 import com.cameleon.chameleon.data.entity.*;
 
-import com.cameleon.chameleon.exception.BusinessLogicException;
-
+import com.cameleon.chameleon.service.DeliverableService;
 import com.cameleon.chameleon.service.FeatureService;
 import com.cameleon.chameleon.service.MeetingService;
 import com.cameleon.chameleon.service.ProjectService;
@@ -32,6 +31,9 @@ public class ProjectController {
     @Autowired
     private MeetingService meetingService;
 
+    @Autowired
+    private DeliverableService deliverableService;
+
     @GetMapping
     public List<Project> getAllProjects() {
         return projectService.getAllProjects();
@@ -39,7 +41,7 @@ public class ProjectController {
 
     @GetMapping("/{id}")
     public Project getProject(@PathVariable Long id) {
-        return projectService.getProject(id);
+        return projectService.findProject(id);
     }
 
     @GetMapping("/my-project")
@@ -66,17 +68,17 @@ public class ProjectController {
 
     @PostMapping("/{id}/meeting")
     public Meeting addMeeting(@PathVariable Long id, @RequestBody MeetingDTO meeting) {
-        return meetingService.addMeeting(meeting);
+        return meetingService.addMeeting(id, meeting);
     }
 
     @PostMapping("/{pId}/meeting/{mId")
     public Meeting editMeeting(@PathVariable Long pId, @PathVariable Long mId, @RequestBody MeetingDTO meeting) {
-        return null; // TODO
+        return meetingService.updateMeeting(pId, mId, meeting);
     }
 
     @DeleteMapping("/{pId}/meeting/{mId}")
     public void deleteMeeting(@PathVariable Long pId, @PathVariable Long mId) {
-        // TODO
+        meetingService.deleteMeeting(pId, mId);
     }
 
     @DeleteMapping("/{pId}/meeting/{mId}/report")
@@ -106,13 +108,13 @@ public class ProjectController {
 
     @GetMapping("/{pId}/deliverable")
     public List<Deliverable> getDeliverables(@PathVariable Long pId) {
-        return meetingService.findDeliverables();
+        return deliverableService.findDeliverables(pId);
     }
 
     @PostMapping("/{pId}/deliverable")
     @RolesAllowed({ ROLE_TEACHER, ROLE_CLIENT })
     public Deliverable addDeliverable(@PathVariable Long pId) {
-        return meetingService.addDeliverable(pId);
+        return deliverableService.addDeliverable(pId);
     }
 
     @PostMapping("/{pId}/deliverable/{dId}")

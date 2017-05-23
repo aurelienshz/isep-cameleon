@@ -112,8 +112,8 @@ class AppBarLayout extends React.Component {
     this.fetchProfileAndPromotion();
   }
 
-  componentWillReceiveProps() {
-    // this.fetchProfileAndPromotion();
+  componentWillReceiveProps(props) {
+    // if (props.profile !== this.props.profile) this.fetchProfileAndPromotion();
   }
 
   isProfileLoaded = () => {

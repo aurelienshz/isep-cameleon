@@ -17,12 +17,23 @@ const tabs = [
   {
     label: "Livrables",
     path: "/deliverable",
-    component: Home,
+    component: () => <div>Livrables</div>,
   },
 ];
 
-export default class TeamDashboard extends React.Component {
+export default class ProjectDashboard extends React.Component {
+  componentWillMount() {
+    this.props.fetchProject();
+  }
+
   render() {
-    return <TabsLayout baseLocation="/team" tabs={tabs} />;
+    const { project, baseLocation, loading } = this.props;
+
+    return <TabsLayout
+      baseLocation={baseLocation}
+      loading={loading}
+      tabs={tabs}
+      project={project}
+    />;
   }
 }

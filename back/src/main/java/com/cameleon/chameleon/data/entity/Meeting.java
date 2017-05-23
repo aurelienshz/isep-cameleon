@@ -1,5 +1,7 @@
 package com.cameleon.chameleon.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -13,9 +15,11 @@ public class Meeting {
     @JoinColumn(name = "timeslot_id")
     private TimeSlot timeSlot;
 
-    @OneToMany
+    @ManyToOne
+    @JsonIgnore
     private Project project;
 
+    @ManyToMany
     private List<User> attendees;
 
     public TimeSlot getTimeSlot() {

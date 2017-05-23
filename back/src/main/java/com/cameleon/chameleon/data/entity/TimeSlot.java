@@ -1,9 +1,8 @@
 package com.cameleon.chameleon.data.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.sql.Time;
+import javax.persistence.*;
+import java.sql.Date;
+import java.sql.Timestamp;
 
 @Entity()
 public class TimeSlot {
@@ -11,27 +10,25 @@ public class TimeSlot {
     @GeneratedValue
     private Long id;
 
-    private Time beginning;
-    private Time end;
+    @Column(nullable = false)
+    private Timestamp beginning;
 
-    public int getDurationInSeconds() {
-        // TODO return end - begin
-        return 0;
-    }
+    @Column(nullable = false)
+    private Timestamp end;
 
-    public Time getBeginning() {
+    public Timestamp getBeginning() {
         return beginning;
     }
 
-    public void setBeginning(Time beginning) {
+    public void setBeginning(Timestamp beginning) {
         this.beginning = beginning;
     }
 
-    public Time getEnd() {
+    public Timestamp getEnd() {
         return end;
     }
 
-    public void setEnd(Time end) {
+    public void setEnd(Timestamp end) {
         this.end = end;
     }
 

@@ -1,6 +1,7 @@
 package com.cameleon.chameleon.data.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity()
@@ -23,9 +24,10 @@ public class Project {
     @OneToMany
     private List<Deliverable> deliverables;
 
-    @OneToMany
-    private List<Meeting> meetingList;
+    @OneToMany(mappedBy = "project")
+    private List<Meeting> meetings;
 
+    @OneToMany(mappedBy = "project")
     private List<MeetingRequest> meetingRequests;
 
     public Subject getSubject() {
@@ -66,5 +68,21 @@ public class Project {
 
     public void setMeetingRequests(List<MeetingRequest> meetingRequests) {
         this.meetingRequests = meetingRequests;
+    }
+
+    public List<Meeting> getMeetings() {
+        return meetings;
+    }
+
+    public void setMeetings(List<Meeting> meetings) {
+        this.meetings = meetings;
+    }
+
+    public void addMeeting(Meeting meeting) {
+        meeting.setProject(this);
+        List<Meeting> meetings = this.getMeetings();
+        if (meetings == null) meetings = new ArrayList<>();
+        meetings.add(meeting);
+        this.setMeetings(meetings);
     }
 }
