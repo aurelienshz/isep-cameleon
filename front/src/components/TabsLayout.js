@@ -8,7 +8,7 @@ import { push } from 'react-router-redux';
 import { createStyleSheet } from 'jss-theme-reactor';
 import customPropTypes from 'material-ui/utils/customPropTypes';
 import Paper from 'material-ui/Paper';
-import { Tabs, Tab } from 'material-ui/Tabs';
+import Tabs, { Tab } from 'material-ui/Tabs';
 
 import colors from '../colors.js';
 
@@ -37,26 +37,7 @@ const styleSheet = createStyleSheet('ClientPage', () => ({
 class TabsLayout extends React.Component {
   props: Props;
 
-  state = {
-    index: 0,
-  };
-
-  componentDidMount() {
-    // Find the active tab
-    const { baseLocation, router } = this.props;
-    const location = router.location.pathname;
-    const cleanLocation = location.substring(baseLocation.length);
-    const activeTabIndex = this.props.tabs.findIndex(tab => cleanLocation.startsWith(tab.path));
-
-    if (activeTabIndex > -1) {
-      this.setState({index: activeTabIndex});
-    } else {
-      this.transitionTo(this.props.tabs[this.state.index].path);
-    }
-  }
-
   handleChange = (event, index) => {
-    this.setState({ index });
     this.transitionTo(this.props.tabs[index].path);
   };
 
@@ -66,8 +47,15 @@ class TabsLayout extends React.Component {
   };
 
   render() {
-    const { baseLocation, tabs } = this.props;
+    const { baseLocation, tabs, router } = this.props;
     const styles = this.context.styleManager.render(styleSheet);
+
+    const pathname = router.location.pathname;
+    const activeTabIndex = this.props.tabs.findIndex(tab => {
+      return pathname.startsWith(baseLocation + tab.path);
+    });
+
+    if (activeTabIndex === -1) this.transitionTo(tabs[0].path);
 
     return (
       <div>
@@ -75,7 +63,7 @@ class TabsLayout extends React.Component {
           <div className={styles.appBar}>
             <Tabs
               indicatorColor={ colors.ISEP_SECONDARY }
-              index={this.state.index}
+              index={activeTabIndex}
               onChange={this.handleChange}
               scrollable
               scrollButtons="on"
@@ -94,7 +82,7 @@ class TabsLayout extends React.Component {
           </div>
         </Paper>
 
-        <Switch>
+        <Switch location={this.props.router.location}>
           {
             tabs.map((tab, index) => {
               return (

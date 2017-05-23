@@ -97,7 +97,7 @@ function collectDropTarget(connect) {
 
 class Feature extends React.Component {
   render() {
-    const { feature, connectDragSource, connectDropTarget, isDragging, onDelete } = this.props;
+    const { feature, connectDragSource, connectDropTarget, onDelete } = this.props;
     return connectDragSource(connectDropTarget(
       <div>
         <ListItem>

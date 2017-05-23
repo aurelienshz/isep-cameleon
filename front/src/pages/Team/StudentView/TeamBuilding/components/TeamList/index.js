@@ -8,9 +8,9 @@ import TextField from 'material-ui/TextField';
 
 import TeamListComponent from './components/TeamList';
 import TeamCreationDialog from './components/TeamCreationDialog';
-import ConfirmDialog from '../../../../components/ConfirmDialog';
+import ConfirmDialog from '../../../../../../components/ConfirmDialog';
 
-import colors from '../../../../colors.js';
+import colors from '../../../../../../colors.js';
 
 const styleSheet = createStyleSheet('Chips', (theme) => ({
   searchField: {

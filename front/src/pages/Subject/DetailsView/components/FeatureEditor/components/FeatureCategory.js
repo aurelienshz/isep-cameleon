@@ -79,7 +79,7 @@ class FeatureCategory extends React.Component {
         <List>
           {
             featureCategory.features.map((feature, index) => {
-              if (feature === null) return;
+              if (feature === null) return null;
               return (
                 <Feature
                   key={index}

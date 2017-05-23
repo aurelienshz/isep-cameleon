@@ -23,7 +23,7 @@ global.authenticate = () => {
     }
   ).catch(
     (er) => {
-      console.log(er);
+      console.error(er);
     }
   );
 };

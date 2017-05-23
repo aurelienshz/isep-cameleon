@@ -159,8 +159,10 @@ export function createFeature(subjectId, fcId, dto) {
     });
     try {
       await createFeatureService(subjectId, fcId, dto);
+      dispatch({
+        type: CONFIRM_CREATE_FEATURE,
+      });
       dispatch(fetchSubjectsAfterOptimisticUpdate());
-
     } catch (er) {
       console.error(er);
     }

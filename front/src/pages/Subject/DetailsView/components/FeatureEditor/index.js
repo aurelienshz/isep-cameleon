@@ -14,9 +14,7 @@ export default class FeatureEditor extends React.Component {
     this.state.subject.featureCategories.forEach(featureCategory => {
       const featuresIds = featureCategory.features
         .filter(f => f !== null)
-        .map(f => {
-        if (f !== null) return f.id;
-      });
+        .map(f => f.id);
       const dto = {
         name: featureCategory.name,
         featuresIds,
