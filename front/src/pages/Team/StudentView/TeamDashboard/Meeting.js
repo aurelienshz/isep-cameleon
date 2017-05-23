@@ -3,13 +3,10 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
-import Typography from 'material-ui/Typography';
-import Card, { CardContent } from 'material-ui/Card';
+import Card from 'material-ui/Card';
 import List, { ListItem, ListItemText } from 'material-ui/List';
-import Divider from 'material-ui/Divider';
 import Avatar from 'material-ui/Avatar';
-import GroupIcon from 'material-ui-icons/Group'
-import SubjectIcon from 'material-ui-icons/Subject'
+import GroupIcon from 'material-ui-icons/Group';
 import { Switch, Route } from 'react-router-dom';
 
 import MeetingDetails from './components/MeetingDetails';
@@ -174,7 +171,6 @@ const StyledTeamDashboard = withStyles(styleSheet)(TeamDashboard);
 
 const ConnectedTeamDashboard = connect(
   (state, ownProps) => {
-    console.log(ownProps);
     return {
       meetings: __meetings,
     }
@@ -183,8 +179,8 @@ const ConnectedTeamDashboard = connect(
     return {
       pushLocation: (location) => dispatch(push(location)),
     }
-  })
-(StyledTeamDashboard);
+  }
+)(StyledTeamDashboard);
 
 export default function() {
   return (

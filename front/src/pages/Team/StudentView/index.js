@@ -1,20 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {createStyleSheet} from 'jss-theme-reactor';
-import Typography from 'material-ui/Typography';
 import customPropTypes from 'material-ui/utils/customPropTypes';
 
 import { getLocalState as getPromotionState } from '../../../data/promotion/reducer';
-import { BUILDING_SESSION, PROJECTS_STARTED, SESSION_ENDED } from '../../../data/promotion/constants';
+import { BUILDING_SESSION, PROJECTS_STARTED } from '../../../data/promotion/constants';
 
 import TeamBuilding from './TeamBuilding';
 import TeamDashboard from './TeamDashboard';
-
-const styleSheet = createStyleSheet('TeamPage', (theme) => ({
-  breadCrumbs: {
-    marginBottom: 20,
-  }
-}));
 
 class TeamPage extends React.Component {
   static contextTypes = {

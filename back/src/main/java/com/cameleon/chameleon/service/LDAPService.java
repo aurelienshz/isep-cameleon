@@ -12,10 +12,6 @@ import javax.naming.NamingEnumeration;
 import javax.naming.directory.*;
 import java.util.Hashtable;
 
-/**
- * Created by Victor ELY on 23/05/2017.
- */
-
 @Service
 public class LDAPService {
 
