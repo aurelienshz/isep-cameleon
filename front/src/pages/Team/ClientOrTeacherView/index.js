@@ -2,6 +2,7 @@
 
 import React from 'react';
 import {connect} from 'react-redux';
+import { push } from 'react-router-redux';
 import Button from 'material-ui/Button';
 import Grid from 'material-ui/Grid';
 import TextField from 'material-ui/TextField';
@@ -178,6 +179,7 @@ class ValidateEquipes extends React.Component {
   };
 
   renderTable = () => {
+    const { goToDetails } = this.props;
     const filteredTeams = this.applyFilterString();
 
     switch(this.state.index) {
@@ -190,7 +192,8 @@ class ValidateEquipes extends React.Component {
           style={style.TABLE}
           loading={this.props.loading}
           data={teamsToValidate}
-          columns={columnsMain} />;
+          columns={columnsMain}
+          onClick={(id) => {goToDetails(id)}} />;
       case 1:
         const teamsWithoutProject = filteredTeams.filter(team => {
           return team.validatedByTeacher && this.props.projects.findIndex(p => p.team.id === team.id) === -1;
@@ -201,7 +204,8 @@ class ValidateEquipes extends React.Component {
           style={style.TABLE}
           loading={this.props.loading}
           data={teamsToAssignSubject}
-          columns={columnsToAssignSubject} />;
+          columns={columnsToAssignSubject}
+          onClick={(id) => {goToDetails(id)}} />;
       case 2:
         // A validated team is a project :
         const validatedTeams = this.props.projects.map(p => {
@@ -215,7 +219,8 @@ class ValidateEquipes extends React.Component {
           style={style.TABLE}
           loading={this.props.loading}
           data={validatedTeams}
-          columns={columnsValidated} />;
+          columns={columnsValidated}
+          onClick={(id) => {goToDetails(id)}} />;
     }
   };
 
@@ -308,6 +313,7 @@ export default connect((state) => {
     fetchProjects: () => dispatch(fetchProjects()),
     validateTeam: (id) => dispatch(validateTeam(id)),
     createProject: (subjectId, teamId) => dispatch(createProject(subjectId, teamId)),
+    goToDetails: (id) => dispatch(push("/team/" + id)),
   };
 },
 )(ValidateEquipes);

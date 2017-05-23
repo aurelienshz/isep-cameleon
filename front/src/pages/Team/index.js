@@ -6,6 +6,8 @@ import { ROLE_CLIENT, ROLE_TEACHER, userHasRole } from '../../data/users/rolesHe
 import StudentView from './StudentView';
 import ClientOrTeacherView from './ClientOrTeacherView';
 
+import { Switch, Route } from 'react-router-dom';
+
 import Loader from '../../components/Loader.js';
 
 const VIEW_STUDENT = "VIEW_STUDENT";
@@ -18,7 +20,22 @@ class TeamPage extends React.Component {
     if (loading) return <div><Loader /></div>
 
     if (viewType === VIEW_CLIENT_OR_TEACHER) {
-      return <ClientOrTeacherView />;
+      return (
+        <div>
+          <Switch>
+            <Route exact path="/team" component={() => (
+              <div>
+                <ClientOrTeacherView />;
+              </div>
+            )}/>
+            <Route path="/team/:id" component={(props) => (
+              <div>
+                <p>Page Yoloswag</p>
+              </div>
+            )} />
+          </Switch>
+        </div>
+      )
     }
 
     return <StudentView />;
