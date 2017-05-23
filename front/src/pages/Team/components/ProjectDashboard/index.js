@@ -23,17 +23,28 @@ const tabs = [
 
 export default class ProjectDashboard extends React.Component {
   componentWillMount() {
-    this.props.fetchProject();
+    const {projectId} = this.props;
+    if (projectId) {
+      this.props.fetchProject(projectId);
+    } else {
+      this.props.fetchProject();
+    }
   }
 
   render() {
-    const { project, baseLocation, loading } = this.props;
+    const {project, baseLocation, loading, projectId} = this.props;
 
-    return <TabsLayout
-      baseLocation={baseLocation}
-      loading={loading}
-      tabs={tabs}
-      project={project}
-    />;
+    return (
+      <div style={{ width: '100%', height: 'calc(100% - 64px)', boxSizing: 'border-box', backgroundColor: "#FAFAFA" }}>
+        <TabsLayout
+          baseLocation={baseLocation}
+          projectId={projectId}
+          loading={loading}
+          tabs={tabs}
+          project={project}
+        />
+      </div>
+    );
+
   }
 }

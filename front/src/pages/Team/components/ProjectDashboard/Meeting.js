@@ -6,6 +6,7 @@ import Grid from 'material-ui/Grid';
 import Card from 'material-ui/Card';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
+import Button from 'material-ui/Button';
 import GroupIcon from 'material-ui-icons/Group';
 import { Switch, Route } from 'react-router-dom';
 
@@ -40,45 +41,6 @@ const styleSheet = createStyleSheet('Dashboard', (theme) => ({
   }
 }));
 
-const __meetings = [
-  {
-    id: 1,
-    timeslot: {
-      beginning: 1492948344501,
-      end: 1492951928939,
-    },
-    attendees: [
-      {
-        firstName: "Yolo",
-        lastName: "Swag"
-      },
-      {
-        firstName: "Yolo",
-        lastName: "Swag"
-      },
-    ],
-    report: null,
-  },
-  {
-    id: 2,
-    timeslot: {
-      beginning: 1492948344501,
-      end: 1492951928939,
-    },
-    attendees: [
-      {
-        firstName: "Yolo",
-        lastName: "Swag"
-      },
-      {
-        firstName: "Yolo",
-        lastName: "Swag"
-      },
-    ],
-    report: true,
-  }
-];
-
 const MeetingList = ({ meetings, classes, selectedId, selectMeeting }) => {
   return (
     <List>
@@ -112,70 +74,73 @@ class ProjectMeetings extends React.Component {
   };
 
   selectMeeting = (id) => {
-    this.props.pushLocation("/team/meeting/" + id);
+    this.props.pushLocation(this.props.baseLocation + "/meeting/" + id);
   };
 
-  render() {
-    const { project, loading, classes, match } = this.props;
-
-    if (loading) {
-      return (
-        <div style={{ padding: 20, backgroundColor: "#FAFAFA", height: 'calc(100% - 64px)', boxSizing: 'border-box' }}>
-          <h1 style={{ textAlign: 'center' }}>Réunions</h1>
-
-          <Loader />
-        </div>
-      )
-    }
-
+  buildGrid = () => {
+    const {classes, project, match} = this.props;
     const meetings = project.meetings;
 
     if (match.params.id) {
       const selectedId = parseInt(this.props.match.params.id, 10);
       const selectedMeeting = meetings.find(m => m.id === selectedId);
-
       return (
-        <div style={{ padding: 20, backgroundColor: "#FAFAFA", height: 'calc(100% - 64px)', boxSizing: 'border-box' }}>
-          <h1 style={{ textAlign: 'center' }}>Réunions</h1>
+        <Grid container gutter={0}>
+          <Grid item xs={4} className={classes.leftColumn}>
+            <MeetingList
+              classes={classes}
+              meetings={meetings}
+              selectedId={selectedId}
+              selectMeeting={this.selectMeeting}/>
+          </Grid>
 
-          <Card style={{ backgroundColor: 'white' }}>
-            <Grid container gutter={0}>
-              <Grid item xs={4} className={classes.leftColumn}>
-                <MeetingList
-                  classes={classes}
-                  meetings={meetings}
-                  selectedId={selectedId}
-                  selectMeeting={this.selectMeeting} />
-              </Grid>
-              <Grid item xs={8}>
-                <div className={classes.rightColumn}>
-                  {
-                    selectedMeeting ?
-                      <MeetingDetails meeting={selectedMeeting} />
-                      :
-                      <div>Not found :(</div>
-                  }
-                </div>
-              </Grid>
-            </Grid>
-          </Card>
-        </div>
-      )
+          <Grid item xs={8}>
+            <div className={classes.rightColumn}>
+              {
+                selectedMeeting ?
+                  <MeetingDetails meeting={selectedMeeting}/>
+                  :
+                  <div>Not found :(</div>
+              }
+            </div>
+          </Grid>
+        </Grid>
+      );
     }
 
     return (
-      <div style={{ padding: 20, backgroundColor: "#FAFAFA", height: 'calc(100% - 64px)', boxSizing: 'border-box' }}>
-        <h1 style={{ textAlign: 'center' }}>Réunions</h1>
-        <Card style={{ backgroundColor: 'white' }}>
-          <Grid container gutter={0}>
-            <Grid item xs={12}>
-              <MeetingList
-                classes={classes}
-                meetings={meetings}
-                selectMeeting={this.selectMeeting} />
-            </Grid>
-          </Grid>
-        </Card>
+      <Grid container gutter={0}>
+        <Grid item xs={12}>
+          <MeetingList
+            classes={classes}
+            meetings={meetings}
+            selectMeeting={this.selectMeeting}/>
+        </Grid>
+      </Grid>
+    );
+  }
+
+  render() {
+    const {loading} = this.props;
+
+    return (
+      <div style={{padding: 16}}>
+        <h3>
+          Réunions
+          <div style={{float: 'right'}}>
+            <Button>Nouvelle réunion</Button>
+          </div>
+        </h3>
+
+        {
+          loading ?
+            <Loader />
+            :
+            <Card style={{backgroundColor: 'white'}}>
+              { this.buildGrid() }
+            </Card>
+        }
+
       </div>
     );
   }
@@ -194,10 +159,11 @@ const ConnectedTeamDashboard = connect(
 )(StyledTeamDashboard);
 
 export default function(props) {
+  const { baseLocation } = props;
   return (
-    <Switch location={props.location}>
-      <Route exact path="/team/meeting" component={(routerProps) => <ConnectedTeamDashboard {...props} {...routerProps} />} />
-      <Route path="/team/meeting/:id" component={(routerProps) => <ConnectedTeamDashboard {...props} {...routerProps} />} />
+    <Switch>
+      <Route exact path={baseLocation + "/meeting"} component={(routerProps) => <ConnectedTeamDashboard {...props} {...routerProps} />} />
+      <Route path={baseLocation + "/meeting/:id"} component={(routerProps) => <ConnectedTeamDashboard {...props} {...routerProps} />} />
     </Switch>
   );
 };

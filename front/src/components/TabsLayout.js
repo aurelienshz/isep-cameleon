@@ -101,8 +101,15 @@ class TabsLayout extends React.Component {
                 <Route
                   key={index}
                   path={`${baseLocation}${tab.path}`}
-                  component={(routeProps) => <Component {...routeProps} {...otherProps} />} />
-              )
+                  component={
+                    (routeProps) => (
+                      <Component
+                        baseLocation={baseLocation}
+                        {...routeProps}
+                        {...otherProps} />
+                    )
+                  } />
+              );
             })
           }
         </Switch>

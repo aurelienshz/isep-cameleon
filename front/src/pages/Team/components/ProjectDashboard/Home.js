@@ -41,7 +41,7 @@ const styleSheet = createStyleSheet('Dashboard', (theme) => ({
 
 class ProjectDashboardHome extends React.Component {
   render() {
-    const { classes, loading, project } = this.props;
+    const { classes, loading, project, baseLocation } = this.props;
 
     const meetingTime = !loading && project.meetings.reduce((acc, curr) => {
       const duration = curr.timeSlot.end - curr.timeSlot.beginning;
@@ -50,8 +50,8 @@ class ProjectDashboardHome extends React.Component {
     const formattedMeetingTime = !loading && formatFrenchDuration(meetingTime);
 
     return (
-      <div style={{ padding: 20, backgroundColor: "#FAFAFA", height: 'calc(100% - 64px)', boxSizing: 'border-box' }}>
-        <h1 style={{ textAlign: 'center' }}>Caméléon</h1>
+      <div style={{ padding: 16 }}>
+        <h1 style={{ textAlign: 'center' }}>{ !loading && project.team.name }</h1>
         <Grid container>
           <Grid item xs={12} md={6}>
             <Card>
@@ -86,7 +86,7 @@ class ProjectDashboardHome extends React.Component {
                           const date = formatFrenchDate(meeting.timeSlot.beginning);
                           return (
                             <ListItem key={meeting.id} button
-                                      onClick={() => this.props.pushLocation("/team/meeting/1")}>
+                                      onClick={() => this.props.pushLocation(baseLocation + "/meeting/" + meeting.id)}>
                               <Avatar><GroupIcon/></Avatar>
                               <ListItemText
                                 primary={<span>{date} {!meeting.report &&
