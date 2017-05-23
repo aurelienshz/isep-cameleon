@@ -25,7 +25,7 @@ export default function SimpleTable(props) {
           return {
             onClick: () => {
               if (props.clickHandler) props.clickHandler(rowInfo)
-            }
+            },
           };
         }
         return {};

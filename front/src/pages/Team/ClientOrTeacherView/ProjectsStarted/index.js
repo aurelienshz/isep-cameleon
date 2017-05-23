@@ -28,7 +28,6 @@ const style = {
     padding: 20,
   },
   searchField: {
-    maxWidth: 400,
     margin: '0 auto 20px auto',
   },
   center: {
@@ -123,12 +122,16 @@ class ValidateEquipes extends React.Component {
   render() {
     return (
       <div style={style.BODY}>
-        <h1>Équipes</h1>
-        <Grid>
-          <TextField
-            style={style.searchField}
-            onChange={e => this.setState({filterString: e.target.value})}
-            label="Filtrer les équipes" />
+        <Grid container>
+          <Grid item xs={12} sm={6}>
+            <h2>Équipes</h2>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              style={style.searchField}
+              onChange={e => this.setState({filterString: e.target.value})}
+              label="Filtrer les équipes" />
+          </Grid>
         </Grid>
 
         { this.renderTable() }

@@ -41,7 +41,7 @@ const MembersRow = function({ members, styleClasses }) {
           <Chip
             key={index}
             avatar={<Avatar><FaceIcon className={styleClasses.svgIcon}/></Avatar>}
-            label={member.name}
+            label={member.firstName + " " + member.lastName}
             className={styleClasses.chip}
           />
         ))
@@ -60,7 +60,7 @@ export default function TeamList({ teams, onRequestJoin }, context) {
             <Card className={classes.card} key={team.id}>
               <CardContent>
                 <Typography type="headline" component="h2">{team.name}</Typography>
-                <MembersRow members={members} styleClasses={classes} />
+                <MembersRow members={team.members} styleClasses={classes} />
               </CardContent>
               <CardActions>
                 <Button onClick={() => onRequestJoin(team.id)} primary>Rejoindre l'équipe</Button>

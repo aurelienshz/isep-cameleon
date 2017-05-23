@@ -64,7 +64,7 @@ class TeamPage extends React.Component {
     if (loadingTeams) {
       return (
         <div style={STYLE_CONTAINER}>
-          <Typography><Loader/></Typography>
+          <Loader/>
         </div>
       );
     }

@@ -4,7 +4,7 @@ import React from 'react';
 
 import { Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
+import { replace } from 'react-router-redux';
 import { createStyleSheet } from 'jss-theme-reactor';
 import customPropTypes from 'material-ui/utils/customPropTypes';
 import Paper from 'material-ui/Paper';
@@ -43,7 +43,7 @@ class TabsLayout extends React.Component {
 
   transitionTo = (path) => {
     const baseLocation = this.props.baseLocation;
-    this.props.pushLocation(baseLocation + path); // TODO urljoin
+    this.props.replaceLocation(baseLocation + path); // TODO urljoin
   };
 
   componentWillMount() {
@@ -130,7 +130,7 @@ export default connect(
   },
   (dispatch) => {
     return {
-      pushLocation: (location) => dispatch(push(location)),
+      replaceLocation: (location) => dispatch(replace(location)),
     };
   }
 )(TabsLayout);

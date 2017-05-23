@@ -21,7 +21,11 @@ class TeamPage extends React.Component {
   render() {
     const { loading, promotionStatus } = this.props;
 
-    if (loading) return <Loader />;
+    if (loading) return (
+      <div>
+        <Loader />
+      </div>
+    );
 
     switch (promotionStatus) {
       case BUILDING_SESSION:

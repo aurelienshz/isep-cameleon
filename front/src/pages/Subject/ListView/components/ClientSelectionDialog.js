@@ -7,7 +7,6 @@ import IconButton from 'material-ui/IconButton';
 import Typography from 'material-ui/Typography';
 import CloseIcon from 'material-ui-icons/Close';
 import Slide from 'material-ui/transitions/Slide';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 import colors from '../../../../colors';
 
@@ -17,10 +16,7 @@ import Loader from '../../../../components/Loader.js';
 const STYLE_APPBAR = {
   position: 'fixed',
   backgroundColor: colors.ISEP_PRIMARY,
-  width:'960px',
 };
-
-// TODO Change the width
 
 const STYLE_BUTTON = {
   maxWidth: 300,

@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import {createStyleSheet} from 'jss-theme-reactor';
 import customPropTypes from 'material-ui/utils/customPropTypes';
 import Grid from 'material-ui/Grid';
@@ -51,7 +52,11 @@ export default function SubjectList(props, context) {
           return (
             <Card className={classes.card} key={subject.id}>
               <CardContent>
-                <Typography type="headline" component="h2">{subject.name}</Typography>
+                <Typography type="headline" component="h2">
+                  <NavLink to={"/subject/" + subject.id}>
+                    {subject.name}
+                  </NavLink>
+                </Typography>
                 <p dangerouslySetInnerHTML={{ __html: subject.description }} />
                 {
                   subject.client &&
@@ -75,7 +80,7 @@ export default function SubjectList(props, context) {
                   }
                   {
                     showAssignToClient && !subject.client &&
-                    <Button onClick={() => onClickAssignClient(subject.id)} primary>Client</Button>
+                    <Button onClick={() => onClickAssignClient(subject.id)} primary>Assigner un client</Button>
                   }
                 </CardActions>
               }

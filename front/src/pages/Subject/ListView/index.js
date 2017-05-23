@@ -18,7 +18,7 @@ import Loader from '../../../components/Loader.js';
 
 
 const STYLE_SEARCH = {
-  maxWidth: 400,
+  width: '100%',
   margin: '0 auto 20px auto',
 };
 
@@ -94,11 +94,18 @@ class SubjectListView extends React.Component {
           onConfirm={this.setClient}
           onRequestClose={this.closeClientSelectionDialog} />
 
-        <Grid>
-          <TextField
-            style={STYLE_SEARCH}
-            label="Filtrer les sujets"
-            onChange={(e) => this.setState({filterString: e.target.value})} />
+        <Grid container>
+          <Grid item xs={12} sm={6}>
+            <h2>
+              Sujets
+            </h2>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              style={STYLE_SEARCH}
+              label="Filtrer les sujets"
+              onChange={(e) => this.setState({filterString: e.target.value})} />
+          </Grid>
         </Grid>
 
         {

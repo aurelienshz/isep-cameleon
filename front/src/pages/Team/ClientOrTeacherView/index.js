@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import customPropTypes from 'material-ui/utils/customPropTypes';
 
-import { getLocalState as getPromotionState } from '../../../data/promotion/reducer';
+import { fetchPromotion, getLocalState as getPromotionState } from '../../../data/promotion/reducer';
 import { BUILDING_SESSION, PROJECTS_STARTED } from '../../../data/promotion/constants';
 
 import TeamBuilding from './TeamBuilding';
@@ -14,6 +14,10 @@ class TeamPage extends React.Component {
   static contextTypes = {
     styleManager: customPropTypes.muiRequired,
   };
+
+  componentWillMount() {
+    this.props.fetchPromotion();
+  }
 
   render() {
     return (
@@ -44,5 +48,6 @@ export default connect(
     };
   },
   (dispatch) => ({
+    fetchPromotion: () => dispatch(fetchPromotion()),
   })
 )(TeamPage);

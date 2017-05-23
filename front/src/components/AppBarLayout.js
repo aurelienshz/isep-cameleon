@@ -103,7 +103,7 @@ class AppBarLayout extends React.Component {
   fetchProfileAndPromotion = () => {
     if(isAuthenticated()) this.props.fetchPromotion();
 
-    if (!this.isProfileLoaded()) {
+    if (isAuthenticated() && !this.isProfileLoaded()) {
       this.props.loadProfile();
     }
   };

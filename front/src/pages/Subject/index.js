@@ -25,17 +25,8 @@ class Subject extends React.Component {
       return (
         <div style={{padding: 20}}>
           <Switch>
-            <Route exact path="/subject" component={() => (
-              <div>
-                <h1>Sujets</h1>
-                <SubjectListView />
-              </div>
-            )}/>
-            <Route path="/subject/:id" component={(props) => (
-              <div>
-                <SubjectDetailsView {...props} />
-              </div>
-            )} />
+            <Route exact path="/subject" component={SubjectListView}/>
+            <Route path="/subject/:id" component={SubjectDetailsView} />
           </Switch>
         </div>
       )
