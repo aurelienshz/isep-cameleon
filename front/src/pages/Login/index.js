@@ -131,8 +131,9 @@ class LoginPage extends React.Component {
     const { error } = this.props;
 
     if (isAuthenticated()) {
-      return <Redirect to="/subject"/>
+      return <Redirect to="/subject" />
     }
+
     return (
       <div className={classes.background}>
         <div className={classes.layout}>
@@ -143,26 +144,26 @@ class LoginPage extends React.Component {
                 <Grid item xs={12} sm={6}>
                   <div className={classes.card}>
                     <h1 className={classes.title}>Authentification ISEP</h1>
-                    <div className={classes.form}>
-                      <input className={classes.input} type="text" placeholder='Login' value={this.state.isepLogin} onChange={(event) => this.setState({isepLogin: event.target.value})}></input>
-                      <input className={classes.input} type="password" placeholder='Password' value={this.state.isepPassword} onChange={(event) => this.setState({isepPassword: event.target.value})}></input>
+                    <form className={classes.form} onSubmit={(e) => {e.preventDefault(); this.submitIsepLogin();}}>
+                      <input className={classes.input} type="text" placeholder='Login' value={this.state.isepLogin} onChange={(event) => this.setState({isepLogin: event.target.value})} />
+                      <input className={classes.input} type="password" placeholder='Password' value={this.state.isepPassword} onChange={(event) => this.setState({isepPassword: event.target.value})} />
                       <a className={classes.link} href='https://moncompte.isep.fr/login.php' target="_blank"> Mot de passe oublié ? </a>
-                      <button className={classes.button} onClick={this.submitIsepLogin}> Connexion </button>
+                      <input type="submit" className={classes.button} onClick={this.submitIsepLogin} value={"Connexion"}/>
                       {
                         error &&
                         <Typography type="body1" style={{color: 'red'}}>
                           {error.message}
                         </Typography>
                       }
-                    </div>
+                    </form>
                   </div>
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <div className={classes.card}>
                     <h1 className={classes.title}>Authentification extérieure</h1>
                     <div className={classes.form}>
-                      <input className={classes.input} type="text" placeholder='Login' value={this.state.externalLogin} onChange={(event) => this.setState({externalLogin: event.target.value})}></input>
-                      <input className={classes.input} type="password" placeholder='Password' value={this.state.externalPassword} onChange={(event) => this.setState({externalPassword: event.target.value})}></input>
+                      <input className={classes.input} type="text" placeholder='Login' value={this.state.externalLogin} onChange={(event) => this.setState({externalLogin: event.target.value})} />
+                      <input className={classes.input} type="password" placeholder='Password' value={this.state.externalPassword} onChange={(event) => this.setState({externalPassword: event.target.value})} />
                       <a className={classes.link}> Mot de passe oublié ? </a>
                       <button className={classes.button} onClick={this.submitExternalLogin}> Connexion </button>
                     </div>
