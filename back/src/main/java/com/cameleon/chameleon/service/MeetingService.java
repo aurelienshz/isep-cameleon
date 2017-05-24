@@ -49,12 +49,17 @@ public class MeetingService {
 
     private Meeting createMeetingFromDTO(MeetingDTO meetingDTO) {
         Meeting meeting = new Meeting();
+
+        meeting.setComment(meetingDTO.getComment());
+
         TimeSlot timeSlot = new TimeSlot();
         timeSlot.setBeginning(meetingDTO.getBeginning());
         timeSlot.setEnd(meetingDTO.getEnd());
         meeting.setTimeSlot(timeSlot);
+
         List<User> attendeesUser = userRepository.findByIdIn(meetingDTO.getAttendees());
         meeting.setAttendees(attendeesUser);
+
         return meeting;
     }
 
@@ -77,6 +82,7 @@ public class MeetingService {
         List<User> attendees = userRepository.findByIdIn(meetingDto.getAttendees());
         meeting.setAttendees(attendees);
 
+        meeting.setComment(meetingDto.getComment());
         meetingRepository.save(meeting);
 
         return meeting;

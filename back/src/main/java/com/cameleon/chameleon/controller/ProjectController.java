@@ -9,6 +9,7 @@ import com.cameleon.chameleon.service.FeatureService;
 import com.cameleon.chameleon.service.MeetingService;
 import com.cameleon.chameleon.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -71,12 +72,13 @@ public class ProjectController {
         return meetingService.addMeeting(id, meeting);
     }
 
-    @PostMapping("/{pId}/meeting/{mId")
+    @PostMapping("/{pId}/meeting/{mId}")
     public Meeting editMeeting(@PathVariable Long pId, @PathVariable Long mId, @RequestBody MeetingDTO meeting) {
         return meetingService.updateMeeting(pId, mId, meeting);
     }
 
     @DeleteMapping("/{pId}/meeting/{mId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteMeeting(@PathVariable Long pId, @PathVariable Long mId) {
         meetingService.deleteMeeting(pId, mId);
     }

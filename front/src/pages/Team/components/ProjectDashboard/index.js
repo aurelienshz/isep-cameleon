@@ -32,13 +32,28 @@ export default class ProjectDashboard extends React.Component {
   }
 
   render() {
-    const {project, baseLocation, loading, projectId} = this.props;
+    const {
+      project,
+      baseLocation,
+      loading,
+      projectId,
+      createMeeting,
+      canEditMeeting,
+      updateMeeting,
+      deleteMeeting,
+      userId
+    } = this.props;
 
     return (
       <div style={{ width: '100%', height: 'calc(100% - 64px)', boxSizing: 'border-box', backgroundColor: "#FAFAFA" }}>
         <TabsLayout
           baseLocation={baseLocation}
+          canEditMeeting={canEditMeeting}
+          createMeeting={createMeeting}
+          updateMeeting={updateMeeting}
+          deleteMeeting={deleteMeeting}
           projectId={projectId}
+          userId={userId}
           loading={loading}
           tabs={tabs}
           project={project}

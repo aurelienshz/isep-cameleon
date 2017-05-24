@@ -10,6 +10,7 @@ export default connect(
     const loading = projectState.loadingProject || projectState.selectedProject === null;
     return {
       loading,
+      canEditMeeting: false,
       project: projectState.selectedProject,
       baseLocation: "/team",
     }

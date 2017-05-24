@@ -4,6 +4,7 @@ import { push } from 'react-router-redux';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
 import Card from 'material-ui/Card';
+import Menu, { MenuItem } from 'material-ui/Menu';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 import Button from 'material-ui/Button';
@@ -12,7 +13,8 @@ import { Switch, Route } from 'react-router-dom';
 
 import MeetingDetails from './components/MeetingDetails';
 
-import { formatFrenchDuration } from '../../../../data/datetime';
+import { formatFrenchDuration, formatFrenchDate, formatFrenchDateTime } from '../../../../data/datetime';
+import { userHasRole, ROLE_CLIENT } from '../../../../data/users/rolesHelpers';
 import Loader from '../../../../components/Loader';
 
 const styleSheet = createStyleSheet('Dashboard', (theme) => ({
@@ -31,7 +33,15 @@ const styleSheet = createStyleSheet('Dashboard', (theme) => ({
     color: theme.palette.text.secondary,
     marginBottom: 16,
   },
-  listWarningBadge: {
+  listInfoBadge: {
+    backgroundColor: 'green',
+    color: 'white',
+    borderRadius: 12,
+    height: 16,
+    float: 'right',
+    padding: '4px 10px',
+  },
+  listDangerBadge: {
     backgroundColor: 'red',
     color: 'white',
     borderRadius: 12,
@@ -42,13 +52,29 @@ const styleSheet = createStyleSheet('Dashboard', (theme) => ({
 }));
 
 const MeetingList = ({ meetings, classes, selectedId, selectMeeting }) => {
+  const sortedMeetings = meetings.sort((m1, m2) => {
+    if (m1.timeSlot.beginning && m2.timeSlot.beginning) {
+      return m2.timeSlot.beginning - m1.timeSlot.beginning;
+    }
+    return -1;
+  });
+
   return (
     <List>
       {
-        meetings.map((meeting, index) => {
+        sortedMeetings.map((meeting, index) => {
           const hasReport = Boolean(meeting.report);
-          const primaryText = <span>09/02/2017 { !hasReport && <span className={classes.listWarningBadge}>Pas de compte-rendu</span> }</span>
-          const duration = "Durée : " + formatFrenchDuration(meeting.timeSlot.end - meeting.timeSlot.beginning);
+          const hasEnded = meeting.timeSlot.end !== null;
+
+          let badge = "";
+          if (!hasEnded) badge = <span className={classes.listInfoBadge}>En cours</span>;
+          if (hasEnded && !hasReport) badge = <span className={classes.listDangerBadge}>Pas de compte-rendu</span>;
+          const primaryText = <span>{ formatFrenchDate(meeting.timeSlot.beginning) } { badge }</span>
+
+          const secondary = hasEnded ?
+            "Durée : " + formatFrenchDuration(meeting.timeSlot.end - meeting.timeSlot.beginning)
+            :
+            "Début : " + formatFrenchDateTime(meeting.timeSlot.beginning);
           return (
             <ListItem
               button key={index}
@@ -59,10 +85,17 @@ const MeetingList = ({ meetings, classes, selectedId, selectMeeting }) => {
 
               <ListItemText
                 primary={primaryText}
-                secondary={duration} />
+                secondary={secondary} />
             </ListItem>
           );
         })
+      }
+
+      {
+        meetings.length === 0 &&
+        <ListItem>
+          <ListItemText primary="Aucune réunion" />
+        </ListItem>
       }
     </List>
   );
@@ -71,14 +104,27 @@ const MeetingList = ({ meetings, classes, selectedId, selectMeeting }) => {
 class ProjectMeetings extends React.Component {
   state = {
     selectedIndex: null,
+    newMeetingMenuOpen: false,
+    newMeetingMenuAnchor: undefined,
   };
 
   selectMeeting = (id) => {
     this.props.pushLocation(this.props.baseLocation + "/meeting/" + id);
   };
 
+  updateMeeting = (meetingId, dto) => {
+    const { projectId } = this.props;
+    this.props.updateMeeting(projectId, meetingId, dto);
+  };
+
+  deleteMeeting = (id) => {
+    const { projectId } = this.props;
+    this.props.deleteMeeting(projectId, id);
+    this.props.pushLocation(this.props.baseLocation + "/meeting")
+  };
+
   buildGrid = () => {
-    const {classes, project, match} = this.props;
+    const {classes, project, match, canEditMeeting} = this.props;
     const meetings = project.meetings;
 
     if (match.params.id) {
@@ -86,7 +132,7 @@ class ProjectMeetings extends React.Component {
       const selectedMeeting = meetings.find(m => m.id === selectedId);
       return (
         <Grid container gutter={0}>
-          <Grid item xs={4} className={classes.leftColumn}>
+          <Grid item xs={12} md={4} className={classes.leftColumn}>
             <MeetingList
               classes={classes}
               meetings={meetings}
@@ -94,11 +140,15 @@ class ProjectMeetings extends React.Component {
               selectMeeting={this.selectMeeting}/>
           </Grid>
 
-          <Grid item xs={8}>
+          <Grid item xs={12} md={8}>
             <div className={classes.rightColumn}>
               {
                 selectedMeeting ?
-                  <MeetingDetails meeting={selectedMeeting}/>
+                  <MeetingDetails
+                    canEditMeeting={canEditMeeting}
+                    meeting={selectedMeeting}
+                    deleteMeeting={() => this.deleteMeeting(selectedMeeting.id)}
+                    updateMeeting={(dto) => this.updateMeeting(selectedMeeting.id, dto)} />
                   :
                   <div>Not found :(</div>
               }
@@ -118,19 +168,67 @@ class ProjectMeetings extends React.Component {
         </Grid>
       </Grid>
     );
-  }
+  };
+
+  openNewMeetingMenu = (e) => {
+    this.setState({
+      newMeetingMenuOpen: true,
+      newMeetingMenuAnchor: e.currentTarget,
+    });
+  };
+
+  closeNewMeetingMenu = () => {
+    this.setState({ newMeetingMenuOpen: false });
+  };
+
+  startMeeting = () => {
+    const { projectId, userId } = this.props;
+
+    const dto = {
+      beginning: Date.now(),
+      attendees: [userId],
+    };
+
+    this.props.createMeeting(projectId, dto);
+    this.closeNewMeetingMenu();
+  };
+
+  addMeeting = () => {
+    const { projectId } = this.props;
+    this.props.createMeeting(projectId, {
+      beginning: Date.now() - 10000,
+      end: Date.now() - 5000,
+      attendees: [],
+    });
+    this.closeNewMeetingMenu();
+  };
+
 
   render() {
-    const {loading} = this.props;
+    const { loading, canEditMeeting } = this.props;
 
     return (
       <div style={{padding: 16}}>
-        <h3>
-          Réunions
-          <div style={{float: 'right'}}>
-            <Button>Nouvelle réunion</Button>
-          </div>
-        </h3>
+        <Menu
+          anchorEl={this.state.newMeetingMenuAnchor}
+          open={this.state.newMeetingMenuOpen}
+          onRequestClose={this.closeNewMeetingMenu}>
+          <MenuItem onClick={this.startMeeting}>Débuter une réunion</MenuItem>
+          <MenuItem onClick={this.addMeeting}>Ajouter une réunion terminée</MenuItem>
+        </Menu>
+
+        <Grid container>
+          <Grid item xs={12} sm={6}>
+            <h3>Réunions</h3>
+          </Grid>
+          { canEditMeeting &&
+            <Grid item xs={12} sm={6}>
+              <div style={{ textAlign: 'right' }}>
+                <Button onClick={this.openNewMeetingMenu}>Nouvelle réunion</Button>
+              </div>
+            </Grid>
+          }
+        </Grid>
 
         {
           loading ?

@@ -15,6 +15,8 @@ public class Meeting {
     @JoinColumn(name = "timeslot_id")
     private TimeSlot timeSlot;
 
+    private String comment;
+
     @ManyToOne
     @JsonIgnore
     private Project project;
@@ -48,5 +50,13 @@ public class Meeting {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

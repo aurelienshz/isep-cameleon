@@ -6,6 +6,7 @@
     "draft-js": "^0.10.0",
     "draftjs-to-html": "^0.7.2",
     "flow": "^0.2.3",
+    "input-moment": "^0.3.2",
     "material-ui": "^1.0.0-alpha.13",
     "material-ui-icons": "^1.0.0-alpha.3",
     "moment": "^2.18.1",

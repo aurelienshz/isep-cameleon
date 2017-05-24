@@ -1,6 +1,5 @@
 package com.cameleon.chameleon.data.dto;
 
-import javax.persistence.Column;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -10,6 +9,8 @@ public class MeetingDTO {
     private Timestamp end;
 
     private List<Long> attendees;
+
+    private String comment;
 
     public Timestamp getBeginning() {
         return beginning;
@@ -33,5 +34,13 @@ public class MeetingDTO {
 
     public void setAttendees(List<Long> attendees) {
         this.attendees = attendees;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

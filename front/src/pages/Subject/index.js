@@ -48,7 +48,7 @@ class Subject extends React.Component {
 
 export default connect((state) => {
   const userState = getUserState(state);
-  const viewType = (userHasRole(state, ROLE_CLIENT) || userHasRole(state, ROLE_TEACHER)) ? VIEW_TYPE_LIST : VIEW_TYPE_ASSIGNED_SUBJECT;
+  const viewType = (userHasRole(userState.profile, ROLE_CLIENT) || userHasRole(state, ROLE_TEACHER)) ? VIEW_TYPE_LIST : VIEW_TYPE_ASSIGNED_SUBJECT;
 
   return {
     loading: userState.awaitingProfile,

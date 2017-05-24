@@ -15,7 +15,7 @@ import SubjectIcon from 'material-ui-icons/Subject'
 
 import Loader from '../../../../components/Loader';
 
-import { formatFrenchDate, formatFrenchDuration } from '../../../../data/datetime';
+import { formatFrenchDate, formatFrenchDuration, formatExactFrenchDuration } from '../../../../data/datetime';
 
 const styleSheet = createStyleSheet('Dashboard', (theme) => ({
   meetingTimeHeader: {
@@ -47,7 +47,7 @@ class ProjectDashboardHome extends React.Component {
       const duration = curr.timeSlot.end - curr.timeSlot.beginning;
       return acc + duration;
     }, 0);
-    const formattedMeetingTime = !loading && formatFrenchDuration(meetingTime);
+    const formattedMeetingTime = !loading && formatExactFrenchDuration(meetingTime);
 
     return (
       <div style={{ padding: 16 }}>

@@ -3,6 +3,9 @@
 import { getProjectsList,
   createProject as requestCreateProject,
   getProject,
+  createMeeting as requestCreateMeeting,
+  updateMeeting as requestUpdateMeeting,
+  deleteMeeting as requestDeleteMeeting,
   getMyProject } from "./service";
 
 const initialState = {
@@ -18,6 +21,13 @@ const REQUEST_PROJECT_CREATION = "project/REQUEST_PROJECT_CREATION";
 const CONFIRM_PROJECT_CREATION = "project/CONFIRM_PROJECT_CREATION";
 const FETCH_PROJECT = "project/FETCH_PROJECT";
 const RECEIVE_PROJECT = "project/RECEIVE_PROJECT";
+
+const REQUEST_CREATE_MEETING = "project/REQUEST_CREATE_MEETING";
+const CONFIRM_CREATE_MEETING = "project/CONFIRM_CREATE_MEETING";
+const REQUEST_UPDATE_MEETING = "project/REQUEST_UPDATE_MEETING";
+const CONFIRM_UPDATE_MEETING = "project/CONFIRM_UPDATE_MEETING";
+const REQUEST_DELETE_MEETING = "project/REQUEST_DELETE_MEETING";
+const CONFIRM_DELETE_MEETING = "project/CONFIRM_DELETE_MEETING";
 
 export default function projectReducer(state = initialState, action) {
   switch (action.type) {
@@ -52,6 +62,16 @@ export default function projectReducer(state = initialState, action) {
         ...state,
         loadingProject: false,
         selectedProject: action.project,
+      };
+    case REQUEST_CREATE_MEETING:
+      return {
+        ...state,
+        loading: true,
+      };
+    case CONFIRM_CREATE_MEETING:
+      return {
+        ...state,
+        loading: false,
       };
     default:
       return state;
@@ -126,6 +146,58 @@ export function fetchMyProject() {
       console.error(er);
     }
 
+  }
+}
+
+export function createMeeting(id, dto) {
+  return async (dispatch: Function) => {
+    dispatch({
+      type: REQUEST_CREATE_MEETING,
+    });
+    try {
+      await requestCreateMeeting(id, dto);
+      dispatch({
+        type: CONFIRM_CREATE_MEETING,
+      });
+      dispatch(fetchProject(id));
+    } catch(er) {
+      console.error(er);
+    }
+  }
+}
+
+
+export function updateMeeting(projectId, meetingId, dto) {
+  return async (dispatch: Function) => {
+    dispatch({
+      type: REQUEST_UPDATE_MEETING,
+    });
+    try {
+      await requestUpdateMeeting(projectId, meetingId, dto);
+      dispatch({
+        type: CONFIRM_UPDATE_MEETING,
+      });
+      dispatch(fetchProject(projectId));
+    } catch(er) {
+      console.error(er);
+    }
+  }
+}
+
+export function deleteMeeting(projectId, meetingId) {
+  return async (dispatch: Function) => {
+    dispatch({
+      type: REQUEST_DELETE_MEETING,
+    });
+    try {
+      await requestDeleteMeeting(projectId, meetingId);
+      dispatch({
+        type: CONFIRM_DELETE_MEETING,
+      });
+      dispatch(fetchProject(projectId));
+    } catch(er) {
+      console.error(er);
+    }
   }
 }
 

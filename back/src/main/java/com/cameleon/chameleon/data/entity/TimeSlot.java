@@ -10,10 +10,8 @@ public class TimeSlot {
     @GeneratedValue
     private Long id;
 
-    @Column(nullable = false)
     private Timestamp beginning;
 
-    @Column(nullable = false)
     private Timestamp end;
 
     public Timestamp getBeginning() {

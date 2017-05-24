@@ -29,7 +29,7 @@ class TeamPage extends React.Component {
 
 export default connect((state) => {
   const userState = getUserState(state);
-  const viewType = (userHasRole(state, ROLE_CLIENT) || userHasRole(state, ROLE_TEACHER)) ?
+  const viewType = (userHasRole(userState.profile, ROLE_CLIENT) || userHasRole(state, ROLE_TEACHER)) ?
     VIEW_CLIENT_OR_TEACHER : VIEW_STUDENT;
 
   return {

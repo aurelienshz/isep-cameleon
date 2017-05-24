@@ -128,7 +128,7 @@ const mapStateToProps = (state) => {
   const subjectState = getSubjectState(state);
   const userState = getUserState(state);
 
-  const isTeacher = userHasRole(state, ROLE_TEACHER);
+  const isTeacher = userHasRole(userState.profile, ROLE_TEACHER);
 
   return {
     isTeacher,

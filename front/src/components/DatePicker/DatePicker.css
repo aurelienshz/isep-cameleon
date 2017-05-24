@@ -1,0 +1,8 @@
+i.input-moment-arrow-left:before {
+    content: "<";
+    font-weight: bold;
+}
+i.input-moment-arrow-right:before {
+    content: ">";
+    font-weight: bold;
+}
