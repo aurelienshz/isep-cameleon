@@ -50,7 +50,7 @@ const columns = [
     render: (rowData) => {
       const members = rowData.row.members;
       return (
-        <ul>
+        <ul style={{ margin: 0 }}>
           {
             members.map((m, index) => (
               <li key={index}>{m.firstName} {m.lastName}</li>

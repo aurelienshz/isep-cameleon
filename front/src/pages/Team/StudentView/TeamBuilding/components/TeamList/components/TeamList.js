@@ -10,12 +10,6 @@ import Button from 'material-ui/Button';
 
 import FaceIcon from 'material-ui-icons/Face';
 
-const members = [
-  {name: 'Mickael Petit'},
-  {name: 'Aurélien Schiltz'},
-  {name: 'Yvan Bézard'},
-];
-
 const styleSheet = createStyleSheet('TeamList', (theme) => ({
   chip: {
     margin: theme.spacing.unit,
