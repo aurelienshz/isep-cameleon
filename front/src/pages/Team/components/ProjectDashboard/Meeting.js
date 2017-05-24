@@ -124,7 +124,7 @@ class ProjectMeetings extends React.Component {
   };
 
   buildGrid = () => {
-    const {classes, project, match, canEditMeeting} = this.props;
+    const { classes, project, match, canEditMeeting } = this.props;
     const meetings = project.meetings;
 
     if (match.params.id) {

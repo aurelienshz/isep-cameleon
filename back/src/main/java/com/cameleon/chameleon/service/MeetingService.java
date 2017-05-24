@@ -97,6 +97,7 @@ public class MeetingService {
         Meeting meeting = meetingRepository.findOne(mId);
         checkMeetingBelongsToProjectOrThrow(meeting, pId);
 
+        // TODO are the associated entities cascade deleted ?
         meetingRepository.delete(meeting);
     }
 }

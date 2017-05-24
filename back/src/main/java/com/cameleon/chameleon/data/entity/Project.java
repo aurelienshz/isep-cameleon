@@ -21,7 +21,7 @@ public class Project {
     // @OneToMany
     // private List<FeatureCategory> featureCategories;
 
-    @OneToMany
+    @OneToMany(mappedBy = "project")
     private List<Deliverable> deliverables;
 
     @OneToMany(mappedBy = "project")
@@ -84,5 +84,13 @@ public class Project {
         if (meetings == null) meetings = new ArrayList<>();
         meetings.add(meeting);
         this.setMeetings(meetings);
+    }
+
+    public void addDeliverable(Deliverable deliverable) {
+        deliverable.setProject(this);
+        List<Deliverable> deliverables = this.getDeliverables();
+        if (deliverables == null) deliverables = new ArrayList<>();
+        deliverables.add(deliverable);
+        this.setDeliverables(deliverables);
     }
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import TabsLayout from '../../../../components/TabsLayout';
 import Home from './Home';
 import Meeting from './Meeting';
+import Deliverable from './Deliverable';
 
 const tabs = [
   {
@@ -17,7 +18,7 @@ const tabs = [
   {
     label: "Livrables",
     path: "/deliverable",
-    component: () => <div>Livrables</div>,
+    component: Deliverable,
   },
 ];
 
@@ -37,26 +38,34 @@ export default class ProjectDashboard extends React.Component {
       baseLocation,
       loading,
       projectId,
-      createMeeting,
       canEditMeeting,
+      createMeeting,
       updateMeeting,
       deleteMeeting,
+      canEditDeliverable,
+      createDeliverable,
+      updateDeliverable,
+      deleteDeliverable,
       userId
     } = this.props;
 
     return (
       <div style={{ width: '100%', height: 'calc(100% - 64px)', boxSizing: 'border-box', backgroundColor: "#FAFAFA" }}>
         <TabsLayout
+          tabs={tabs}
           baseLocation={baseLocation}
+          projectId={projectId}
+          project={project}
+          userId={userId}
+          loading={loading}
           canEditMeeting={canEditMeeting}
           createMeeting={createMeeting}
           updateMeeting={updateMeeting}
           deleteMeeting={deleteMeeting}
-          projectId={projectId}
-          userId={userId}
-          loading={loading}
-          tabs={tabs}
-          project={project}
+          canEditDeliverable={canEditDeliverable}
+          createDeliverable={createDeliverable}
+          updateDeliverable={updateDeliverable}
+          deleteDeliverable={deleteDeliverable}
         />
       </div>
     );

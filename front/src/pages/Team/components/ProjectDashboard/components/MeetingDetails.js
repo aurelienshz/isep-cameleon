@@ -2,7 +2,7 @@ import React from 'react';
 
 import Button from 'material-ui/Button';
 import Grid from 'material-ui/Grid';
-import { formatFrenchDate, formatFrenchDateTime, formatFrenchDuration } from '../../../../../data/datetime';
+import { formatFrenchDate, formatFrenchDateTime, formatFrenchDuration, formatExactFrenchDuration } from '../../../../../data/datetime';
 import ConfirmDialog from '../../../../../components/ConfirmDialog';
 import DatePicker from '../../../../../components/DatePicker';
 
@@ -94,12 +94,10 @@ export default class MeetingDetails extends React.Component {
   cancelChanges = () => {
     this.setState({
       editMode: false,
-      unsavedEdits: {
-        beginning: null,
-        end: null,
-        comment: null,
-        attendees: null,
-      },
+      unsavedBeginningEdit: null,
+      unsavedEndEdit: null,
+      unsavedCommentEdit: null,
+      unsavedAttendeesEdit: null,
     });
   };
 
@@ -114,7 +112,7 @@ export default class MeetingDetails extends React.Component {
     const duration = hasEnded ?
       formatFrenchDuration(meeting.timeSlot.end - meeting.timeSlot.beginning)
       :
-      formatFrenchDuration(this.state.currentEndTimestamp - meeting.timeSlot.beginning);
+      formatExactFrenchDuration(this.state.currentEndTimestamp - meeting.timeSlot.beginning, true);
 
     const editModeDuration = this.state.editMode ? formatFrenchDuration(this.state.unsavedEndEdit - this.state.unsavedBeginningEdit) : 0;
 

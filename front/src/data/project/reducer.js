@@ -6,6 +6,9 @@ import { getProjectsList,
   createMeeting as requestCreateMeeting,
   updateMeeting as requestUpdateMeeting,
   deleteMeeting as requestDeleteMeeting,
+  createDeliverable as requestCreateDeliverable,
+  updateDeliverable as requestUpdateDeliverable,
+  deleteDeliverable as requestDeleteDeliverable,
   getMyProject } from "./service";
 
 const initialState = {
@@ -28,6 +31,13 @@ const REQUEST_UPDATE_MEETING = "project/REQUEST_UPDATE_MEETING";
 const CONFIRM_UPDATE_MEETING = "project/CONFIRM_UPDATE_MEETING";
 const REQUEST_DELETE_MEETING = "project/REQUEST_DELETE_MEETING";
 const CONFIRM_DELETE_MEETING = "project/CONFIRM_DELETE_MEETING";
+
+const REQUEST_CREATE_DELIVERABLE = "project/REQUEST_CREATE_DELIVERABLE";
+const CONFIRM_CREATE_DELIVERABLE = "project/CONFIRM_CREATE_DELIVERABLE";
+const REQUEST_UPDATE_DELIVERABLE = "project/REQUEST_UPDATE_DELIVERABLE";
+const CONFIRM_UPDATE_DELIVERABLE = "project/CONFIRM_UPDATE_DELIVERABLE";
+const REQUEST_DELETE_DELIVERABLE = "project/REQUEST_DELETE_DELIVERABLE";
+const CONFIRM_DELETE_DELIVERABLE = "project/CONFIRM_DELETE_DELIVERABLE";
 
 export default function projectReducer(state = initialState, action) {
   switch (action.type) {
@@ -64,11 +74,29 @@ export default function projectReducer(state = initialState, action) {
         selectedProject: action.project,
       };
     case REQUEST_CREATE_MEETING:
+    case REQUEST_UPDATE_MEETING:
+    case REQUEST_DELETE_MEETING:
       return {
         ...state,
         loading: true,
       };
     case CONFIRM_CREATE_MEETING:
+    case CONFIRM_UPDATE_MEETING:
+    case CONFIRM_DELETE_MEETING:
+      return {
+        ...state,
+        loading: false,
+      };
+    case REQUEST_CREATE_DELIVERABLE:
+    case REQUEST_UPDATE_DELIVERABLE:
+    case REQUEST_DELETE_DELIVERABLE:
+      return {
+        ...state,
+        loading: true,
+      };
+    case CONFIRM_CREATE_DELIVERABLE:
+    case CONFIRM_UPDATE_DELIVERABLE:
+    case CONFIRM_DELETE_DELIVERABLE:
       return {
         ...state,
         loading: false,
@@ -193,6 +221,58 @@ export function deleteMeeting(projectId, meetingId) {
       await requestDeleteMeeting(projectId, meetingId);
       dispatch({
         type: CONFIRM_DELETE_MEETING,
+      });
+      dispatch(fetchProject(projectId));
+    } catch(er) {
+      console.error(er);
+    }
+  }
+}
+
+export function createDeliverable(id, dto) {
+  return async (dispatch: Function) => {
+    dispatch({
+      type: REQUEST_CREATE_DELIVERABLE,
+    });
+    try {
+      await requestCreateDeliverable(id, dto);
+      dispatch({
+        type: CONFIRM_CREATE_DELIVERABLE,
+      });
+      dispatch(fetchProject(id));
+    } catch(er) {
+      console.error(er);
+    }
+  }
+}
+
+
+export function updateDeliverable(projectId, deliverableId, dto) {
+  return async (dispatch: Function) => {
+    dispatch({
+      type: REQUEST_UPDATE_DELIVERABLE,
+    });
+    try {
+      await requestUpdateDeliverable(projectId, deliverableId, dto);
+      dispatch({
+        type: CONFIRM_UPDATE_DELIVERABLE,
+      });
+      dispatch(fetchProject(projectId));
+    } catch(er) {
+      console.error(er);
+    }
+  }
+}
+
+export function deleteDeliverable(projectId, deliverableId) {
+  return async (dispatch: Function) => {
+    dispatch({
+      type: REQUEST_DELETE_DELIVERABLE,
+    });
+    try {
+      await requestDeleteDeliverable(projectId, deliverableId);
+      dispatch({
+        type: CONFIRM_DELETE_DELIVERABLE,
       });
       dispatch(fetchProject(projectId));
     } catch(er) {

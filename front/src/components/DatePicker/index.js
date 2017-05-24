@@ -30,11 +30,17 @@ class DatePicker extends React.Component {
 
   componentWillMount() {
     moment.locale('fr');
-    const m = moment(this.props.value);
-
-    this.setState({
-      moment: m,
-    });
+    if (this.props.value) {
+      const m = moment(this.props.value);
+      this.setState({
+        moment: m,
+      });
+    } else {
+      const m = moment(Date.now());
+      this.setState({
+        moment: m,
+      });
+    }
   }
 
   handleChange = (moment) => {
@@ -69,7 +75,11 @@ class DatePicker extends React.Component {
         </Dialog>
 
         <span onClick={this.openDialog} className={classes.wrapper}>
-          { this.state.moment.format("dddd Do MMMM YYYY HH:mm:ss") }
+          { this.props.value ?
+            this.state.moment.format("dddd Do MMMM YYYY HH:mm")
+            :
+            "Cliquer pour sélectionner une date"
+          }
         </span>
       </span>
 

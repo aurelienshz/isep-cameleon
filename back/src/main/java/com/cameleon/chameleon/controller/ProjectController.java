@@ -1,5 +1,6 @@
 package com.cameleon.chameleon.controller;
 
+import com.cameleon.chameleon.data.dto.DeliverableDTO;
 import com.cameleon.chameleon.data.dto.MeetingDTO;
 import com.cameleon.chameleon.data.dto.ProjectCreationDTO;
 import com.cameleon.chameleon.data.entity.*;
@@ -115,14 +116,21 @@ public class ProjectController {
 
     @PostMapping("/{pId}/deliverable")
     @RolesAllowed({ ROLE_TEACHER, ROLE_CLIENT })
-    public Deliverable addDeliverable(@PathVariable Long pId) {
-        return deliverableService.addDeliverable(pId);
+    public Deliverable createDeliverable(@PathVariable Long pId, @RequestBody DeliverableDTO dto) {
+        return deliverableService.createDeliverable(pId, dto);
     }
 
     @PostMapping("/{pId}/deliverable/{dId}")
     @RolesAllowed({ ROLE_TEACHER, ROLE_CLIENT })
-    public Deliverable updateDeliverable(@PathVariable Long pId, @PathVariable Long dId, @RequestBody Deliverable deliverable) {
-        return null; // TODO
+    public Deliverable updateDeliverable(@PathVariable Long pId, @PathVariable Long dId, @RequestBody DeliverableDTO dto) {
+        return deliverableService.updateDeliverable(pId, dId, dto);
+    }
+
+    @DeleteMapping("/{pId}/deliverable/{dId}")
+    @RolesAllowed({ ROLE_TEACHER, ROLE_CLIENT })
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteDeliverable(@PathVariable Long pId, @PathVariable Long dId) {
+        deliverableService.deleteDeliverable(pId, dId);
     }
 
     @PostMapping("/{pId}/deliverable/{dId}/deliver")

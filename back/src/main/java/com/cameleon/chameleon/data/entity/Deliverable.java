@@ -1,5 +1,7 @@
 package com.cameleon.chameleon.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Time;
 
@@ -9,14 +11,17 @@ public class Deliverable {
     @GeneratedValue
     private Long id;
 
+    private String name;
+
+    private String assignment;
+
     @OneToOne
     @JoinColumn(name = "delivery_timeslot_id")
     private TimeSlot deliveryWindow;
 
-    private Time deliveryTime;
-
     @ManyToOne
     @JoinColumn(name = "project_id")
+    @JsonIgnore
     private Project project;
 
     @OneToOne
@@ -56,11 +61,19 @@ public class Deliverable {
         this.document = document;
     }
 
-    public Time getDeliveryTime() {
-        return deliveryTime;
+    public String getName() {
+        return name;
     }
 
-    public void setDeliveryTime(Time deliveryTime) {
-        this.deliveryTime = deliveryTime;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAssignment() {
+        return assignment;
+    }
+
+    public void setAssignment(String assignment) {
+        this.assignment = assignment;
     }
 }

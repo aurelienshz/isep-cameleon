@@ -24,6 +24,14 @@ export type Meeting = {
   // TODO
 }
 
+export type DeliverableDTO = {
+  // TODO
+}
+
+export type Deliverable = {
+  // TODO
+}
+
 export async function getProjectsList(): Promise<Array<Project>> {
   return await getJson(REQUEST_PATH_PREFIX);
 }
@@ -58,4 +66,16 @@ export async function updateMeeting(projectId: number, meetingId: number, meetin
 
 export async function deleteMeeting(projectId: number, meetingId: number): Promise<void> {
   return await deleteJson(`${REQUEST_PATH_PREFIX}/${projectId}/meeting/${meetingId}`);
+}
+
+export async function createDeliverable(id: number, deliverableDTO: DeliverableDTO): Promise<Deliverable> {
+  return await postJson(`${REQUEST_PATH_PREFIX}/${id}/deliverable`, deliverableDTO);
+}
+
+export async function updateDeliverable(projectId: number, deliverableId: number, deliverableDTO: DeliverableDTO): Promise<Deliverable> {
+  return await postJson(`${REQUEST_PATH_PREFIX}/${projectId}/deliverable/${deliverableId}`, deliverableDTO);
+}
+
+export async function deleteDeliverable(projectId: number, deliverableId: number): Promise<void> {
+  return await deleteJson(`${REQUEST_PATH_PREFIX}/${projectId}/deliverable/${deliverableId}`);
 }
