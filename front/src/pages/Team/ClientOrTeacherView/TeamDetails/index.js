@@ -35,7 +35,6 @@ export default connect(
     createMeeting: (id, dto) => dispatch(createMeeting(id, dto)),
     updateMeeting: (projectId, meetingId, dto) => dispatch(updateMeeting(projectId, meetingId, dto)),
     deleteMeeting: (projectId, meetingId) => dispatch(deleteMeeting(projectId, meetingId)),
-
     createDeliverable: (id, dto) => dispatch(createDeliverable(id, dto)),
     updateDeliverable: (projectId, meetingId, dto) => dispatch(updateDeliverable(projectId, meetingId, dto)),
     deleteDeliverable: (projectId, meetingId) => dispatch(deleteDeliverable(projectId, meetingId)),

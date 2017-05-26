@@ -11,7 +11,7 @@ public class Meeting {
     @GeneratedValue
     private Long id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "timeslot_id")
     private TimeSlot timeSlot;
 

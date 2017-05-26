@@ -6,14 +6,20 @@ import { isAuthenticated, getToken } from '../../data/users/service';
 
 export const API_URL: string = process.env.REACT_APP_BACKEND_URL || '';
 
-const attemptRequestOrThrow = async (method: string, url: string, body: ?Object) => {
+const attemptRequestOrThrow = async (method: string, url: string, body: ?Object, isMultipart = false) => {
   const options = {
     method,
-    body: JSON.stringify(body),
+    body: isMultipart ? body : JSON.stringify(body),
     headers: {},
   };
 
-  options.headers['Content-Type'] = 'application/json';
+  // When doing multipart/form-data, browsers handle the content-type header automatically
+  // (with boundary parameter correctly set)
+  if (!isMultipart) {
+    options.headers['Content-Type'] = 'application/json';
+  }
+
+  // options.headers['Content-Type'] = isMultipart ? 'multipart/form-data' : 'application/json';
 
   // Handle authenticated requests :
   if (isAuthenticated()) {
@@ -56,4 +62,12 @@ export async function postJson(url: string, body: ?Object): Promise<any> {
 
 export async function deleteJson(url: string): Promise<any> {
   return await attemptRequestOrThrow('DELETE', url);
+}
+
+export async function uploadFile(url: string, file) {
+  const formData = new FormData();
+  // File obtained via File API
+  formData.append('file', file, file.name);
+
+  return await attemptRequestOrThrow('POST', url, formData, true);
 }

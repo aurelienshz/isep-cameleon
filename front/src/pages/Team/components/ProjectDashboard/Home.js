@@ -15,7 +15,7 @@ import SubjectIcon from 'material-ui-icons/Subject'
 
 import Loader from '../../../../components/Loader';
 
-import { formatFrenchDate, formatFrenchDuration, formatExactFrenchDuration } from '../../../../data/datetime';
+import { formatFrenchDate, formatFrenchDateTime, formatFrenchDuration, formatExactFrenchDuration } from '../../../../data/datetime';
 
 const styleSheet = createStyleSheet('Dashboard', (theme) => ({
   meetingTimeHeader: {
@@ -89,12 +89,18 @@ class ProjectDashboardHome extends React.Component {
                                       onClick={() => this.props.pushLocation(baseLocation + "/meeting/" + meeting.id)}>
                               <Avatar><GroupIcon/></Avatar>
                               <ListItemText
-                                primary={<span>{date} {!meeting.report &&
-                                <span className={classes.listWarningBadge}>Pas de compte-rendu</span>}</span>}
+                                primary={
+                                  <span>{date} {!meeting.report &&
+                                    <span className={classes.listWarningBadge}>Pas de compte-rendu</span>
+                                  }</span>}
                                 secondary={"Durée : " + duration}/>
                             </ListItem>
                           )
                         })
+                      }
+                      {
+                        project.meetings.length === 0 &&
+                        <ListItem><ListItemText primary="Aucune réunion" /></ListItem>
                       }
                     </List>
                   </div>
@@ -108,22 +114,32 @@ class ProjectDashboardHome extends React.Component {
               <CardContent>
                 <Typography type="headline" component="h2">Livrables</Typography>
 
-                <List>
-                  <ListItem button>
-                    <Avatar><SubjectIcon /></Avatar>
-                    <ListItemText
-                      primary={<span>Impact mapping <span className={classes.listWarningBadge}>En retard</span></span>}
-                      secondary="À rendre avant le 27/02/2017" />
-                  </ListItem>
-                  <ListItem button>
-                    <Avatar><SubjectIcon /></Avatar>
-                    <ListItemText primary="Elevator pitch" secondary="Rendu" />
-                  </ListItem>
-                  <ListItem button>
-                    <Avatar><SubjectIcon /></Avatar>
-                    <ListItemText primary="Mockups" secondary="Rendu" />
-                  </ListItem>
-                </List>
+                { loading ?
+                  <Loader />
+                  :
+                  <List>
+                    {
+                      project.deliverables.map(deliverable => {
+                        return (
+                          <ListItem
+                            button
+                            key={deliverable.id}
+                            onClick={() => this.props.pushLocation(baseLocation + "/deliverable/" + deliverable.id)}>
+                            <Avatar><SubjectIcon /></Avatar>
+                            <ListItemText
+                              primary={<span>{ deliverable.name }</span>}
+                              secondary={"À rendre avant le " + formatFrenchDate(deliverable.deliveryWindow.end)} />
+                          </ListItem>
+                        );
+                      })
+                    }
+
+                    {
+                      project.deliverables.length === 0 &&
+                      <ListItem><ListItemText primary="Aucun livrable" /></ListItem>
+                    }
+                  </List>
+                }
               </CardContent>
             </Card>
           </Grid>

@@ -5,6 +5,7 @@ import Grid from 'material-ui/Grid';
 import { formatFrenchDate, formatFrenchDateTime, formatFrenchDuration } from '../../../../../data/datetime';
 import ConfirmDialog from '../../../../../components/ConfirmDialog';
 import DatePicker from '../../../../../components/DatePicker';
+import FileUploadDialog from '../../../../../components/FileUploadDialog';
 
 export default class DeliverableDetails extends React.Component {
   state = {
@@ -128,6 +129,8 @@ export default class DeliverableDetails extends React.Component {
             :
             <p>{ deliverable.assignment || "Aucune consigne ajoutée pour ce livrable" }</p>
         }
+
+        <FileUploadDialog />
 
         <h4>Boîte de dépôt :</h4>
         <ul>

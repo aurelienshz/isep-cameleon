@@ -1,7 +1,6 @@
 package com.cameleon.chameleon.data.entity;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.sql.Timestamp;
 
 @Entity()

@@ -25,6 +25,11 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         if (authHeader != null && authHeader.startsWith(TOKEN_HEADER_PREFIX)) {
             return authHeader.substring(TOKEN_HEADER_PREFIX.length());
         }
+
+        if (req.getParameter("token") != null) {
+            return req.getParameter("token");
+        }
+
         return null;
     }
 

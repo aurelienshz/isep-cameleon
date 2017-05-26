@@ -15,7 +15,7 @@ public class Deliverable {
 
     private String assignment;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "delivery_timeslot_id")
     private TimeSlot deliveryWindow;
 
