@@ -64,7 +64,7 @@ const DeliverableList = ({ deliverables, classes, selectedId, selectDeliverable 
       {
         sortedDeliverables.map((deliverable, index) => {
           const canBeDelivered = deliverable.deliveryWindow.beginning < Date.now() && deliverable.deliveryWindow.end > Date.now();
-          const isLate = deliverable.deliveryWindow.end && (deliverable.deliveryWindow.end < Date.now());
+          const isLate = deliverable.deliveryWindow.end && (deliverable.deliveryWindow.end < Date.now()) && !deliverable.document;
 
           let badge = "";
           if (canBeDelivered) badge = <span className={classes.listInfoBadge}>En cours</span>;
@@ -120,8 +120,16 @@ class ProjectDeliverables extends React.Component {
     this.props.pushLocation(this.props.baseLocation + "/deliverable")
   };
 
+  deliverDeliverable = (id, file) => {
+    const { projectId } = this.props;
+    this.props.deliverDeliverable(projectId, id, file);
+  };
+
   buildGrid = () => {
-    const {classes, project, match, canEditDeliverable} = this.props;
+    const {classes, project, match, canEditDeliverable, canDeliverDeliverable} = this.props;
+
+    console.log(this.props);
+    console.log(this.props.canDeliverDeliverable);
     const deliverables = project.deliverables;
 
     if (match.params.id) {
@@ -143,9 +151,11 @@ class ProjectDeliverables extends React.Component {
                 selectedDeliverable ?
                   <DeliverableDetails
                     canEditDeliverable={canEditDeliverable}
+                    canDeliverDeliverable={canDeliverDeliverable}
                     deliverable={selectedDeliverable}
                     deleteDeliverable={() => this.deleteDeliverable(selectedDeliverable.id)}
-                    updateDeliverable={(dto) => this.updateDeliverable(selectedDeliverable.id, dto)} />
+                    updateDeliverable={(dto) => this.updateDeliverable(selectedDeliverable.id, dto)}
+                    deliverDeliverable={(file) => this.deliverDeliverable(selectedDeliverable.id, file)} />
                   :
                   <div>Not found :(</div>
               }

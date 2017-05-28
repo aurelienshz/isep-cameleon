@@ -9,6 +9,7 @@ import { getProjectsList,
   createDeliverable as requestCreateDeliverable,
   updateDeliverable as requestUpdateDeliverable,
   deleteDeliverable as requestDeleteDeliverable,
+  deliverDeliverable as requestDeliverDeliverable,
   getMyProject } from "./service";
 
 const initialState = {
@@ -38,6 +39,9 @@ const REQUEST_UPDATE_DELIVERABLE = "project/REQUEST_UPDATE_DELIVERABLE";
 const CONFIRM_UPDATE_DELIVERABLE = "project/CONFIRM_UPDATE_DELIVERABLE";
 const REQUEST_DELETE_DELIVERABLE = "project/REQUEST_DELETE_DELIVERABLE";
 const CONFIRM_DELETE_DELIVERABLE = "project/CONFIRM_DELETE_DELIVERABLE";
+
+const REQUEST_DELIVER_DELIVERABLE = "project/REQUEST_DELIVER_DELIVERABLE";
+const CONFIRM_DELIVER_DELIVERABLE = "project/CONFIRM_DELIVER_DELIVERABLE";
 
 export default function projectReducer(state = initialState, action) {
   switch (action.type) {
@@ -273,6 +277,23 @@ export function deleteDeliverable(projectId, deliverableId) {
       await requestDeleteDeliverable(projectId, deliverableId);
       dispatch({
         type: CONFIRM_DELETE_DELIVERABLE,
+      });
+      dispatch(fetchProject(projectId));
+    } catch(er) {
+      console.error(er);
+    }
+  }
+}
+
+export function deliverDeliverable(projectId, deliverableId, file) {
+  return async (dispatch: Function) => {
+    dispatch({
+      type: REQUEST_DELIVER_DELIVERABLE,
+    });
+    try {
+      await requestDeliverDeliverable(projectId, deliverableId, file);
+      dispatch({
+        type: CONFIRM_DELIVER_DELIVERABLE,
       });
       dispatch(fetchProject(projectId));
     } catch(er) {

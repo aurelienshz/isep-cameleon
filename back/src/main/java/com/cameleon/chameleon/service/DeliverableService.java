@@ -1,16 +1,15 @@
 package com.cameleon.chameleon.service;
 
 import com.cameleon.chameleon.data.dto.DeliverableDTO;
-import com.cameleon.chameleon.data.entity.Deliverable;
-import com.cameleon.chameleon.data.entity.Project;
-import com.cameleon.chameleon.data.entity.TimeSlot;
-import com.cameleon.chameleon.data.entity.User;
+import com.cameleon.chameleon.data.dto.DocumentUploadDTO;
+import com.cameleon.chameleon.data.entity.*;
 import com.cameleon.chameleon.data.repository.DeliverableRepository;
 import com.cameleon.chameleon.data.repository.ProjectRepository;
 import com.cameleon.chameleon.data.repository.TimeSlotRepository;
 import com.cameleon.chameleon.exception.BusinessLogicException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -24,6 +23,9 @@ public class DeliverableService {
 
     @Autowired
     private TimeSlotRepository timeSlotRepository;
+
+    @Autowired
+    private DocumentService documentService;
 
     public Deliverable createDeliverable(Long pid, DeliverableDTO dto) {
         Project project = projectRepository.findOne(pid);
@@ -87,5 +89,18 @@ public class DeliverableService {
     private void checkDeliverableBelongsToProjectOrThrow(Deliverable deliverable, Long pId) {
         if (!deliverable.getProject().getId().equals(pId))
             throw new BusinessLogicException("Requested deliverable does not belong to requested project");
+    }
+
+    public Deliverable deliverDeliverable(Long pId, Long dId, MultipartFile file, User user) {
+        Deliverable deliverable = deliverableRepository.findOne(dId);
+        checkDeliverableBelongsToProjectOrThrow(deliverable, pId);
+
+        // TODO check deliverable is not late and can still be delivered
+
+        Document document = documentService.store(file, user);
+        deliverable.setDocument(document);
+
+        deliverableRepository.save(deliverable);
+        return deliverable;
     }
 }

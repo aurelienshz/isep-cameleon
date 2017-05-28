@@ -5,14 +5,12 @@ import com.cameleon.chameleon.data.dto.MeetingDTO;
 import com.cameleon.chameleon.data.dto.ProjectCreationDTO;
 import com.cameleon.chameleon.data.entity.*;
 
-import com.cameleon.chameleon.service.DeliverableService;
-import com.cameleon.chameleon.service.FeatureService;
-import com.cameleon.chameleon.service.MeetingService;
-import com.cameleon.chameleon.service.ProjectService;
+import com.cameleon.chameleon.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.security.RolesAllowed;
 import java.util.List;
@@ -135,7 +133,11 @@ public class ProjectController {
 
     @PostMapping("/{pId}/deliverable/{dId}/deliver")
     @RolesAllowed(ROLE_STUDENT)
-    public void deliverDeliverable(@PathVariable Long pId, @PathVariable Long dId) {
-        // TODO
+    public Deliverable deliverDeliverable(
+            @PathVariable Long pId,
+            @PathVariable Long dId,
+            @RequestParam("file") MultipartFile file,
+            @AuthenticationPrincipal User user) {
+        return deliverableService.deliverDeliverable(pId, dId, file, user);
     }
 }

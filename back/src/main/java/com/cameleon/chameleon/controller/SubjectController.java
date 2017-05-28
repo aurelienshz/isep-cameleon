@@ -31,7 +31,6 @@ public class SubjectController {
 
     @GetMapping
     public List<Subject> getSubjectsList(@AuthenticationPrincipal Authentication user) {
-        System.out.println(user);
         return subjectService.findAllSubjects();
     }
 

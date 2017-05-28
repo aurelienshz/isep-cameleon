@@ -3,7 +3,6 @@ package com.cameleon.chameleon.data.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.sql.Time;
 
 @Entity()
 public class Deliverable {

@@ -13,8 +13,6 @@ public interface TeamRepository extends CrudRepository<Team, Long> {
 
     Team findOne(Long id);
 
-
-
     @Query("Select t from Team t join fetch t.members m where m.id = :memberId")
     Team findByMemberId(@Param("memberId") Long memberId);
 }

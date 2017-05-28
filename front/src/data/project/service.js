@@ -1,6 +1,6 @@
 // @flow
 
-import { getJson, postJson, deleteJson } from '../../services/helpers/request';
+import { getJson, postJson, deleteJson, uploadFile } from '../../services/helpers/request';
 import type { Subject } from '../subject/service';
 
 const REQUEST_PATH_PREFIX = '/project';
@@ -78,4 +78,8 @@ export async function updateDeliverable(projectId: number, deliverableId: number
 
 export async function deleteDeliverable(projectId: number, deliverableId: number): Promise<void> {
   return await deleteJson(`${REQUEST_PATH_PREFIX}/${projectId}/deliverable/${deliverableId}`);
+}
+
+export async function deliverDeliverable(projectId: number, deliverableId: number, file: File) {
+  return await uploadFile(`${REQUEST_PATH_PREFIX}/${projectId}/deliverable/${deliverableId}/deliver`, file);
 }

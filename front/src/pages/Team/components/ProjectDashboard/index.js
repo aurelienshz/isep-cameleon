@@ -43,9 +43,11 @@ export default class ProjectDashboard extends React.Component {
       updateMeeting,
       deleteMeeting,
       canEditDeliverable,
+      canDeliverDeliverable,
       createDeliverable,
       updateDeliverable,
       deleteDeliverable,
+      deliverDeliverable,
       userId
     } = this.props;
 
@@ -63,9 +65,11 @@ export default class ProjectDashboard extends React.Component {
           updateMeeting={updateMeeting}
           deleteMeeting={deleteMeeting}
           canEditDeliverable={canEditDeliverable}
+          canDeliverDeliverable={canDeliverDeliverable}
           createDeliverable={createDeliverable}
           updateDeliverable={updateDeliverable}
           deleteDeliverable={deleteDeliverable}
+          deliverDeliverable={deliverDeliverable}
         />
       </div>
     );

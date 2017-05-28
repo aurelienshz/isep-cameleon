@@ -3,6 +3,7 @@ import React from 'react';
 import Button from 'material-ui/Button';
 import Grid from 'material-ui/Grid';
 import { formatFrenchDate, formatFrenchDateTime, formatFrenchDuration } from '../../../../../data/datetime';
+import { buildDownloadUrl } from '../../../../../data/document';
 import ConfirmDialog from '../../../../../components/ConfirmDialog';
 import DatePicker from '../../../../../components/DatePicker';
 import FileUploadDialog from '../../../../../components/FileUploadDialog';
@@ -10,6 +11,7 @@ import FileUploadDialog from '../../../../../components/FileUploadDialog';
 export default class DeliverableDetails extends React.Component {
   state = {
     deleteConfirmOpen: false,
+    uploadDeliverableDialogOpen: false,
     editMode: false,
     unsavedNameEdit: null,
     unsavedAssignmentEdit: null,
@@ -23,6 +25,14 @@ export default class DeliverableDetails extends React.Component {
 
   closeDeleteConfirm = () => {
     this.setState({ deleteConfirmOpen: true });
+  };
+
+  openUploadDeliverableDialog = () => {
+    this.setState({ uploadDeliverableDialogOpen: true });
+  };
+
+  closeUploadDeliverableDialog = () => {
+    this.setState({ uploadDeliverableDialogOpen: false });
   };
 
   switchToEditMode = () => {
@@ -59,7 +69,8 @@ export default class DeliverableDetails extends React.Component {
   };
 
   render() {
-    const { deliverable, canUploadDeliverable } = this.props;
+    const { deliverable, canDeliverDeliverable } = this.props;
+
     const deliveryBeginning = (deliverable.deliveryWindow && deliverable.deliveryWindow.beginning) ?
       formatFrenchDateTime(deliverable.deliveryWindow.beginning)
       :
@@ -130,8 +141,6 @@ export default class DeliverableDetails extends React.Component {
             <p>{ deliverable.assignment || "Aucune consigne ajoutée pour ce livrable" }</p>
         }
 
-        <FileUploadDialog />
-
         <h4>Boîte de dépôt :</h4>
         <ul>
           <li>
@@ -155,16 +164,34 @@ export default class DeliverableDetails extends React.Component {
 
         <h4>Livraison</h4>
 
+        { canDeliverDeliverable &&
+          <FileUploadDialog
+            open={this.state.uploadDeliverableDialogOpen}
+            onSelectFile={this.props.deliverDeliverable}
+            onRequestClose={this.closeUploadDeliverableDialog}
+          />
+        }
+
         {
           deliverable.document &&
             <span>
-              Ajouté le 24 avril 2017
-              <Button>Télécharger</Button>
+              Ajouté le { formatFrenchDateTime(deliverable.document.uploadedAt) }
+              &nbsp;-&nbsp;
+              <Button>
+                <a href={buildDownloadUrl(deliverable.document)}>Télécharger</a>
+              </Button>
             </span>
         }
         {
-          !deliverable.document && canUploadDeliverable &&
-            <Button>Ajouter le livrable</Button>
+          canDeliverDeliverable &&
+            <Button onClick={this.openUploadDeliverableDialog}>
+              {
+                deliverable.document ?
+                  "Remplacer"
+                  :
+                  "Ajouter le livrable"
+              }
+            </Button>
         }
       </div>
     )
