@@ -2,14 +2,13 @@ package com.cameleon.chameleon.service;
 
 
 import com.cameleon.chameleon.data.dto.MeetingDTO;
-import com.cameleon.chameleon.data.entity.Meeting;
-import com.cameleon.chameleon.data.entity.Project;
-import com.cameleon.chameleon.data.entity.TimeSlot;
-import com.cameleon.chameleon.data.entity.User;
+import com.cameleon.chameleon.data.entity.*;
 import com.cameleon.chameleon.data.repository.*;
 import com.cameleon.chameleon.exception.BusinessLogicException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -29,6 +28,9 @@ public class MeetingService {
 
     @Autowired
     private TimeSlotRepository timeSlotRepository;
+
+    @Autowired
+    private DocumentService documentService;
 
     public Meeting findMeeting (Long id) {
         return meetingRepository.findOne(id);
@@ -99,6 +101,19 @@ public class MeetingService {
 
         // TODO are the associated entities cascade deleted ?
         meetingRepository.delete(meeting);
+    }
+
+    public Meeting uploadMeetingReport(Long pId, Long mId, MultipartFile file, User user) {
+        Meeting meeting = meetingRepository.findOne(mId);
+        checkMeetingBelongsToProjectOrThrow(meeting, pId);
+
+        // TODO check deliverable is not late and can still be delivered
+
+        Document document = documentService.store(file, user);
+        meeting.setReport(document);
+
+        meetingRepository.save(meeting);
+        return meeting;
     }
 }
 

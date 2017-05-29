@@ -82,9 +82,9 @@ public class ProjectController {
         meetingService.deleteMeeting(pId, mId);
     }
 
-    @DeleteMapping("/{pId}/meeting/{mId}/report")
-    public MeetingReport updateMeetingReport(@PathVariable Long pId, @PathVariable Long mId, @RequestBody MeetingReport report) {
-        return null; // TODO
+    @PostMapping("/{pId}/meeting/{mId}/report")
+    public Meeting uploadMeetingReport(@PathVariable Long pId, @PathVariable Long mId, @RequestParam("file") MultipartFile file, @AuthenticationPrincipal User user) {
+        return meetingService.uploadMeetingReport(pId, mId, file, user);
     }
 
     @GetMapping("/{pId}/meeting-request")

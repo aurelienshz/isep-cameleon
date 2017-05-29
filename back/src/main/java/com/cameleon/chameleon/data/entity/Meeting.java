@@ -24,6 +24,10 @@ public class Meeting {
     @ManyToMany
     private List<User> attendees;
 
+    @OneToOne
+    @JoinColumn(name = "report_document_id")
+    private Document report;
+
     public TimeSlot getTimeSlot() {
         return timeSlot;
     }
@@ -58,5 +62,13 @@ public class Meeting {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public Document getReport() {
+        return report;
+    }
+
+    public void setReport(Document report) {
+        this.report = report;
     }
 }
