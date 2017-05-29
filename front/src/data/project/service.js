@@ -68,6 +68,11 @@ export async function deleteMeeting(projectId: number, meetingId: number): Promi
   return await deleteJson(`${REQUEST_PATH_PREFIX}/${projectId}/meeting/${meetingId}`);
 }
 
+export async function uploadMeetingReport(projectId: number, meetingId: number, file: File) {
+  return await uploadFile(`${REQUEST_PATH_PREFIX}/${projectId}/meeting/${meetingId}/report`, file);
+}
+
+
 export async function createDeliverable(id: number, deliverableDTO: DeliverableDTO): Promise<Deliverable> {
   return await postJson(`${REQUEST_PATH_PREFIX}/${id}/deliverable`, deliverableDTO);
 }

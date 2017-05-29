@@ -5,6 +5,8 @@ import Grid from 'material-ui/Grid';
 import { formatFrenchDate, formatFrenchDateTime, formatFrenchDuration, formatExactFrenchDuration } from '../../../../../data/datetime';
 import ConfirmDialog from '../../../../../components/ConfirmDialog';
 import DatePicker from '../../../../../components/DatePicker';
+import { buildDownloadUrl } from '../../../../../data/document';
+import FileUploadDialog from "../../../../../components/FileUploadDialog";
 
 export default class MeetingDetails extends React.Component {
   state = {
@@ -16,6 +18,7 @@ export default class MeetingDetails extends React.Component {
     unsavedEndEdit: null,
     unsavedCommentEdit: null,
     unsavedAttendeesEdit: null,
+    uploadMeetingReportDialogOpen: false,
   };
 
   componentWillMount() {
@@ -101,8 +104,16 @@ export default class MeetingDetails extends React.Component {
     });
   };
 
+  openUploadMeetingReportDialog = () => {
+    this.setState({ uploadMeetingReportDialogOpen: true });
+  };
+
+  closeUploadMeetingReportDialog = () => {
+    this.setState({ uploadMeetingReportDialogOpen: false });
+  };
+
   render() {
-    const { meeting } = this.props;
+    const { meeting, canUploadMeetingReport, uploadMeetingReport, deleteMeeting, canEditMeeting } = this.props;
     const date = formatFrenchDate(meeting.timeSlot.beginning);
     const begin = formatFrenchDateTime(meeting.timeSlot.beginning);
 
@@ -116,6 +127,8 @@ export default class MeetingDetails extends React.Component {
 
     const editModeDuration = this.state.editMode ? formatFrenchDuration(this.state.unsavedEndEdit - this.state.unsavedBeginningEdit) : 0;
 
+    console.log(canUploadMeetingReport, this.state.uploadMeetingReportDialogOpen);
+
     return (
       <div>
         <ConfirmDialog
@@ -125,7 +138,15 @@ export default class MeetingDetails extends React.Component {
           confirmText={"Supprimer"}
           cancelText={"Annuler"}
           onCancel={this.closeDeleteConfirm}
-          onConfirm={this.props.deleteMeeting} />
+          onConfirm={deleteMeeting} />
+
+        {
+          canUploadMeetingReport &&
+            <FileUploadDialog
+              open={this.state.uploadMeetingReportDialogOpen}
+              onSelectFile={uploadMeetingReport}
+              onRequestClose={this.closeUploadMeetingReportDialog} />
+        }
 
         <Grid container>
           <Grid item xs={12} sm={6}>
@@ -133,7 +154,7 @@ export default class MeetingDetails extends React.Component {
           </Grid>
 
           {
-            this.props.canEditMeeting &&
+            canEditMeeting &&
             <Grid item xs={12} sm={6}>
               <div style={{textAlign: 'right'}}>
                 {
@@ -212,13 +233,17 @@ export default class MeetingDetails extends React.Component {
         <h4>Compte-rendu</h4>
 
         {
-          Boolean(meeting.report) ?
+          Boolean(meeting.report) &&
             <span>
-              Ajouté le 24 avril 2017
-              <Button>Télécharger</Button>
+              Ajouté le { formatFrenchDateTime(meeting.report.uploadedAt) }
+              <a href={buildDownloadUrl(meeting.report)}><Button>Télécharger</Button></a>
             </span>
-            :
-            <Button>Ajouter le compte-rendu</Button>
+        }
+
+        { canUploadMeetingReport &&
+            <Button onClick={this.openUploadMeetingReportDialog}>
+              { meeting.report ? "Remplacer" : "Ajouter le compte-rendu" }
+            </Button>
         }
       </div>
     )

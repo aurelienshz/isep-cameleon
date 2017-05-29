@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { fetchMyProject, deliverDeliverable, getLocalState as getProjectState } from '../../../../data/project/reducer';
+import { fetchMyProject, deliverDeliverable, uploadMeetingReport, getLocalState as getProjectState } from '../../../../data/project/reducer';
 
 import ProjectDashboard from '../../components/ProjectDashboard';
 
@@ -14,13 +14,15 @@ export default connect(
       projectId,
       canEditMeeting: false,
       canEditDeliverable: false,
-      canDeliverDeliverable: true,
+      canDeliverDeliverable: true, // TODO only allowed if student is member of this team
+      canUploadMeetingReport: true, // TODO only allowed if student is member of this team
       project: projectState.selectedProject,
       baseLocation: "/team",
     }
   },
   (dispatch) => ({
     fetchProject: () => dispatch(fetchMyProject()),
-    deliverDeliverable: (projectId, deliverableId, file) => dispatch(deliverDeliverable(projectId, deliverableId, file))
+    deliverDeliverable: (projectId, deliverableId, file) => dispatch(deliverDeliverable(projectId, deliverableId, file)),
+    uploadMeetingReport: (projectId, meetingId, file) => dispatch(uploadMeetingReport(projectId, meetingId, file)),
   }),
 )(ProjectDashboard);

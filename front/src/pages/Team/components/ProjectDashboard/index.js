@@ -39,6 +39,8 @@ export default class ProjectDashboard extends React.Component {
       loading,
       projectId,
       canEditMeeting,
+      canUploadMeetingReport,
+      uploadMeetingReport,
       createMeeting,
       updateMeeting,
       deleteMeeting,
@@ -61,6 +63,8 @@ export default class ProjectDashboard extends React.Component {
           userId={userId}
           loading={loading}
           canEditMeeting={canEditMeeting}
+          canUploadMeetingReport={canUploadMeetingReport}
+          uploadMeetingReport={uploadMeetingReport}
           createMeeting={createMeeting}
           updateMeeting={updateMeeting}
           deleteMeeting={deleteMeeting}

@@ -6,6 +6,7 @@ import { getProjectsList,
   createMeeting as requestCreateMeeting,
   updateMeeting as requestUpdateMeeting,
   deleteMeeting as requestDeleteMeeting,
+  uploadMeetingReport as requestUploadMeetingReport,
   createDeliverable as requestCreateDeliverable,
   updateDeliverable as requestUpdateDeliverable,
   deleteDeliverable as requestDeleteDeliverable,
@@ -32,6 +33,9 @@ const REQUEST_UPDATE_MEETING = "project/REQUEST_UPDATE_MEETING";
 const CONFIRM_UPDATE_MEETING = "project/CONFIRM_UPDATE_MEETING";
 const REQUEST_DELETE_MEETING = "project/REQUEST_DELETE_MEETING";
 const CONFIRM_DELETE_MEETING = "project/CONFIRM_DELETE_MEETING";
+
+const REQUEST_UPLOAD_MEETING_REPORT = "project/REQUEST_UPLOAD_MEETING_REPORT";
+const CONFIRM_UPLOAD_MEETING_REPORT = "project/CONFIRM_UPLOAD_MEETING_REPORT";
 
 const REQUEST_CREATE_DELIVERABLE = "project/REQUEST_CREATE_DELIVERABLE";
 const CONFIRM_CREATE_DELIVERABLE = "project/CONFIRM_CREATE_DELIVERABLE";
@@ -225,6 +229,23 @@ export function deleteMeeting(projectId, meetingId) {
       await requestDeleteMeeting(projectId, meetingId);
       dispatch({
         type: CONFIRM_DELETE_MEETING,
+      });
+      dispatch(fetchProject(projectId));
+    } catch(er) {
+      console.error(er);
+    }
+  }
+}
+
+export function uploadMeetingReport(projectId, meetingId, file) {
+  return async (dispatch: Function) => {
+    dispatch({
+      type: REQUEST_UPLOAD_MEETING_REPORT,
+    });
+    try {
+      await requestUploadMeetingReport(projectId, meetingId, file);
+      dispatch({
+        type: CONFIRM_UPLOAD_MEETING_REPORT,
       });
       dispatch(fetchProject(projectId));
     } catch(er) {

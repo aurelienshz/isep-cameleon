@@ -123,8 +123,13 @@ class ProjectMeetings extends React.Component {
     this.props.pushLocation(this.props.baseLocation + "/meeting")
   };
 
+  uploadMeetingReport = (id, file) => {
+    const { projectId } = this.props;
+    this.props.uploadMeetingReport(projectId, id, file);
+  };
+
   buildGrid = () => {
-    const { classes, project, match, canEditMeeting } = this.props;
+    const { classes, project, match, canEditMeeting, canUploadMeetingReport } = this.props;
     const meetings = project.meetings;
 
     if (match.params.id) {
@@ -146,6 +151,8 @@ class ProjectMeetings extends React.Component {
                 selectedMeeting ?
                   <MeetingDetails
                     canEditMeeting={canEditMeeting}
+                    canUploadMeetingReport={canUploadMeetingReport}
+                    uploadMeetingReport={(file) => this.uploadMeetingReport(selectedMeeting.id, file)}
                     meeting={selectedMeeting}
                     deleteMeeting={() => this.deleteMeeting(selectedMeeting.id)}
                     updateMeeting={(dto) => this.updateMeeting(selectedMeeting.id, dto)} />
