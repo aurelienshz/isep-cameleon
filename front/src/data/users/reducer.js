@@ -1,6 +1,7 @@
 // @flow
 
 import { requestToken, getProfile, getClients, ACCESS_TOKEN_LOCALSTORAGE_KEY } from './service';
+import { fetchPromotion } from '../promotion/reducer';
 import { push } from 'react-router-redux';
 
 const REQUEST_AUTH_TOKEN = 'users/REQUEST_AUTH_TOKEN';
@@ -125,7 +126,11 @@ export const submitLoginAction = (credentials: {login: string, password: string}
         localStorage.setItem(ACCESS_TOKEN_LOCALSTORAGE_KEY, accessToken);
 
         dispatch(fetchProfile());
+        dispatch(fetchPromotion()); // TODO check this works and remove dirty willReceiveProps in AppBarLayout
         dispatch(push("/subject"));
+        // TODO decide the redirection based on the account type ?
+        // It could be nothing more than a home component that does nothing but showing
+        // a loader until profile and promotion are loaded, then redirects to the correct route based on this data
       } else {
         throw new Error('No access token in auth server response');
       }
