@@ -7,6 +7,7 @@ import { ConnectedRouter, routerReducer, routerMiddleware } from 'react-router-r
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import createHistory from 'history/createBrowserHistory';
+import registerServiceWorker from './registerServiceWorker';
 
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
@@ -54,3 +55,4 @@ ReactDOM.render(
   <DDApp />,
   document.getElementById('root')
 );
+registerServiceWorker();
