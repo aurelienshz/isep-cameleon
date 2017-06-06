@@ -4,6 +4,8 @@ import {createStyleSheet} from 'jss-theme-reactor';
 import Typography from 'material-ui/Typography';
 import customPropTypes from 'material-ui/utils/customPropTypes';
 
+import Stepper from 'react-stepper-horizontal';
+
 import { fetchTeams, createTeam, leaveTeam, joinTeam, getLocalState as getTeamState } from '../../../../data/team/reducer';
 import { isPartOfTeam } from '../../../../data/team/utils';
 
@@ -75,6 +77,8 @@ class TeamPage extends React.Component {
 
     return (
       <div style={STYLE_CONTAINER}>
+
+        <Stepper steps={ [{title: `Constitution de l'équipe`}, {title: `Validation de l'équipe`}, {title: `Assignation du sujet`}] } activeStep={ 0 } />
         <Typography component="p" className={classes.breadCrumbs}>
           {
             currentStep === STEP_BUILDING_TEAM ? <strong>Constitution de l'équipe</strong> : "Constitution de l'équipe"

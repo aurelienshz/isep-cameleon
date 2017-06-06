@@ -43,7 +43,7 @@ class PromotionPage extends React.Component {
           <Loader /> :
           <div>
             <p>TODO restrict this page to teachers only</p>
-            <Stepper steps={ [{title: `${this.computeStatusName(currentStatus)}`}, {title: 'Test'}] } activeStep={ 0 } />
+            <Stepper steps={ [{title: `${this.computeStatusName(currentStatus)}`}, {title: 'Session commencée'}, {title: 'Session terminée'}] } activeStep={ 0 } />
             <p>Statut de la promotion en cours : {this.computeStatusName(currentStatus)}</p>
             {
               currentStatus === BUILDING_SESSION &&
