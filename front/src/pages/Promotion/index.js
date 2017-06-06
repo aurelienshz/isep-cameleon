@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { getLocalState as getPromotionState, fetchPromotion, startProjects, endProjects } from '../../data/promotion/reducer';
 import { BUILDING_SESSION, PROJECTS_STARTED, SESSION_ENDED } from '../../data/promotion/constants';
 
+import Stepper from 'react-stepper-horizontal';
+
 import Loader from '../../components/Loader';
 
 class PromotionPage extends React.Component {
@@ -41,7 +43,7 @@ class PromotionPage extends React.Component {
           <Loader /> :
           <div>
             <p>TODO restrict this page to teachers only</p>
-
+            <Stepper steps={ [{title: `${this.computeStatusName(currentStatus)}`}, {title: 'Test'}] } activeStep={ 0 } />
             <p>Statut de la promotion en cours : {this.computeStatusName(currentStatus)}</p>
             {
               currentStatus === BUILDING_SESSION &&
