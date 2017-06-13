@@ -72,16 +72,9 @@ export default function SubjectList(props, context) {
                 }
               </CardContent>
               {
-                (showAssignToClient || showFeatures) &&
+                showAssignToClient && !subject.client &&
                 <CardActions>
-                  {
-                    showFeatures &&
-                      <Button onClick={() => onClickFeatures(subject.id)} primary>Fonctionnalités</Button>
-                  }
-                  {
-                    showAssignToClient && !subject.client &&
-                    <Button onClick={() => onClickAssignClient(subject.id)} primary>Assigner un client</Button>
-                  }
+                  <Button raised onClick={() => onClickAssignClient(subject.id)} primary>Assigner un client</Button>
                 </CardActions>
               }
             </Card>

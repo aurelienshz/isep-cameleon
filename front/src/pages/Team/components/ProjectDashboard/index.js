@@ -3,6 +3,7 @@ import TabsLayout from '../../../../components/TabsLayout';
 import Home from './Home';
 import Meeting from './Meeting';
 import Deliverable from './Deliverable';
+import Messenger from './Messenger';
 
 const tabs = [
   {
@@ -20,6 +21,11 @@ const tabs = [
     path: "/deliverable",
     component: Deliverable,
   },
+  {
+    label: "Messages",
+    path: "/message",
+    component: Messenger,
+  }
 ];
 
 export default class ProjectDashboard extends React.Component {

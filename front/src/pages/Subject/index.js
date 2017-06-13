@@ -7,6 +7,7 @@ import { ROLE_CLIENT, ROLE_TEACHER, userHasRole } from '../../data/users/rolesHe
 
 import SubjectListView from './ListView';
 import SubjectDetailsView from './DetailsView';
+import AssignedSubject from './AssignedSubject';
 
 import Loader from '../../components/Loader.js';
 
@@ -32,17 +33,7 @@ class Subject extends React.Component {
       )
     }
 
-    return (
-      <div style={{padding: 20}}>
-        <h1>Sujet assigné</h1>
-
-        <h2>Outil de gestion de projet de Génie Logiciel</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-          Asperiores debitis dignissimos doloribus enim nulla optio quidem
-          temporibus ullam voluptatem! At deleniti dignissimos facilis illo
-          magnam modi molestias porro repellendus, tempore!</p>
-      </div>
-    )
+    return <AssignedSubject />;
   }
 }
 

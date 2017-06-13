@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import customPropTypes from 'material-ui/utils/customPropTypes';
 
 import { fetchPromotion, getLocalState as getPromotionState } from '../../../data/promotion/reducer';
-import { BUILDING_SESSION, PROJECTS_STARTED } from '../../../data/promotion/constants';
+import { BUILDING_SESSION, PROJECTS_STARTED, SESSION_ENDED } from '../../../data/promotion/constants';
 import Loader from '../../../components/Loader';
 
 import TeamBuilding from './TeamBuilding';
@@ -32,6 +32,12 @@ class TeamPage extends React.Component {
         return <TeamBuilding />;
       case PROJECTS_STARTED:
         return <ProjectDashboard />;
+      case SESSION_ENDED:
+        return (
+          <div style={{ margin: 20, textAlign: "center" }}>
+            <h1>Session terminée</h1>
+          </div>
+        )
       default:
         return <div>Error : Unknown promotion status</div>
     }

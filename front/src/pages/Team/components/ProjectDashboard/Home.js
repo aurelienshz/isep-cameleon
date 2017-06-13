@@ -57,7 +57,6 @@ class ProjectDashboardHome extends React.Component {
             <Card>
               <CardContent>
                 <Typography type="headline" component="h2">Réunions</Typography>
-
                 {
                   loading ?
                   <Loader />

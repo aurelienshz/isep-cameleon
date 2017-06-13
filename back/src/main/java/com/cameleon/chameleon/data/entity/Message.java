@@ -14,7 +14,7 @@ public class Message {
 
     @Id
     @GeneratedValue
-    private  long id;
+    private Long id;
 
     private User user;
 
@@ -34,6 +34,7 @@ public class Message {
     public void setMessage(String message) {
         this.message = message;
     }
+
     public User getUser() {
         return user;
     }
@@ -42,8 +43,7 @@ public class Message {
         this.user = user;
     }
 
-
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

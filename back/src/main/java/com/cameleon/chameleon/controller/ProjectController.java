@@ -36,7 +36,7 @@ public class ProjectController {
     private DeliverableService deliverableService;
 
     @Autowired
-    private MessagerieService messagerieService;
+    private MessageService messageService;
 
     @GetMapping
     public List<Project> getAllProjects() {
@@ -146,21 +146,21 @@ public class ProjectController {
         return deliverableService.deliverDeliverable(pId, dId, file, user);
     }
 
-    @GetMapping("/{pId}/messagerie")
-    public List<Message> getMessagerie(@PathVariable Long pId) {
-        return messagerieService.findOneList(pId);
+    @GetMapping("/{pId}/message")
+    public List<Message> getMessages(@PathVariable Long pId) {
+        return messageService.findOneList(pId);
     }
 
     @RolesAllowed({ROLE_STUDENT, ROLE_CLIENT})
-    @PostMapping("/{pId}/messagerie")
+    @PostMapping("/{pId}/message")
     public void addMessage(@PathVariable Long pId, @RequestBody MessageDTO messageDTO) {
-        messagerieService.addMessage(pId, messageDTO);
+        messageService.addMessage(pId, messageDTO);
     }
 
 
     @RolesAllowed({ROLE_CLIENT})
-    @DeleteMapping("/{pId}/messagerie/{mId}")
+    @DeleteMapping("/{pId}/message/{mId}")
     public void deleteMessage(Long mId, @PathVariable Long pId) {
-        messagerieService.deleteMessageFromAll(mId, pId);
+        messageService.deleteMessageFromAll(mId, pId);
     }
 }

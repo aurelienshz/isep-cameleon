@@ -17,8 +17,9 @@ import Loader from '../components/Loader.js';
 
 import colors from '../colors';
 
-import {isAuthenticated} from '../data/users/service';
-import {logoutAction, fetchProfile, getLocalState as getUserState} from '../data/users/reducer';
+import { isAuthenticated } from '../data/users/service';
+import { userHasRole, ROLE_CLIENT, ROLE_TEACHER, ROLE_STUDENT } from '../data/users/rolesHelpers';
+import { logoutAction, fetchProfile, getLocalState as getUserState } from '../data/users/reducer';
 import { fetchPromotion } from '../data/promotion/reducer';
 
 const styleSheet = createStyleSheet('AuthenticatedLayout', () => ({
@@ -127,8 +128,13 @@ class AppBarLayout extends React.Component {
   };
 
   render() {
+
     const classes = this.context.styleManager.render(styleSheet);
     const { awaitingProfile, profile } = this.props;
+
+    const isStudent = userHasRole(profile, ROLE_STUDENT);
+    const isTeacher = userHasRole(profile, ROLE_TEACHER);
+
     return (
       <div style={{height: '100%', width: '100%'}}>
         <div className={classes.root}>
@@ -138,9 +144,20 @@ class AppBarLayout extends React.Component {
               <Typography type="title" colorInherit className={classes.flex}>Cameleon</Typography>
               <div className={classes.group}>
 
-                <Link className={classes.link} to="/subject"><Button contrast>Sujets</Button></Link>
+                {
+                  isStudent &&
+                  <Link className={classes.link} to="/subject"><Button contrast>Sujet</Button></Link>
+                }
+                {
+                  isTeacher &&
+                  <Link className={classes.link} to="/subject"><Button contrast>Sujets</Button></Link>
+                }
+
                 <Link className={classes.link} to="/team"><Button contrast>Équipes</Button></Link>
-                <Link className={classes.link} to="/promotion"><Button contrast>Promotion</Button></Link>
+
+                { isTeacher &&
+                  <Link className={classes.link} to="/promotion"><Button contrast>Promotion</Button></Link>
+                }
 
                 <div className={classes.subGroup}>
                   <div className={classes.detail}>

@@ -63,6 +63,10 @@ export default function TeamList({ teams, onRequestJoin }, context) {
           );
         })
       }
+      {
+        !Boolean(teams.length) &&
+          <div style={{textAlign: "center"}}>Aucune équipe n'a été créée pour l'instant !</div>
+      }
     </Grid>
   )
 }

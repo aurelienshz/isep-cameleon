@@ -2,9 +2,6 @@ package com.cameleon.chameleon.data.dto;
 
 import com.cameleon.chameleon.data.entity.User;
 
-import java.sql.Timestamp;
-
-
 public class MessageDTO {
 
     private String content;
@@ -26,5 +23,4 @@ public class MessageDTO {
     public void setContent(String content) {
         this.content = content;
     }
-
 }

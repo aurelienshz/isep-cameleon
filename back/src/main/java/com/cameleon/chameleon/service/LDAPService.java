@@ -41,14 +41,16 @@ public class LDAPService {
         env.put("com.sun.jndi.ldap.read.timeout", "2000");
         env.put("java.naming.ldap.version", "3");
 
-        DirContext ctx;
+        DirContext ctx = null;
 
         try {
             // Get a reference to a directory context
             ctx = new InitialDirContext(env);
         } catch (NamingException e) {
-            logger.error("Failed to connnect to the LDAP server");
+            logger.error("Failed to connnect to the LDAP server (NamingException)");
             throw new LDAPServiceException(e.getMessage(), e);
+        } catch (Exception e) {
+            logger.error("Failed to connnect to the LDAP server (Exception)");
         }
 
         try {

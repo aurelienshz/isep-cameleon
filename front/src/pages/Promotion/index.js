@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { getLocalState as getPromotionState, fetchPromotion, startProjects, endProjects } from '../../data/promotion/reducer';
 import { BUILDING_SESSION, PROJECTS_STARTED, SESSION_ENDED } from '../../data/promotion/constants';
 
+import Button from 'material-ui/Button';
+
 import Stepper from 'react-stepper-horizontal';
 
 import Loader from '../../components/Loader';
@@ -20,21 +22,20 @@ class PromotionPage extends React.Component {
     this.props.endProjects();
   };
 
-  computeStatusName = (statusName) => {
-    switch (statusName) {
-      case BUILDING_SESSION:
-        return "Session en cours de préparation";
-      case PROJECTS_STARTED:
-        return "Session commencée";
-      case SESSION_ENDED:
-        return "Session terminée";
-      default:
-        return "Une erreur s'est produite";
-    }
-  };
-
   render() {
     const { currentStatus } = this.props;
+
+    let activeStep = 0;
+    switch (currentStatus) {
+      case PROJECTS_STARTED:
+        activeStep = 1;
+        break;
+      case SESSION_ENDED:
+        activeStep = 2;
+        break;
+      default: // BUILDING_SESSION => 0
+        break;
+    }
     return (
       <div style={{padding: 20}}>
         <h1>Promotions</h1>
@@ -42,17 +43,18 @@ class PromotionPage extends React.Component {
         { this.props.loading ?
           <Loader /> :
           <div>
-            <p>TODO restrict this page to teachers only</p>
-            <Stepper steps={ [{title: `${this.computeStatusName(currentStatus)}`}, {title: 'Session commencée'}, {title: 'Session terminée'}] } activeStep={ 0 } />
-            <p>Statut de la promotion en cours : {this.computeStatusName(currentStatus)}</p>
-            {
-              currentStatus === BUILDING_SESSION &&
-              <button onClick={this.startProjects}>Passer à l'étape suivante</button>
-            }
-            {
-              currentStatus === PROJECTS_STARTED &&
-              <button onClick={this.endProjects}>Passer à l'étape suivante</button>
-            }
+            <Stepper steps={ [{title: 'Préparation de la session'}, {title: 'Session commencée'}, {title: 'Session terminée'}] } activeStep={activeStep} />
+
+            <div style={{ margin: 30, textAlign: 'center'}}>
+              {
+                currentStatus === BUILDING_SESSION &&
+                <Button primary raised onClick={this.startProjects}>Passer à l'étape suivante</Button>
+              }
+              {
+                currentStatus === PROJECTS_STARTED &&
+                <Button primary raised onClick={this.endProjects}>Passer à l'étape suivante</Button>
+              }
+            </div>
           </div>
         }
       </div>

@@ -31,14 +31,14 @@ public class Project {
     private List<MeetingRequest> meetingRequests;
 
     @OneToMany
-    private List<Message> messagesList;
+    private List<Message> messages;
 
-    public List<Message> getMessagesList() {
-        return messagesList;
+    public List<Message> getMessages() {
+        return messages;
     }
 
-    public void setMessagesList(List<Message> messagesList) {
-        this.messagesList = messagesList;
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
     }
 
     public Subject getSubject() {

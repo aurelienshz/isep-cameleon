@@ -18,21 +18,17 @@ const STEP_BUILDING_TEAM = "STEP_BUILDING_TEAM";
 const STEP_AWAITING_VALIDATION = "STEP_AWAITING_VALIDATION";
 const STEP_SUBJECT = "STEP_SUBJECT";
 
+const steps = [
+  {title: "Constitution de l'équipe"},
+  {title: "Validation de l'équipe"},
+  {title: "Assignation du sujet"}
+];
+
 const STYLE_CONTAINER = {
   padding: 20,
 };
 
-const styleSheet = createStyleSheet('TeamPage', (theme) => ({
-  breadCrumbs: {
-    marginBottom: 20,
-  }
-}));
-
 class TeamPage extends React.Component {
-  static contextTypes = {
-    styleManager: customPropTypes.muiRequired,
-  };
-
   state = {
     filterString: "",
     teams: [],
@@ -61,7 +57,6 @@ class TeamPage extends React.Component {
 
   render() {
     const { loadingTeams, teams, joinedTeam } = this.props;
-    const classes = this.context.styleManager.render(styleSheet);
 
     if (loadingTeams) {
       return (
@@ -75,23 +70,24 @@ class TeamPage extends React.Component {
     if (joinedTeam) currentStep = STEP_AWAITING_VALIDATION;
     if (joinedTeam && joinedTeam.validatedByTeacher) currentStep = STEP_SUBJECT;
 
+    let activeStep = 0;
+    switch (currentStep) {
+      case STEP_AWAITING_VALIDATION:
+        activeStep = 1;
+        break;
+      case STEP_SUBJECT:
+        activeStep = 2;
+        break;
+      default: // STEP_BUILDING_TEAM
+        break;
+    }
+
     return (
       <div style={STYLE_CONTAINER}>
 
-        <Stepper steps={ [{title: `Constitution de l'équipe`}, {title: `Validation de l'équipe`}, {title: `Assignation du sujet`}] } activeStep={ 0 } />
-        <Typography component="p" className={classes.breadCrumbs}>
-          {
-            currentStep === STEP_BUILDING_TEAM ? <strong>Constitution de l'équipe</strong> : "Constitution de l'équipe"
-          }
-          &nbsp;&gt;&nbsp;
-          {
-            currentStep === STEP_AWAITING_VALIDATION ? <strong>Validation de l'équipe</strong> : "Validation de l'équipe"
-          }
-          &nbsp;&gt;&nbsp;
-          {
-            currentStep === STEP_SUBJECT ? <strong>Assignation du sujet</strong> : "Assignation du sujet"
-          }
-        </Typography>
+        <div style={{marginBottom: 20}}>
+          <Stepper steps={steps} activeStep={activeStep} />
+        </div>
 
         {
           joinedTeam ?
