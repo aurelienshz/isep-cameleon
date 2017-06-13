@@ -5,7 +5,6 @@ import com.cameleon.chameleon.data.dto.FeatureDTO;
 import com.cameleon.chameleon.data.entity.Feature;
 import com.cameleon.chameleon.data.entity.FeatureCategory;
 import com.cameleon.chameleon.data.entity.Subject;
-import com.cameleon.chameleon.exception.BusinessLogicException;
 import com.cameleon.chameleon.service.FeatureService;
 import com.cameleon.chameleon.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,5 +105,13 @@ public class SubjectController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteFeatureCategory(@PathVariable Long subjectId, @PathVariable Long fcId) {
         featureService.deleteFeatureCategory(subjectId, fcId);
+
+
     }
+
+
+
+
+
+
 }

@@ -2,6 +2,7 @@ package com.cameleon.chameleon.controller;
 
 import com.cameleon.chameleon.data.dto.DeliverableDTO;
 import com.cameleon.chameleon.data.dto.MeetingDTO;
+import com.cameleon.chameleon.data.dto.MessageDTO;
 import com.cameleon.chameleon.data.dto.ProjectCreationDTO;
 import com.cameleon.chameleon.data.entity.*;
 
@@ -34,6 +35,9 @@ public class ProjectController {
     @Autowired
     private DeliverableService deliverableService;
 
+    @Autowired
+    private MessagerieService messagerieService;
+
     @GetMapping
     public List<Project> getAllProjects() {
         return projectService.getAllProjects();
@@ -55,6 +59,8 @@ public class ProjectController {
     public Project createProject(@RequestBody ProjectCreationDTO projectCreationDTO,Long id) {
         return projectService.createProject(projectCreationDTO);
     }
+
+
 
     @DeleteMapping("/{id}")
     public void deleteProject(@PathVariable Long id) {
@@ -140,4 +146,30 @@ public class ProjectController {
             @AuthenticationPrincipal User user) {
         return deliverableService.deliverDeliverable(pId, dId, file, user);
     }
+
+    @PostMapping
+    @GetMapping("/{pId}/messagerie")
+    public List<Message> getMessagerie(@PathVariable Long pId) {
+        return messagerieService.findOneList(pId);
+    }
+
+    @RolesAllowed({ ROLE_STUDENT, ROLE_CLIENT })
+    @PostMapping("/{pId}/messagerie/")
+    public void addMessage(@PathVariable Long pId ,@RequestBody MessageDTO messageDTO) {
+        messagerieService.addMessage(pId, messageDTO);
+    }
+
+
+
+    @RolesAllowed({ ROLE_CLIENT })
+    @DeleteMapping("/{pId}/messagerie/{mId}")
+    public void deleteMessage(Long mId,@PathVariable Long pId){
+        messagerieService.deleteMessageFromAll(mId,pId);
+    }
+
+
+
+
+
+
 }

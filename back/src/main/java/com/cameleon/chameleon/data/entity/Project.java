@@ -30,6 +30,17 @@ public class Project {
     @OneToMany(mappedBy = "project")
     private List<MeetingRequest> meetingRequests;
 
+    @OneToMany
+    private List<Message> messagesList;
+
+    public List<Message> getMessagesList() {
+        return messagesList;
+    }
+
+    public void setMessagesList(List<Message> messagesList) {
+        this.messagesList = messagesList;
+    }
+
     public Subject getSubject() {
         return subject;
     }
