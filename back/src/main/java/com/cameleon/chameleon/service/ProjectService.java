@@ -59,7 +59,6 @@ public class ProjectService {
 
     public Project getBelongingProject(User user) {
         Team team = teamService.findBelongingTeam(user);
-        System.out.println(team);
         if (team == null) return null;
         return team.getProject();
     }

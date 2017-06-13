@@ -56,7 +56,7 @@ export default class Messenger extends React.Component {
                       value={this.state.message}
                       onChange={(e) => this.setState({ message: e.target.value })}
                       rows={5}
-                      style={{ width: '100%', resize: 'vertical' }}>
+                      style={{ width: '100%', resize: 'vertical', padding: 8 }}>
             </textarea>
             <div style={{ textAlign: 'center', padding: 20 }}>
               <Button primary raised disabled={loading} onClick={this.sendMessage}>Envoyer</Button>

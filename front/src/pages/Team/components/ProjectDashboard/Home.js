@@ -12,6 +12,7 @@ import Divider from 'material-ui/Divider';
 import Avatar from 'material-ui/Avatar';
 import GroupIcon from 'material-ui-icons/Group'
 import SubjectIcon from 'material-ui-icons/Subject'
+import MessageIcon from 'material-ui-icons/Message'
 
 import Loader from '../../../../components/Loader';
 
@@ -53,7 +54,7 @@ class ProjectDashboardHome extends React.Component {
       <div style={{ padding: 16 }}>
         <h1 style={{ textAlign: 'center' }}>{ !loading && project.team.name }</h1>
         <Grid container>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={4}>
             <Card>
               <CardContent>
                 <Typography type="headline" component="h2">Réunions</Typography>
@@ -108,7 +109,7 @@ class ProjectDashboardHome extends React.Component {
             </Card>
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={4}>
             <Card>
               <CardContent>
                 <Typography type="headline" component="h2">Livrables</Typography>
@@ -138,6 +139,56 @@ class ProjectDashboardHome extends React.Component {
                       <ListItem><ListItemText primary="Aucun livrable" /></ListItem>
                     }
                   </List>
+                }
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12} md={4}>
+            <Card>
+              <CardContent>
+                <Typography type="headline" component="h2">Messages</Typography>
+                {
+                  loading ?
+                    <Loader />
+                    :
+                    <div>
+
+                      <div>
+                        <Typography component="p" className={classes.meetingTimeHeader}>
+                          Messages échangés
+                        </Typography>
+                        <Typography component="p" className={classes.meetingTime}>
+                          { project.messages.length }
+                        </Typography>
+                      </div>
+
+                      <Divider />
+
+                      <Typography component="p" className={classes.meetingTimeHeader}>
+                        Derniers messages :
+                      </Typography>
+
+                      <List>
+                        {
+                          project.messages.sort((m1, m2) => m2.sentAt - m1.sentAt).map(message => {
+                            return (
+                              <ListItem key={message.id} button
+                                        onClick={() => this.props.pushLocation(baseLocation + "/message")}>
+                                <Avatar><MessageIcon/></Avatar>
+                                <ListItemText
+                                  primary={message.sender.firstName + " " + message.sender.lastName}
+                                  secondary={formatFrenchDateTime(message.sentAt)}/>
+                              </ListItem>
+                            )
+                          })
+                        }
+                        {
+                          project.messages.length === 0 &&
+                          <ListItem><ListItemText primary="Aucun message" /></ListItem>
+                        }
+                      </List>
+                    </div>
                 }
               </CardContent>
             </Card>
