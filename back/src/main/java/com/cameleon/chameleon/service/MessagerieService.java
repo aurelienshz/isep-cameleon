@@ -2,15 +2,17 @@ package com.cameleon.chameleon.service;
 
 
 
-import com.cameleon.chameleon.data.dto.MeetingDTO;
 import com.cameleon.chameleon.data.dto.MessageDTO;
-import com.cameleon.chameleon.data.entity.*;
+import com.cameleon.chameleon.data.entity.Message;
+import com.cameleon.chameleon.data.entity.Project;
 import com.cameleon.chameleon.data.repository.MessageRepository;
 import com.cameleon.chameleon.data.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class MessagerieService {
 
 

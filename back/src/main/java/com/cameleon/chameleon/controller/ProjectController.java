@@ -56,10 +56,9 @@ public class ProjectController {
 
     @PostMapping
     @RolesAllowed(ROLE_TEACHER)
-    public Project createProject(@RequestBody ProjectCreationDTO projectCreationDTO,Long id) {
+    public Project createProject(@RequestBody ProjectCreationDTO projectCreationDTO, Long id) {
         return projectService.createProject(projectCreationDTO);
     }
-
 
 
     @DeleteMapping("/{id}")
@@ -119,19 +118,19 @@ public class ProjectController {
     }
 
     @PostMapping("/{pId}/deliverable")
-    @RolesAllowed({ ROLE_TEACHER, ROLE_CLIENT })
+    @RolesAllowed({ROLE_TEACHER, ROLE_CLIENT})
     public Deliverable createDeliverable(@PathVariable Long pId, @RequestBody DeliverableDTO dto) {
         return deliverableService.createDeliverable(pId, dto);
     }
 
     @PostMapping("/{pId}/deliverable/{dId}")
-    @RolesAllowed({ ROLE_TEACHER, ROLE_CLIENT })
+    @RolesAllowed({ROLE_TEACHER, ROLE_CLIENT})
     public Deliverable updateDeliverable(@PathVariable Long pId, @PathVariable Long dId, @RequestBody DeliverableDTO dto) {
         return deliverableService.updateDeliverable(pId, dId, dto);
     }
 
     @DeleteMapping("/{pId}/deliverable/{dId}")
-    @RolesAllowed({ ROLE_TEACHER, ROLE_CLIENT })
+    @RolesAllowed({ROLE_TEACHER, ROLE_CLIENT})
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteDeliverable(@PathVariable Long pId, @PathVariable Long dId) {
         deliverableService.deleteDeliverable(pId, dId);
@@ -147,29 +146,21 @@ public class ProjectController {
         return deliverableService.deliverDeliverable(pId, dId, file, user);
     }
 
-    @PostMapping
     @GetMapping("/{pId}/messagerie")
     public List<Message> getMessagerie(@PathVariable Long pId) {
         return messagerieService.findOneList(pId);
     }
 
-    @RolesAllowed({ ROLE_STUDENT, ROLE_CLIENT })
-    @PostMapping("/{pId}/messagerie/")
-    public void addMessage(@PathVariable Long pId ,@RequestBody MessageDTO messageDTO) {
+    @RolesAllowed({ROLE_STUDENT, ROLE_CLIENT})
+    @PostMapping("/{pId}/messagerie")
+    public void addMessage(@PathVariable Long pId, @RequestBody MessageDTO messageDTO) {
         messagerieService.addMessage(pId, messageDTO);
     }
 
 
-
-    @RolesAllowed({ ROLE_CLIENT })
+    @RolesAllowed({ROLE_CLIENT})
     @DeleteMapping("/{pId}/messagerie/{mId}")
-    public void deleteMessage(Long mId,@PathVariable Long pId){
-        messagerieService.deleteMessageFromAll(mId,pId);
+    public void deleteMessage(Long mId, @PathVariable Long pId) {
+        messagerieService.deleteMessageFromAll(mId, pId);
     }
-
-
-
-
-
-
 }
