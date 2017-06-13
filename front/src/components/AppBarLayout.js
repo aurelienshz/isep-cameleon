@@ -134,6 +134,7 @@ class AppBarLayout extends React.Component {
 
     const isStudent = userHasRole(profile, ROLE_STUDENT);
     const isTeacher = userHasRole(profile, ROLE_TEACHER);
+    const isClient = userHasRole(profile, ROLE_CLIENT);
 
     return (
       <div style={{height: '100%', width: '100%'}}>
@@ -149,7 +150,7 @@ class AppBarLayout extends React.Component {
                   <Link className={classes.link} to="/subject"><Button contrast style={{color: 'white'}}>Sujet</Button></Link>
                 }
                 {
-                  isTeacher &&
+                  isTeacher || isClient &&
                   <Link className={classes.link} to="/subject"><Button contrast style={{color: 'white'}}>Sujets</Button></Link>
                 }
 
