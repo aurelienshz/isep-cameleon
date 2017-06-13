@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react';
+import {connect} from 'react-redux';
 import Avatar from 'material-ui/Avatar';
 import Button from 'material-ui/Button';
 import Dialog from 'material-ui/Dialog';
@@ -13,6 +14,10 @@ import Slide from 'material-ui/transitions/Slide';
 import TextField from 'material-ui/TextField';
 import InfiniteCalendar from 'react-infinite-calendar';
 import 'react-infinite-calendar/styles.css';
+
+import { isAuthenticated } from '../data/users/service';
+import { logoutAction, fetchProfile, getLocalState as getUserState } from '../data/users/reducer';
+import { fetchPromotion } from '../data/promotion/reducer';
 
 import colors from '../../colors.js';
 
@@ -103,7 +108,7 @@ const STYLE_BUTTON_ONMODAL = {
 };
 
 
-export default class Profil extends React.Component {
+class Profil extends React.Component {
 
   state = {
     open: false,
@@ -113,9 +118,37 @@ export default class Profil extends React.Component {
 
   handleOpen = () => this.setState({ open: true });
 
+  fetchProfileAndPromotion = () => {
+    if(isAuthenticated()) this.props.fetchPromotion();
+
+    if (isAuthenticated() && !this.isProfileLoaded()) {
+      this.props.loadProfile();
+    }
+  };
+
+  componentWillMount() {
+    this.fetchProfileAndPromotion();
+  }
+
+  componentWillReceiveProps(props) {
+    // if (props.profile !== this.props.profile) this.fetchProfileAndPromotion();
+  }
+
+  isProfileLoaded = () => {
+    const profile = this.props.profile;
+    return Boolean(profile) && Boolean(profile.firstName) && Boolean(profile.lastName);
+  };
+
+  logout = () => {
+    this.setState({ open: false });
+    this.props.logout();
+  };
+
   render() {
+    const { awaitingProfile, profile } = this.props;
     return (
       <div style={STYLE_CONTAINER}>
+        { isAuthenticated()
         <h1>Profil</h1>
         <div style={STYLE_PROFILE_HEADER}>
           <Avatar
@@ -126,72 +159,7 @@ export default class Profil extends React.Component {
           <div>
             <h1 style={STYLE_INFO}>Victor ELY</h1>
           </div>
-          <Button style={STYLE_BUTTON}>Déconnexion</Button>
-          <Dialog
-            fullScreen
-            open={this.state.open}
-            onRequestClose={this.handleRequestClose}
-            transition={<Slide direction="up" />}
-          >
-            <AppBar style={STYLE_APPBAR}>
-              <Toolbar>
-                <IconButton contrast onClick={this.handleRequestClose}>
-                  <CloseIcon />
-                </IconButton>
-                <Typography type="title" colorInherit style={STYLE_FLEX}>
-                  Modifier mes informations
-                </Typography>
-              </Toolbar>
-            </AppBar>
-            <div style={STYLE_INPUT}>
-              <Typography>Email</Typography>
-              <TextField
-                id="Email"
-                label="Modifier votre email"
-              />
-              <Typography>Adresse</Typography>
-              <TextField
-                id="Adresse"
-                label="Modifier votre adresse"
-              />
-              <Typography>Téléphone</Typography>
-              <TextField
-                id="Téléphone"
-                label="Modifier votre numéro de téléphone"
-              />
-              <Typography>Date de naissance</Typography>
-              <InfiniteCalendar
-                width={350}
-                height={350}
-                theme={{
-                  selectionColor: colors.ISEP_PRIMARY,
-                  textColor: {
-                    default: '#333',
-                    active: '#FFF'
-                  },
-                  weekdayColor: colors.ISEP_PRIMARY,
-                  headerColor: colors.ISEP_PRIMARY,
-                  floatingNav: {
-                  background: colors.ISEP_PRIMARY_LIGHTER,
-                  color: '#FFF',
-                  chevron: colors.ISEP_SECONDARY,
-                  }
-                }}
-                locale={{
-                  locale: require('date-fns/locale/fr'),
-                  headerFormat: 'dddd, D MMM',
-                  weekdays: ["Dim","Lun","Mar","Mer","Jeu","Ven","Sam"],
-                  blank: 'Aucune date selectionnee',
-                  todayLabel: {
-                    long: 'Aujourd\'hui',
-                    short: 'Auj.'
-                  }
-                }}
-                display="years" selected={'1990'}
-              />
-            </div>
-            <Button style={STYLE_BUTTON_ONMODAL} onClick={this.handleRequestClose}>Enregistrer</Button>
-          </Dialog>
+          <Button onClick={this.logout} style={STYLE_BUTTON}>Déconnexion</Button>
         </div>
         <div style={STYLE_SEC}>
           <h2 style={STYLE_TITLE_CAPS}>Mes informations</h2>
@@ -205,7 +173,12 @@ export default class Profil extends React.Component {
                   Nom d'utilisateur
                 </th>
                 <td>
-                  victorely
+                  {
+                    this.isProfileLoaded() && !awaitingProfile ?
+                    profile.firstName + ' ' + profile.lastName
+                    :
+                    <Loader />
+                  }
                 </td>
               </tr>
               <tr style={STYLE_INFO_TABLE_TR}>
@@ -282,7 +255,22 @@ export default class Profil extends React.Component {
             </tr>
           </tbody>
         </table>
+      }
       </div>
     );
   }
 }
+
+export default connect((state) => {
+  const userState = getUserState(state);
+  return {
+    awaitingProfile: userState.awaitingProfile,
+    profile: userState.profile,
+  };
+}, (dispatch) => {
+  return {
+    loadProfile: () => dispatch(fetchProfile()),
+    logout: () => dispatch(logoutAction()),
+    fetchPromotion: () => dispatch(fetchPromotion()),
+  };
+})(Profil);
