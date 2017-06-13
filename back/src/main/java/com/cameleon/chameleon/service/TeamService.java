@@ -5,6 +5,8 @@ import com.cameleon.chameleon.data.entity.Team;
 import com.cameleon.chameleon.data.entity.User;
 import com.cameleon.chameleon.data.repository.TeamRepository;
 import com.cameleon.chameleon.exception.BusinessLogicException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,8 @@ import java.util.stream.Collectors;
 public class TeamService {
     @Autowired
     private TeamRepository teamRepository;
+
+    Logger logger = LoggerFactory.getLogger(TeamService.class);
 
     public Team findTeam(Long id) {
         return teamRepository.findOne(id);
@@ -46,12 +50,12 @@ public class TeamService {
         return teamRepository.findByMemberId(user.getId());
     }
 
-    public void checkIfNotValidatedOrThrow(Team team) {
+    public void checkTeamNotValidatedOrThrow(Team team) {
         if (team.isValidatedByTeacher())
             throw new BusinessLogicException("Team has already been validated by a teacher");
     }
 
-    public void checkIfBelongToThisTeam (User user , Team team) {
+    public void checkIfBelongToThisTeam(User user, Team team) {
         if (findBelongingTeam(user) != team) {
             throw new BusinessLogicException("User doesn't belong to team");
         }
@@ -64,7 +68,7 @@ public class TeamService {
     }
 
     public Team addUserToTeam(User user, Team team) {
-        checkIfNotValidatedOrThrow(team);
+        checkTeamNotValidatedOrThrow(team);
         checkUserCanJoinOrThrow(user);
         team.getMembers().add(user);
         teamRepository.save(team);
@@ -72,14 +76,20 @@ public class TeamService {
     }
 
     public void removeUserFromTeam(User user, Team team) {
-        checkIfNotValidatedOrThrow(team);
-        checkIfBelongToThisTeam(user,team);
+        checkTeamNotValidatedOrThrow(team);
+        checkIfBelongToThisTeam(user, team);
+
+        logger.info("Removing user {} ({}) from team {} ({})",
+                user.getUsername(), user.getId(),
+                team.getName(), team.getId());
         List<User> newMembers = team.getMembers().stream()
                 // Keep all other members :
-                .filter(m -> !(m.getId().equals(user.getId())))
+                .filter(m -> !m.getId().equals(user.getId()))
                 .collect(Collectors.toList());
+
         // If the member who just left was the last one, we delete the team :
         if (newMembers.size() == 0) {
+            logger.info("Team {} has no more members. Deleting...", team.getName());
             teamRepository.delete(team);
         } else {
             team.setMembers(newMembers);
@@ -90,6 +100,7 @@ public class TeamService {
     public void deleteTeam(Long id) {
         teamRepository.delete(id);
     }
+
     public Team createTeamFromDTO(TeamCreationDTO teamCreationDTO) {
         Team team = new Team();
         team.setName(teamCreationDTO.getName());

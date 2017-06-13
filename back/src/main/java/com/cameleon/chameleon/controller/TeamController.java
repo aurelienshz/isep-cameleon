@@ -65,8 +65,4 @@ public class TeamController {
     public void validateTeam(@PathVariable Long id) {
         teamService.validateTeam(id);
     }
-
-
-
-
 }

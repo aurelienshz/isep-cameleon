@@ -161,12 +161,12 @@ class LoginPage extends React.Component {
                 <Grid item xs={12} sm={6}>
                   <div className={classes.card}>
                     <h1 className={classes.title}>Authentification extérieure</h1>
-                    <div className={classes.form}>
+                    <form className={classes.form} onSubmit={(e) => {e.preventDefault(); this.submitExternalLogin()}}>
                       <input className={classes.input} type="text" placeholder='Login' value={this.state.externalLogin} onChange={(event) => this.setState({externalLogin: event.target.value})} />
                       <input className={classes.input} type="password" placeholder='Password' value={this.state.externalPassword} onChange={(event) => this.setState({externalPassword: event.target.value})} />
                       <a className={classes.link}> Mot de passe oublié ? </a>
                       <input type="submit" className={classes.button} value="Connexion"/>
-                    </div>
+                    </form>
                   </div>
                 </Grid>
               </Grid>
