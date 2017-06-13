@@ -2,49 +2,37 @@ package com.cameleon.chameleon.data.dto;
 
 public class LDAPUserDTO {
 
-    /**
-     * Nom complet (nom + prénom)
-     * @return
-     */
-    private String nom;
-    private String nomFamille;
-    private String prenom;
-
-    /**
-     * Type d'utilisateur: eleve, ...
-     */
+    private String firstName;
+    private String lastName;
+    private String fullName;
     private String employeeType;
-
-    /**
-     * Numéro élève
-     */
     private String employeeNumber;
     private String login;
     private String password;
     private String mail;
 
-    public String getNom() {
-        return nom;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getNomFamille() {
-        return nomFamille;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setNomFamille(String nomFamille) {
-        this.nomFamille = nomFamille;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getPrenom() {
-        return prenom;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getEmployeeType() {
@@ -85,5 +73,19 @@ public class LDAPUserDTO {
 
     public void setMail(String mail) {
         this.mail = mail;
+    }
+
+    @Override
+    public String toString() {
+        return "LDAPUserDTO{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", employeeType='" + employeeType + '\'' +
+                ", employeeNumber='" + employeeNumber + '\'' +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", mail='" + mail + '\'' +
+                '}';
     }
 }

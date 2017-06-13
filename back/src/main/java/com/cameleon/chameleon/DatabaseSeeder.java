@@ -83,13 +83,13 @@ public class DatabaseSeeder {
         User sacha = new User("smettoudi", "Sacha", "METTOUDI", "test", null, lRoleStudent);
         User yvan = new User("ybezard", "Yvan", "BEZARD", "test", null, lRoleStudent);
         User tim = new User("thoudoyer", "Timothée", "Houdoyer", "test", null, lRoleStudent);
-        User aurel = new User("aschiltz", "Aurélien", "SCHILTZ", "test", null, lRoleStudent);
+//        User aurel = new User("aschiltz", "Aurélien", "SCHILTZ", "test", null, lRoleStudent);
         User victor = new User("vely", "Victor", "ELY", "test", null, lRoleStudent);
 
         PasswordEncrypter.encryptPassword(student, teacher, client);
-        PasswordEncrypter.encryptPassword(zakia, sacha, yvan, tim, aurel, victor);
+        PasswordEncrypter.encryptPassword(zakia, sacha, yvan, tim, victor);
 
-        List<User> users = new ArrayList<>(Arrays.asList(student, teacher, client, zakia, sacha, yvan, tim, aurel, victor));
+        List<User> users = new ArrayList<>(Arrays.asList(student, teacher, client, zakia, sacha, yvan, tim, victor));
         List<Role> roles = new ArrayList<>(Arrays.asList(roleClient, roleTeacher, roleStudent));
 
         roleRepository.save(roles);

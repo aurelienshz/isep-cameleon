@@ -1,55 +1,57 @@
 package com.cameleon.chameleon.service;
 
 import com.cameleon.chameleon.data.dto.LDAPUserDTO;
-import com.cameleon.chameleon.data.entity.User;
 import com.cameleon.chameleon.exception.LDAPServiceException;
-import com.cameleon.chameleon.data.repository.RoleRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.naming.Context;
 import javax.naming.NamingEnumeration;
+import javax.naming.NamingException;
 import javax.naming.directory.*;
 import java.util.Hashtable;
 
 @Service
 public class LDAPService {
+    private Logger logger = LoggerFactory.getLogger(LDAPService.class);
 
-    @Autowired
-    private RoleRepository roleRepository;
-
-    public LDAPUserDTO getUser(final String user, final String pwd) throws LDAPServiceException {
+    public LDAPUserDTO retrieveUser(String user, String mdp) {
         // Initial context implementation
-        final String INITCTX = "com.sun.jndi.ldap.LdapCtxFactory";
-        final String TIMEOUT = "com.sun.jndi.ldap.connect.timeout";
-        final String MY_HOST = "ldap://ldap.isep.fr:636";
-        final String MGR_DN = "uid=" + user + ", " + "ou=People, dc=isep.fr";
-        final String MY_SEARCHBASE = "dc=isep.fr";
-        final String MY_FILTER = "(uid=" + user + ")";
+        String INITCTX = "com.sun.jndi.ldap.LdapCtxFactory";
+        String MY_HOST = "ldaps://localhost:636";
+        String MGR_DN = "uid=" + user + ", " + "ou=People, dc=isep.fr";
+        String MGR_PW = mdp;
+        String MY_SEARCHBASE = "dc=isep.fr";
+        String MY_FILTER = "(uid=" + user + ")";
 
-        LDAPUserDTO ldapUser = new LDAPUserDTO();
+        // Hashtable for environmental information
+        Hashtable<String, String> env = new Hashtable<>();
 
-        String messageErreur = "LOGIN INVALIDE";
+        // Specify which class to use for our JNDI provider
+        env.put(Context.INITIAL_CONTEXT_FACTORY, INITCTX);
+        // Specify SSL
+        // env.put(Context.SECURITY_PROTOCOL, "ssl"); // useless when using ldaps://
+        // Specify host and port to use for directory service
+        env.put(Context.PROVIDER_URL, MY_HOST);
+        env.put(Context.SECURITY_AUTHENTICATION, "simple");
+        env.put(Context.SECURITY_PRINCIPAL, MGR_DN);
+        env.put(Context.SECURITY_CREDENTIALS, MGR_PW);
+        env.put("com.sun.jndi.ldap.connect.timeout", "2000");
+        env.put("com.sun.jndi.ldap.read.timeout", "2000");
+        env.put("java.naming.ldap.version", "3");
+
+        DirContext ctx;
 
         try {
-
-            // Hashtable for environmental information
-            Hashtable<String, String> env = new Hashtable<String, String>();
-
-            // Specify which class to use for our JNDI provider
-            env.put(Context.INITIAL_CONTEXT_FACTORY, INITCTX);
-            // Specify SSL
-            env.put(Context.SECURITY_PROTOCOL, "ssl");
-            // Specify host and port to use for directory service
-            env.put(Context.PROVIDER_URL, MY_HOST);
-            env.put(Context.SECURITY_AUTHENTICATION, "simple");
-            env.put(Context.SECURITY_PRINCIPAL, MGR_DN);
-            env.put(Context.SECURITY_CREDENTIALS, pwd);
-            env.put(TIMEOUT, "3000");
-
             // Get a reference to a directory context
-            DirContext ctx = new InitialDirContext(env);
+            ctx = new InitialDirContext(env);
+        } catch (NamingException e) {
+            logger.error("Failed to connnect to the LDAP server");
+            throw new LDAPServiceException(e.getMessage(), e);
+        }
 
+        try {
             // Specify the scope of the search
             SearchControls constraints = new SearchControls();
             constraints.setSearchScope(SearchControls.SUBTREE_SCOPE);
@@ -57,56 +59,61 @@ public class LDAPService {
             // Perform the actual search
             // We give it a searchbase, a filter and a the constraints
             // containing the scope of the search
-            NamingEnumeration<SearchResult> results = ctx.search(MY_SEARCHBASE, MY_FILTER, constraints);
+            NamingEnumeration<SearchResult> results = null;
+
+            logger.error("Failed to connnect to the LDAP server");
+
+            results = ctx.search(MY_SEARCHBASE, MY_FILTER, constraints);
 
             // Now step through the search results
             while (results != null && results.hasMore()) {
-
                 SearchResult sr = results.next();
 
-                Attribute cn = sr.getAttributes().get("cn");
-                ldapUser.setNom((String) cn.get());
+                Attributes attributes = sr.getAttributes();
 
-                Attribute uid = sr.getAttributes().get("uid");
-                ldapUser.setLogin((String) uid.get());
-
-                Attribute et = sr.getAttributes().get("employeeType");
-                ldapUser.setEmployeeType((String) et.get());
-
-                Attribute sn = sr.getAttributes().get("sn");
-                ldapUser.setNomFamille((String) sn.get());
-
-                Attribute givenName = sr.getAttributes().get("givenname");
-                ldapUser.setPrenom((String) givenName.get());
-
-                try {
-                    Attribute en = sr.getAttributes().get("employeeNumber");
-                    ldapUser.setEmployeeNumber((String) en.get());
-                } catch (Exception e) {
-                    messageErreur = "Numéro d'élève non trouvé dans l'annuaire";
+                // for debugging purposes :
+                NamingEnumeration<String> attributesIds = attributes.getIDs();
+                while (attributesIds.hasMoreElements()) {
+                    String attribute = attributesIds.nextElement();
+                    System.out.println(attribute);
                 }
 
-                Attribute em = sr.getAttributes().get("mail");
-                ldapUser.setMail((String) em.get());
+                Attribute cn = attributes.get("cn");
+                String nom = (String) cn.get();
+                Attribute uid = attributes.get("uid");
+                String login = (String) uid.get();
+                Attribute et = attributes.get("employeeType");
+                String type = (String) et.get();
+                Attribute sn = attributes.get("sn");
+                String nomFamille = (String) sn.get();
+                Attribute givenName = attributes.get("givenname");
+                String prenom = (String) givenName.get();
+                Attribute en = attributes.get("employeeNumber");
+                String employeeNumber = (String) en.get();
+                Attribute em = attributes.get("mail");
+                String mail = (String) em.get();
 
                 ctx.close();
 
+                LDAPUserDTO ldapUserDTO = new LDAPUserDTO();
+
+                ldapUserDTO.setLogin(login);
+                ldapUserDTO.setPassword("LDAP");
+                ldapUserDTO.setFullName(nom);
+                ldapUserDTO.setLastName(nomFamille);
+                ldapUserDTO.setFirstName(prenom);
+                ldapUserDTO.setEmployeeType(type);
+                ldapUserDTO.setEmployeeNumber(employeeNumber);
+                ldapUserDTO.setMail(mail);
+
+                return ldapUserDTO;
             }
 
-        } catch (Exception e) {
-            System.err.println(e);
-            throw (new LDAPServiceException(messageErreur));
+            logger.info("Failed to retrieve {} from LDAP server", user);
+            return null;
+        } catch (NamingException e) {
+            logger.info("Naming exception", user);
+            return null;
         }
-
-        return ldapUser;
     }
-
-    public User createUserFromLDAP(LDAPUserDTO userDTO) {
-        User user = new User();
-
-        /* TODO */
-
-        return user;
-    }
-
 }

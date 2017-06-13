@@ -107,8 +107,6 @@ public class MeetingService {
         Meeting meeting = meetingRepository.findOne(mId);
         checkMeetingBelongsToProjectOrThrow(meeting, pId);
 
-        // TODO check deliverable is not late and can still be delivered
-
         Document document = documentService.store(file, user);
         meeting.setReport(document);
 

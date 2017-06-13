@@ -1,8 +1,8 @@
 // @flow
 
-import { requestToken, getProfile, getClients, ACCESS_TOKEN_LOCALSTORAGE_KEY } from './service';
-import { fetchPromotion } from '../promotion/reducer';
-import { push } from 'react-router-redux';
+import {requestToken, getProfile, getClients, ACCESS_TOKEN_LOCALSTORAGE_KEY, LOGIN_TYPE_LDAP, LOGIN_TYPE_EXTERNAL} from './service';
+import {fetchPromotion} from '../promotion/reducer';
+import {push} from 'react-router-redux';
 
 const REQUEST_AUTH_TOKEN = 'users/REQUEST_AUTH_TOKEN';
 const RECEIVE_AUTH_TOKEN = 'users/RECEIVE_AUTH_TOKEN';
@@ -102,19 +102,23 @@ export const fetchProfile = () => {
         type: RECEIVE_PROFILE,
         profile,
       })
-    } catch(er) {
+    } catch (er) {
       console.error(er); // TODO
     }
   }
 };
 
-export const submitLoginAction = (credentials: {login: string, password: string}) => {
+
+
+const submitLoginAction = (credentials: { login: string, password: string }, loginType) => {
   return async (dispatch: Function) => {
     try {
       dispatch({
         type: REQUEST_AUTH_TOKEN,
       });
-      const authResponse = await requestToken(credentials);
+
+      const authResponse = await requestToken(credentials, loginType);
+
       if (authResponse.token) {
         const accessToken = authResponse.token;
 
@@ -143,39 +147,49 @@ export const submitLoginAction = (credentials: {login: string, password: string}
   };
 };
 
-export const logoutAction = () => {
-  return (dispatch: Function) => {
-    dispatch({
-      type: LOGOUT,
-    });
-
-    localStorage.removeItem(ACCESS_TOKEN_LOCALSTORAGE_KEY);
-
-    dispatch(push('/login'));
-  }
+export const submitExternalLoginAction = (credentials: { login: string, password: string }) => {
+  return submitLoginAction(credentials, LOGIN_TYPE_EXTERNAL);
 };
 
-export const fetchClients = () => {
-  return async (dispatch: Function) => {
-    dispatch({
-      type: REQUEST_CLIENTS,
-    });
-    try {
-      const clients = await getClients();
+export const submitLDAPLoginAction = (credentials: { login: string, password: string }) => {
+  return submitLoginAction(credentials, LOGIN_TYPE_LDAP);
+}
 
+
+
+  export const logoutAction = () => {
+    return (dispatch: Function) => {
       dispatch({
-        type: RECEIVE_CLIENTS,
-        clients,
+        type: LOGOUT,
       });
-    } catch(er) {
-      console.error(er);
+
+      localStorage.removeItem(ACCESS_TOKEN_LOCALSTORAGE_KEY);
+
+      dispatch(push('/login'));
     }
-  }
-};
+  };
+
+  export const fetchClients = () => {
+    return async (dispatch: Function) => {
+      dispatch({
+        type: REQUEST_CLIENTS,
+      });
+      try {
+        const clients = await getClients();
+
+        dispatch({
+          type: RECEIVE_CLIENTS,
+          clients,
+        });
+      } catch (er) {
+        console.error(er);
+      }
+    }
+  };
 
 // Maps to the mounting location of this reducer in the global state store
 // Useful for refactoring, because, when used everywhere we need this slice of state, it allows us
 // to move the reducer without having to update everywhere the state is used.
-export const getLocalState = (state: Object): UsersState => {
-  return state.users;
-};
+  export const getLocalState = (state: Object): UsersState => {
+    return state.users;
+  };

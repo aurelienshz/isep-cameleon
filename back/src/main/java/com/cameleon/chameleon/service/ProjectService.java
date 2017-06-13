@@ -13,15 +13,12 @@ import java.util.List;
 
 @Service
 public class ProjectService {
-
     @Autowired
     private ProjectRepository projectRepository;
     @Autowired
     private TeamService teamService;
     @Autowired
     private SubjectRepository subjectRepository;
-    @Autowired
-    private FeatureService featureService;
 
     public Project findProject(Long id) {
         return projectRepository.findOne(id);

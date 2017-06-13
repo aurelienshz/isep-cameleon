@@ -33,14 +33,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .addFilterBefore(authenticationTokenFilter(), BasicAuthenticationFilter.class)
-
-                // Autorisation de se connecter
                 .authorizeRequests()
-                .antMatchers("/user/login").permitAll()
-                // TODO: Temporary
-//                .antMatchers("/**").permitAll()
 
-                // Toutes les autres requetes necessitent une authentification
+                // Allow all requesets on the login endpoint :
+                // use .antMatchers("/**").permitAll() to disable authentication everywhere
+                .antMatchers("/user/login").permitAll()
+                .antMatchers("/user/ldap-login").permitAll()
+                // Request authentication on every other request :
                 .anyRequest().authenticated();
     }
 

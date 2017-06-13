@@ -5,6 +5,7 @@ import com.cameleon.chameleon.data.dto.SuccessfulLoginDTO;
 import com.cameleon.chameleon.data.entity.User;
 import com.cameleon.chameleon.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,19 @@ public class UserController {
 
         if (user == null) {
             res.setStatus(400);
-            return null; // TODO throw exception (here or in authenticate)
+            return null; // TODO throw exception and add an exception handler (see DocumentController)
+        }
+
+        return new SuccessfulLoginDTO(user);
+    }
+
+    @PostMapping("/ldap-login")
+    public SuccessfulLoginDTO LDAPlogin(@RequestBody LoginFormDTO form, HttpServletResponse res) {
+        User user = userService.authenticateLDAPUser(form.getLogin(), form.getPassword());
+
+        if (user == null) {
+            res.setStatus(400);
+            return null; // TODO throw exception and add an exception handler (see DocumentController)
         }
 
         return new SuccessfulLoginDTO(user);

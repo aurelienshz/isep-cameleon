@@ -9,7 +9,7 @@ import customPropTypes from 'material-ui/utils/customPropTypes';
 import Typography from 'material-ui/Typography';
 import Grid from 'material-ui/Grid';
 
-import { submitLoginAction, getLocalState as getUsersState } from '../../data/users/reducer';
+import { submitExternalLoginAction, submitLDAPLoginAction, getLocalState as getUsersState } from '../../data/users/reducer';
 import { isAuthenticated } from '../../data/users/service';
 
 import colors from '../../colors.js';
@@ -117,12 +117,12 @@ class LoginPage extends React.Component {
 
   submitIsepLogin = () => {
     const {isepLogin, isepPassword} = this.state;
-    this.props.submitLogin(isepLogin, isepPassword);
+    this.props.submitLDAPLogin(isepLogin, isepPassword);
   };
 
   submitExternalLogin = () => {
     const {externalLogin, externalPassword} = this.state;
-    this.props.submitLogin(externalLogin, externalPassword);
+    this.props.submitExternalLogin(externalLogin, externalPassword);
   };
 
   render() {
@@ -148,7 +148,7 @@ class LoginPage extends React.Component {
                       <input className={classes.input} type="text" placeholder='Login' value={this.state.isepLogin} onChange={(event) => this.setState({isepLogin: event.target.value})} />
                       <input className={classes.input} type="password" placeholder='Password' value={this.state.isepPassword} onChange={(event) => this.setState({isepPassword: event.target.value})} />
                       <a className={classes.link} href='https://moncompte.isep.fr/login.php' target="_blank"> Mot de passe oublié ? </a>
-                      <input type="submit" className={classes.button} onClick={this.submitIsepLogin} value={"Connexion"}/>
+                      <input type="submit" className={classes.button} value="Connexion"/>
                       {
                         error &&
                         <Typography type="body1" style={{color: 'red'}}>
@@ -165,7 +165,7 @@ class LoginPage extends React.Component {
                       <input className={classes.input} type="text" placeholder='Login' value={this.state.externalLogin} onChange={(event) => this.setState({externalLogin: event.target.value})} />
                       <input className={classes.input} type="password" placeholder='Password' value={this.state.externalPassword} onChange={(event) => this.setState({externalPassword: event.target.value})} />
                       <a className={classes.link}> Mot de passe oublié ? </a>
-                      <button className={classes.button} onClick={this.submitExternalLogin}> Connexion </button>
+                      <input type="submit" className={classes.button} value="Connexion"/>
                     </div>
                   </div>
                 </Grid>
@@ -189,7 +189,8 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    submitLogin: (login, password) => dispatch(submitLoginAction({login, password}))
+    submitExternalLogin: (login, password) => dispatch(submitExternalLoginAction({login, password})),
+    submitLDAPLogin: (login, password) => dispatch(submitLDAPLoginAction({login, password}))
   };
 };
 

@@ -25,6 +25,8 @@ public class User implements UserDetails {
     @GeneratedValue
     private Long id;
 
+    private String isepNumber;
+
     private String username;
 
     private String firstName;
@@ -129,5 +131,13 @@ public class User implements UserDetails {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getIsepNumber() {
+        return isepNumber;
+    }
+
+    public void setIsepNumber(String isepNumber) {
+        this.isepNumber = isepNumber;
     }
 }

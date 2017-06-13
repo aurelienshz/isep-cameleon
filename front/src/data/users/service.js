@@ -3,6 +3,9 @@ import urljoin from 'url-join';
 
 import { API_URL, getJson } from '../../services/helpers/request';
 
+export const LOGIN_TYPE_EXTERNAL = "LOGIN_TYPE_EXTERNAL";
+export const LOGIN_TYPE_LDAP = "LOGIN_TYPE_LDAP";
+
 export const ACCESS_TOKEN_LOCALSTORAGE_KEY = "chameleon_access_token";
 
 export const isAuthenticated = () => {
@@ -21,7 +24,7 @@ export function getToken(): ?string {
 }
 
 // TODO this is simpler now, we can use helpers/request.js
-export async function requestToken({login, password}: {login: string, password: string}) {
+export async function requestToken({login, password}: {login: string, password: string}, loginType) {
   const headers = {
     'Content-Type': 'application/json',
   };
@@ -33,7 +36,7 @@ export async function requestToken({login, password}: {login: string, password: 
     body,
   };
 
-  const tokenPath = '/user/login';
+  const tokenPath = loginType === LOGIN_TYPE_EXTERNAL ? '/user/login' : '/user/ldap-login';
 
   const url = urljoin(API_URL, tokenPath);
 
