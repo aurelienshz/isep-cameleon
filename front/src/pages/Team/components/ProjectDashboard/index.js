@@ -1,5 +1,6 @@
 import React from 'react';
 import TabsLayout from '../../../../components/TabsLayout';
+import NoProjectError from '../../../../components/NoProjectError';
 import Home from './Home';
 import Meeting from './Meeting';
 import Deliverable from './Deliverable';
@@ -59,6 +60,8 @@ export default class ProjectDashboard extends React.Component {
       sendMessage,
       userId
     } = this.props;
+
+    if (project && project.id === -1) return <NoProjectError />;
 
     return (
       <div style={{ width: '100%', height: 'calc(100% - 64px)', boxSizing: 'border-box', backgroundColor: "#FAFAFA" }}>

@@ -8,6 +8,7 @@ import { fetchMyProject, getLocalState as getProjectState } from '../../../data/
 import { BUILDING_SESSION, PROJECTS_STARTED } from '../../../data/promotion/constants';
 
 import Loader from '../../../components/Loader';
+import NoProjectError from '../../../components/NoProjectError';
 
 class AssignedSubject extends React.Component {
   componentWillMount() {
@@ -20,10 +21,10 @@ class AssignedSubject extends React.Component {
 
     const { loading, promotionStatus, project } = this.props;
 
-    if (loading) {
-      return (
-        <Loader />
-      )
+    if (project === null) return null;
+
+    if (promotionStatus === PROJECTS_STARTED && project.id === -1) {
+      return <NoProjectError />
     }
 
     return (
@@ -40,7 +41,7 @@ class AssignedSubject extends React.Component {
         { promotionStatus === PROJECTS_STARTED &&
           <div>
             {
-              (loading || project === null) ?
+              (loading) ?
                 <Loader />
               :
                 <div>

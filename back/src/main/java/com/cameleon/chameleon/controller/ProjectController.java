@@ -6,6 +6,7 @@ import com.cameleon.chameleon.data.dto.MessageDTO;
 import com.cameleon.chameleon.data.dto.ProjectCreationDTO;
 import com.cameleon.chameleon.data.entity.*;
 
+import com.cameleon.chameleon.exception.ResourceNotFoundException;
 import com.cameleon.chameleon.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -51,7 +52,13 @@ public class ProjectController {
     @GetMapping("/my-project")
     @RolesAllowed(ROLE_STUDENT)
     public Project getMyProject(@AuthenticationPrincipal User user) {
-        return projectService.getBelongingProject(user);
+        Project project = projectService.getBelongingProject(user);
+        if (project == null) {
+            Project p = new Project();
+            p.setId(-1L);
+            return p;
+        }
+        return project;
     }
 
     @PostMapping

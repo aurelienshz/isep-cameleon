@@ -17,7 +17,12 @@ export default class TeamSummary extends React.Component {
             </h2>
           </Grid>
           <Grid item xs={6} style={{ textAlign:"right" }}>
-            <Button raised onClick={() => leaveTeam(team.id)}>Quitter l'équipe</Button>
+            {
+              team.validatedByTeacher ?
+                <div style={{ marginTop: 20 }}>Équipe validée</div>
+                :
+                <Button raised onClick={() => leaveTeam(team.id)}>Quitter l'équipe</Button>
+            }
           </Grid>
         </Grid>
         <hr/>

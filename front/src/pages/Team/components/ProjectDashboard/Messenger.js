@@ -69,6 +69,11 @@ export default class Messenger extends React.Component {
           :
           sortedMessages.map((message, index) => <Message key={index} message={message} />)
         }
+
+        {
+          !loading && sortedMessages.length === 0 &&
+            <div style={{ textAlign: 'center' }}>Aucun message</div>
+        }
       </div>
     )
   }

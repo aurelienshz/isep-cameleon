@@ -100,7 +100,7 @@ public class DatabaseSeeder {
         Promotion promotion = new Promotion();
         promotion.setStatus(PromotionStatus.BUILDING_SESSION);
         promotionRepository.save(promotion);
-        
+
         // 3/ Seed subjects :
 
         Subject s1 = new Subject("Gestion de projets de génie logiciel", "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, laborum quasi quo quod repudiandae similique voluptas? Adipisci at eius excepturi illum iusto minus natus perspiciatis provident qui quia, sint tenetur.");
