@@ -13,6 +13,7 @@ import CloseIcon from 'material-ui-icons/Close';
 import Slide from 'material-ui/transitions/Slide';
 import TextField from 'material-ui/TextField';
 import InfiniteCalendar from 'react-infinite-calendar';
+import Loader from '../../components/Loader.js';
 import 'react-infinite-calendar/styles.css';
 
 import { isAuthenticated } from '../../data/users/service';
@@ -148,7 +149,6 @@ class Profil extends React.Component {
     const { awaitingProfile, profile } = this.props;
     return (
       <div style={STYLE_CONTAINER}>
-        { isAuthenticated()
         <h1>Profil</h1>
         <div style={STYLE_PROFILE_HEADER}>
           <Avatar
@@ -255,7 +255,6 @@ class Profil extends React.Component {
             </tr>
           </tbody>
         </table>
-      }
       </div>
     );
   }
