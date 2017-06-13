@@ -170,14 +170,19 @@ class AppBarLayout extends React.Component {
                       }
                     </div>
                     <div className={classes.badge} title="Rôle de l'utilisateur">
-                      Déconnexion
+                      Deconnexion
                     </div>
                   </div>
                 </div>
                 <div className={classes.row}>
                   <Avatar
                     alt="Victor ELY"
-                    src="/img/ely.jpg"
+                    src={
+                      this.isProfileLoaded() && !awaitingProfile ?
+                        `http://storage.iseplive.fr/avatars/95/`+profile.isepNumber+`.jpg`
+                        :
+                        "/img/avatar.jpg"
+                      }
                     className={classes.avatar}
                     onClick={this.handleClick}
                   />
