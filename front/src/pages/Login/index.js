@@ -164,7 +164,6 @@ class LoginPage extends React.Component {
                     <form className={classes.form} onSubmit={(e) => {e.preventDefault(); this.submitExternalLogin()}}>
                       <input className={classes.input} type="text" placeholder='Login' value={this.state.externalLogin} onChange={(event) => this.setState({externalLogin: event.target.value})} />
                       <input className={classes.input} type="password" placeholder='Password' value={this.state.externalPassword} onChange={(event) => this.setState({externalPassword: event.target.value})} />
-                      <a className={classes.link}> Mot de passe oublié ? </a>
                       <input type="submit" className={classes.button} value="Connexion"/>
                     </form>
                   </div>
