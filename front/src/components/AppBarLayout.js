@@ -69,8 +69,12 @@ const styleSheet = createStyleSheet('AuthenticatedLayout', () => ({
     textTransform: 'capitalize',
     cursor: 'pointer',
   },
+  badgeLine: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
   badge: {
-    display: 'block',
+    // display: 'inline-block',
     fontSize: '10px',
     padding: '3px 5px',
     fontWeight: 'bold',
@@ -136,6 +140,11 @@ class AppBarLayout extends React.Component {
     const isTeacher = userHasRole(profile, ROLE_TEACHER);
     const isClient = userHasRole(profile, ROLE_CLIENT);
 
+    let roles;
+    if (this.isProfileLoaded() && !awaitingProfile) {
+      roles = profile.roles.map(role => role.authority)
+    }
+
     return (
       <div style={{height: '100%', width: '100%'}}>
         <div className={classes.root}>
@@ -170,8 +179,19 @@ class AppBarLayout extends React.Component {
                           <Loader />
                       }
                     </div>
-                    <div className={classes.badge} title="Rôle de l'utilisateur">
-                      Deconnexion
+
+                    <div className={classes.badgeLine}>
+                      {
+                        roles && roles.map((role, index) => {
+                          return (
+                            <div className={classes.badge} title="Rôle" key={index}>
+                              { role === ROLE_CLIENT && "Client" }
+                              { role === ROLE_TEACHER && "Professeur" }
+                              { role === ROLE_STUDENT && "Élève" }
+                            </div>
+                          );
+                        })
+                      }
                     </div>
                   </div>
                 </div>
