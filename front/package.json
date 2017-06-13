@@ -17,7 +17,6 @@
     "react-dom": "^15.4.2",
     "react-draft-wysiwyg": "^1.9.8",
     "react-dropzone": "^3.13.1",
-    "react-infinite-calendar": "^2.2.0",
     "react-redux": "^5.0.4",
     "react-router-dom": "^4.1.1",
     "react-router-redux": "^5.0.0-alpha.6",
