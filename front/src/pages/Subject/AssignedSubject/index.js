@@ -4,16 +4,21 @@ import { connect } from 'react-redux';
 import customPropTypes from 'material-ui/utils/customPropTypes';
 
 import { fetchPromotion, getLocalState as getPromotionState } from '../../../data/promotion/reducer';
+import { fetchMyProject, getLocalState as getProjectState } from '../../../data/project/reducer';
 import { BUILDING_SESSION, PROJECTS_STARTED } from '../../../data/promotion/constants';
 
 import Loader from '../../../components/Loader';
 
 class AssignedSubject extends React.Component {
+  componentWillMount() {
+    this.props.fetchProject();
+  }
+
   render() {
     // current step = building session --> message d'info
     // current step = session started --> fetch le sujet et l'afficher ici
 
-    const { loading, promotionStatus } = this.props;
+    const { loading, promotionStatus, project } = this.props;
 
     if (loading) {
       return (
@@ -32,14 +37,18 @@ class AssignedSubject extends React.Component {
           </p>
         }
 
-        { false &&
+        { promotionStatus === PROJECTS_STARTED &&
           <div>
+            {
+              (loading || project === null) ?
+                <Loader />
+              :
+                <div>
+                  <h2>{ project.subject.name }</h2>
+                  <p dangerouslySetInnerHTML={{ __html: project.subject.description }} />
+                </div>
+            }
 
-            <h2>Outil de gestion de projet de Génie Logiciel</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Asperiores debitis dignissimos doloribus enim nulla optio quidem
-              temporibus ullam voluptatem! At deleniti dignissimos facilis illo
-              magnam modi molestias porro repellendus, tempore!</p>
           </div>
         }
       </div>
@@ -50,13 +59,16 @@ class AssignedSubject extends React.Component {
 export default connect(
   (state) => {
     const promotionState = getPromotionState(state);
+    const projectState = getProjectState(state);
     return {
-      loading: promotionState.loading,
       promotionStatus: promotionState.promotionStatus,
+      project: projectState.selectedProject,
+      loading: promotionState.loading || projectState.loadingProject,
     };
   },
   (dispatch) => ({
     fetchPromotion: () => dispatch(fetchPromotion()),
+    fetchProject: () => dispatch(fetchMyProject()),
   })
 )(AssignedSubject);
 
