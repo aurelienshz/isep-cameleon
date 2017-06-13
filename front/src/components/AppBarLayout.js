@@ -199,8 +199,8 @@ class AppBarLayout extends React.Component {
                   <Avatar
                     alt="Victor ELY"
                     src={
-                      this.isProfileLoaded() && !awaitingProfile ?
-                        `http://storage.iseplive.fr/avatars/95/`+profile.isepNumber+`.jpg`
+                      this.isProfileLoaded() && !awaitingProfile && profile.isepNumber ?
+                        `http://storage.iseplive.fr/avatars/95/${profile.isepNumber}.jpg`
                         :
                         "/img/avatar.jpg"
                       }
