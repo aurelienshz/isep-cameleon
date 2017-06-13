@@ -15,9 +15,9 @@ import TextField from 'material-ui/TextField';
 import InfiniteCalendar from 'react-infinite-calendar';
 import 'react-infinite-calendar/styles.css';
 
-import { isAuthenticated } from '../data/users/service';
-import { logoutAction, fetchProfile, getLocalState as getUserState } from '../data/users/reducer';
-import { fetchPromotion } from '../data/promotion/reducer';
+import { isAuthenticated } from '../../data/users/service';
+import { logoutAction, fetchProfile, getLocalState as getUserState } from '../../data/users/reducer';
+import { fetchPromotion } from '../../data/promotion/reducer';
 
 import colors from '../../colors.js';
 
