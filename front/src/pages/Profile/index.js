@@ -95,7 +95,7 @@ class Profil extends React.Component {
 
   isProfileLoaded = () => {
     const profile = this.props.profile;
-    return Boolean(profile) && Boolean(profile.firstName) && Boolean(profile.lastName) && Boolean(profile.mail) && Boolean(profile.isepNumber);
+    return Boolean(profile) && Boolean(profile.firstName) && Boolean(profile.lastName) && Boolean(profile.mail);
   };
 
   logout = () => {
@@ -112,15 +112,17 @@ class Profil extends React.Component {
           <Avatar
             alt="Photo de profil"
             src={
-              this.isProfileLoaded() && !awaitingProfile ?
+              !awaitingProfile && profile.isepNumber ?
               `http://storage.iseplive.fr/avatars/95/`+profile.isepNumber+`.jpg`
               :
-              <Loader />
+              "/img/avatar.jpg"
             }
             style={STYLE_AVATAR}
           />
           <div>
-            <h1 style={STYLE_INFO}>Victor ELY</h1>
+            <h1 style={STYLE_INFO}>
+              { this.isProfileLoaded() ? `${profile.firstName} ${profile.lastName}` : "Chargement..." }
+            </h1>
           </div>
           <Button onClick={this.logout} style={STYLE_BUTTON}>Déconnexion</Button>
         </div>
