@@ -141,22 +141,22 @@ class AppBarLayout extends React.Component {
           { isAuthenticated() &&
           <AppBar className={classes.appBar}>
             <Toolbar>
-              <Typography type="title" colorInherit className={classes.flex}>Cameleon</Typography>
+              <Typography type="title" colorInherit className={classes.flex} style={{color: 'white'}}>Cameleon</Typography>
               <div className={classes.group}>
 
                 {
                   isStudent &&
-                  <Link className={classes.link} to="/subject"><Button contrast>Sujet</Button></Link>
+                  <Link className={classes.link} to="/subject"><Button contrast style={{color: 'white'}}>Sujet</Button></Link>
                 }
                 {
                   isTeacher &&
-                  <Link className={classes.link} to="/subject"><Button contrast>Sujets</Button></Link>
+                  <Link className={classes.link} to="/subject"><Button contrast style={{color: 'white'}}>Sujets</Button></Link>
                 }
 
-                <Link className={classes.link} to="/team"><Button contrast>Équipes</Button></Link>
+                <Link className={classes.link} to="/team"><Button contrast style={{color: 'white'}}>Équipes</Button></Link>
 
                 { isTeacher &&
-                  <Link className={classes.link} to="/promotion"><Button contrast>Promotion</Button></Link>
+                  <Link className={classes.link} to="/promotion"><Button contrast style={{color: 'white'}}>Promotion</Button></Link>
                 }
 
                 <div className={classes.subGroup}>
