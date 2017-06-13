@@ -127,9 +127,6 @@ class ProjectDeliverables extends React.Component {
 
   buildGrid = () => {
     const {classes, project, match, canEditDeliverable, canDeliverDeliverable} = this.props;
-
-    console.log(this.props);
-    console.log(this.props.canDeliverDeliverable);
     const deliverables = project.deliverables;
 
     if (match.params.id) {

@@ -4,6 +4,7 @@ package com.cameleon.chameleon.service;
 import com.cameleon.chameleon.data.dto.MessageDTO;
 import com.cameleon.chameleon.data.entity.Message;
 import com.cameleon.chameleon.data.entity.Project;
+import com.cameleon.chameleon.data.entity.User;
 import com.cameleon.chameleon.data.repository.MessageRepository;
 import com.cameleon.chameleon.data.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,31 +20,30 @@ public class MessageService {
     @Autowired
     private MessageRepository messageRepository;
 
-    public List<Message> findOneList(long id) {
+    public List<Message> getProjectMessages(long id) {
         Project project = projectRepository.findOne(id);
         return project.getMessages();
     }
 
-    private Message createMessageFromDTO(MessageDTO messageDTO) {
+    private Message createMessageFromDTO(MessageDTO messageDTO, User sender) {
         Message message = new Message();
 
         message.setMessage(messageDTO.getContent());
-        message.setUser(messageDTO.getSentBy());
+        message.setSender(sender);
 
         return message;
     }
 
-    public void addMessage(long id, MessageDTO messageDTO) {
+    public void addMessage(long id, MessageDTO messageDTO, User sender) {
         Project project = projectRepository.findOne(id);
 
+
+        Message message = createMessageFromDTO(messageDTO, sender);
+        messageRepository.save(message);
+
         List<Message> messages = project.getMessages();
-
-        Message message = createMessageFromDTO(messageDTO);
-
-
         messages.add(message);
         project.setMessages(messages);
-
         projectRepository.save(project);
     }
 

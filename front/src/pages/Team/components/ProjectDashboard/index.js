@@ -56,6 +56,7 @@ export default class ProjectDashboard extends React.Component {
       updateDeliverable,
       deleteDeliverable,
       deliverDeliverable,
+      sendMessage,
       userId
     } = this.props;
 
@@ -80,6 +81,7 @@ export default class ProjectDashboard extends React.Component {
           updateDeliverable={updateDeliverable}
           deleteDeliverable={deleteDeliverable}
           deliverDeliverable={deliverDeliverable}
+          sendMessage={sendMessage}
         />
       </div>
     );

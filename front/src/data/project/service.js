@@ -88,3 +88,7 @@ export async function deleteDeliverable(projectId: number, deliverableId: number
 export async function deliverDeliverable(projectId: number, deliverableId: number, file: File) {
   return await uploadFile(`${REQUEST_PATH_PREFIX}/${projectId}/deliverable/${deliverableId}/deliver`, file);
 }
+
+export async function sendMessage(projectId: number, dto): Promise<any> {
+  return await postJson(`${REQUEST_PATH_PREFIX}/${projectId}/message`, dto);
+}

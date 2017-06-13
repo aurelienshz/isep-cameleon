@@ -9,6 +9,7 @@ import {
   createDeliverable,
   updateDeliverable,
   deleteDeliverable,
+  sendMessage,
   getLocalState as getProjectState } from '../../../../data/project/reducer';
 import { getLocalState as getUserState } from '../../../../data/users/reducer';
 
@@ -38,5 +39,6 @@ export default connect(
     createDeliverable: (id, dto) => dispatch(createDeliverable(id, dto)),
     updateDeliverable: (projectId, meetingId, dto) => dispatch(updateDeliverable(projectId, meetingId, dto)),
     deleteDeliverable: (projectId, meetingId) => dispatch(deleteDeliverable(projectId, meetingId)),
+    sendMessage: (projectId, messageDto) => dispatch(sendMessage(projectId, messageDto)),
   }),
 )(ProjectDashboard);

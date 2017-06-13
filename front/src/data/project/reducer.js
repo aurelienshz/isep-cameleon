@@ -11,6 +11,7 @@ import { getProjectsList,
   updateDeliverable as requestUpdateDeliverable,
   deleteDeliverable as requestDeleteDeliverable,
   deliverDeliverable as requestDeliverDeliverable,
+  sendMessage as requestSendMessage,
   getMyProject } from "./service";
 
 const initialState = {
@@ -46,6 +47,9 @@ const CONFIRM_DELETE_DELIVERABLE = "project/CONFIRM_DELETE_DELIVERABLE";
 
 const REQUEST_DELIVER_DELIVERABLE = "project/REQUEST_DELIVER_DELIVERABLE";
 const CONFIRM_DELIVER_DELIVERABLE = "project/CONFIRM_DELIVER_DELIVERABLE";
+
+const REQUEST_SEND_MESSAGE = "project/REQUEST_SEND_MESSAGE";
+const CONFIRM_SEND_MESSAGE = "project/CONFIRM_SEND_MESSAGE";
 
 export default function projectReducer(state = initialState, action) {
   switch (action.type) {
@@ -98,6 +102,7 @@ export default function projectReducer(state = initialState, action) {
     case REQUEST_CREATE_DELIVERABLE:
     case REQUEST_UPDATE_DELIVERABLE:
     case REQUEST_DELETE_DELIVERABLE:
+    case REQUEST_SEND_MESSAGE:
       return {
         ...state,
         loading: true,
@@ -105,6 +110,7 @@ export default function projectReducer(state = initialState, action) {
     case CONFIRM_CREATE_DELIVERABLE:
     case CONFIRM_UPDATE_DELIVERABLE:
     case CONFIRM_DELETE_DELIVERABLE:
+    case CONFIRM_SEND_MESSAGE:
       return {
         ...state,
         loading: false,
@@ -317,6 +323,23 @@ export function deliverDeliverable(projectId, deliverableId, file) {
         type: CONFIRM_DELIVER_DELIVERABLE,
       });
       dispatch(fetchProject(projectId));
+    } catch(er) {
+      console.error(er);
+    }
+  }
+}
+
+export function sendMessage(id, dto) {
+  return async (dispatch: Function) => {
+    dispatch({
+      type: REQUEST_SEND_MESSAGE,
+    });
+    try {
+      await requestSendMessage(id, dto);
+      dispatch({
+        type: CONFIRM_SEND_MESSAGE,
+      });
+      dispatch(fetchProject(id));
     } catch(er) {
       console.error(er);
     }

@@ -3,28 +3,22 @@ package com.cameleon.chameleon.data.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
 public class Message {
-
     @Id
     @GeneratedValue
     private Long id;
 
-    private User user;
+    @OneToOne
+    private User sender;
 
     private String message;
 
-    @ManyToOne
-    private Project project;
-
     @CreationTimestamp
-    private Timestamp uploadedAt;
+    private Timestamp sentAt;
 
 
     public String getMessage() {
@@ -35,29 +29,19 @@ public class Message {
         this.message = message;
     }
 
-    public User getUser() {
-        return user;
+    public User getSender() {
+        return sender;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setSender(User sender) {
+        this.sender = sender;
     }
 
     public Long getId() {
         return id;
     }
 
-    public Timestamp getUploadedAt() {
-        return uploadedAt;
+    public Timestamp getSentAt() {
+        return sentAt;
     }
-
-    public Project getProject() {
-        return project;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
-    }
-
-
 }

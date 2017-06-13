@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { fetchMyProject, deliverDeliverable, uploadMeetingReport, getLocalState as getProjectState } from '../../../../data/project/reducer';
+import { fetchMyProject, deliverDeliverable, uploadMeetingReport, sendMessage, getLocalState as getProjectState } from '../../../../data/project/reducer';
 
 import ProjectDashboard from '../../components/ProjectDashboard';
 
@@ -24,5 +24,6 @@ export default connect(
     fetchProject: () => dispatch(fetchMyProject()),
     deliverDeliverable: (projectId, deliverableId, file) => dispatch(deliverDeliverable(projectId, deliverableId, file)),
     uploadMeetingReport: (projectId, meetingId, file) => dispatch(uploadMeetingReport(projectId, meetingId, file)),
+    sendMessage: (projectId, messageDto) => dispatch(sendMessage(projectId, messageDto)),
   }),
 )(ProjectDashboard);

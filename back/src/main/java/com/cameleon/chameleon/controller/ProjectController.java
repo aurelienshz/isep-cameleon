@@ -148,13 +148,14 @@ public class ProjectController {
 
     @GetMapping("/{pId}/message")
     public List<Message> getMessages(@PathVariable Long pId) {
-        return messageService.findOneList(pId);
+        return messageService.getProjectMessages(pId);
     }
 
     @RolesAllowed({ROLE_STUDENT, ROLE_CLIENT})
     @PostMapping("/{pId}/message")
-    public void addMessage(@PathVariable Long pId, @RequestBody MessageDTO messageDTO) {
-        messageService.addMessage(pId, messageDTO);
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void addMessage(@PathVariable Long pId, @RequestBody MessageDTO messageDTO, @AuthenticationPrincipal User user) {
+        messageService.addMessage(pId, messageDTO, user);
     }
 
 
