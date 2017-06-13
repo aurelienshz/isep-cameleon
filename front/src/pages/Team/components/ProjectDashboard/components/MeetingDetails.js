@@ -127,8 +127,6 @@ export default class MeetingDetails extends React.Component {
 
     const editModeDuration = this.state.editMode ? formatFrenchDuration(this.state.unsavedEndEdit - this.state.unsavedBeginningEdit) : 0;
 
-    console.log(canUploadMeetingReport, this.state.uploadMeetingReportDialogOpen);
-
     return (
       <div>
         <ConfirmDialog
