@@ -159,7 +159,7 @@ class AppBarLayout extends React.Component {
                   <Link className={classes.link} to="/subject"><Button contrast style={{color: 'white'}}>Sujet</Button></Link>
                 }
                 {
-                  isTeacher || isClient &&
+                  (isTeacher || isClient) &&
                   <Link className={classes.link} to="/subject"><Button contrast style={{color: 'white'}}>Sujets</Button></Link>
                 }
 

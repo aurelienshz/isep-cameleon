@@ -20,7 +20,7 @@ public class Team {
 
     private boolean validatedByTeacher;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<User> members;
 
     @OneToOne(mappedBy="team")
