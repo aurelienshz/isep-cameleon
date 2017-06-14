@@ -13,6 +13,8 @@ import colors from '../../../../colors';
 import { getLocalState as getTeamState, fetchTeams, validateTeam } from '../../../../data/team/reducer';
 import { getLocalState as getSubjetState, fetchSubjects } from '../../../../data/subject/reducer';
 import { getLocalState as getProjectState, fetchProjects, createProject } from '../../../../data/project/reducer';
+import { getLocalState as getUserState } from '../../../../data/users/reducer';
+import { userHasRole,ROLE_STUDENT,ROLE_TEACHER,ROLE_CLIENT } from '../../../../data/users/rolesHelpers';
 
 const style = {
   MESSAGE_STYLE: {
@@ -84,6 +86,17 @@ class ValidateEquipes extends React.Component {
     })
   };
 
+  applyVisibilityFilter = (projects) => {
+    const { profile } = this.props;
+
+    console.log(projects);
+    if (userHasRole(profile, ROLE_CLIENT) && !userHasRole(profile, ROLE_TEACHER)) {
+      return projects.filter(project => project.subject.client.id === profile.id);
+    }
+
+    return projects;
+  };
+
   renderTable = () => {
     const { goToDetails } = this.props;
 
@@ -101,8 +114,10 @@ class ValidateEquipes extends React.Component {
 
     const filteredProjects = this.applyFilterString();
 
+    const onlyVisibleProjects = this.applyVisibilityFilter(filteredProjects);
+
     // A validated team is a project :
-    const teams = filteredProjects.map(p => {
+    const teams = onlyVisibleProjects.map(p => {
       return {
         ...p.team,
         subjectName: p.subject.name,
@@ -144,9 +159,10 @@ export default connect((state) => {
     const teamState = getTeamState(state);
     const subjectState = getSubjetState(state);
     const projectState = getProjectState(state);
-
+    const userState = getUserState(state);
     return {
       loading: teamState.loading || projectState.loading,
+      profile: userState.profile,
       teams: teamState.teams,
       projects: projectState.projects,
       subjects: subjectState.subjects,
