@@ -28,6 +28,9 @@ public class DatabaseSeeder {
     private RoleRepository roleRepository;
 
     @Autowired
+    private TeamRepository teamRepository;
+
+    @Autowired
     private PromotionRepository promotionRepository;
 
     @Autowired
@@ -83,17 +86,25 @@ public class DatabaseSeeder {
         User sacha = new User("smettoudi", "Sacha", "METTOUDI", "test", null, lRoleStudent);
         User yvan = new User("ybezard", "Yvan", "BEZARD", "test", null, lRoleStudent);
         User tim = new User("thoudoyer", "Timothée", "Houdoyer", "test", null, lRoleStudent);
-//        User aurel = new User("aschiltz", "Aurélien", "SCHILTZ", "test", null, lRoleStudent);
         User victor = new User("vely", "Victor", "ELY", "test", null, lRoleStudent);
+        User anthony = new User("ademogue", "Anthony", "DEMOGUE", "test", null, lRoleStudent);
 
         PasswordEncrypter.encryptPassword(student, teacher, client);
         PasswordEncrypter.encryptPassword(zakia, sacha, yvan, tim, victor);
 
-        List<User> users = new ArrayList<>(Arrays.asList(student, teacher, client, zakia, sacha, yvan, tim, victor));
+        List<User> users = new ArrayList<>(Arrays.asList(student, teacher, client, zakia, sacha, yvan, tim, victor, anthony));
         List<Role> roles = new ArrayList<>(Arrays.asList(roleClient, roleTeacher, roleStudent));
 
         roleRepository.save(roles);
         userRepository.save(users);
+
+        // 3/ seed teams :
+        Team team = new Team();
+        team.setName("Team rocket");
+        team.setValidatedByTeacher(false);
+        team.setMembers(Arrays.asList(victor, anthony));
+
+        teamRepository.save(team);
 
         // 2/ Seed Promotion (pretty useless for now but we will have to link everything to it sooner or later)
 
