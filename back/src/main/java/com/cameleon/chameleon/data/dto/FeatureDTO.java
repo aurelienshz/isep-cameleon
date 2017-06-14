@@ -3,7 +3,6 @@ package com.cameleon.chameleon.data.dto;
 public class FeatureDTO {
     private String name;
     private Long categoryId;
-    private Long discoveredMeetingId;
     private boolean expected;
 
     public String getName() {
@@ -28,13 +27,5 @@ public class FeatureDTO {
 
     public void setExpected(boolean expected) {
         this.expected = expected;
-    }
-
-    public Long getDiscoveredMeetingId() {
-        return discoveredMeetingId;
-    }
-
-    public void setDiscoveredMeetingId(Long discoveredMeetingId) {
-        this.discoveredMeetingId = discoveredMeetingId;
     }
 }

@@ -99,6 +99,12 @@ public class ProjectController {
         return meetingService.uploadMeetingReport(pId, mId, file, user);
     }
 
+    @PostMapping("/{pId}/meeting/{mId}/feature-discovered/{fId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void uploadMeetingReport(@PathVariable Long pId, @PathVariable Long mId, @PathVariable Long fId) {
+        projectService.featureDiscoveredAtMeeting(pId, mId, fId);
+    }
+
     @GetMapping("/{pId}/meeting-request")
     public List<MeetingRequest> getMeetingRequests(@PathVariable Long pId) {
         return null; // TODO

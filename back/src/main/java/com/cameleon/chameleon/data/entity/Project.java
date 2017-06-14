@@ -30,6 +30,9 @@ public class Project {
     @OneToMany(mappedBy = "project")
     private List<MeetingRequest> meetingRequests;
 
+    @OneToMany(mappedBy = "project")
+    private List<FeatureDiscovery> featureDiscoveries;
+
     @OneToMany
     private List<Message> messages;
 
@@ -103,5 +106,13 @@ public class Project {
         if (deliverables == null) deliverables = new ArrayList<>();
         deliverables.add(deliverable);
         this.setDeliverables(deliverables);
+    }
+
+    public List<FeatureDiscovery> getFeatureDiscoveries() {
+        return featureDiscoveries;
+    }
+
+    public void setFeatureDiscoveries(List<FeatureDiscovery> featureDiscoveries) {
+        this.featureDiscoveries = featureDiscoveries;
     }
 }

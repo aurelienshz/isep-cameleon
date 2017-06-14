@@ -90,7 +90,7 @@ public class MeetingService {
         return meeting;
     }
 
-    private void checkMeetingBelongsToProjectOrThrow(Meeting meeting, Long pId) {
+    public void checkMeetingBelongsToProjectOrThrow(Meeting meeting, Long pId) {
         if (!meeting.getProject().getId().equals(pId))
             throw new BusinessLogicException("Requested meeting does not belong to requested project");
     }

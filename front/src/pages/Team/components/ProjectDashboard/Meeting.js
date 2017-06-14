@@ -151,6 +151,7 @@ class ProjectMeetings extends React.Component {
                 selectedMeeting ?
                   <MeetingDetails
                     canEditMeeting={canEditMeeting}
+                    project={project}
                     canUploadMeetingReport={canUploadMeetingReport}
                     uploadMeetingReport={(file) => this.uploadMeetingReport(selectedMeeting.id, file)}
                     meeting={selectedMeeting}

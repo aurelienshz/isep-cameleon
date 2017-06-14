@@ -2,6 +2,7 @@ package com.cameleon.chameleon.service;
 
 import com.cameleon.chameleon.data.dto.ProjectCreationDTO;
 import com.cameleon.chameleon.data.entity.*;
+import com.cameleon.chameleon.data.repository.MeetingRepository;
 import com.cameleon.chameleon.data.repository.ProjectRepository;
 import com.cameleon.chameleon.data.repository.SubjectRepository;
 import com.cameleon.chameleon.exception.BusinessLogicException;
@@ -16,7 +17,11 @@ public class ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
     @Autowired
+    private MeetingRepository meetingRepository;
+    @Autowired
     private TeamService teamService;
+    @Autowired
+    private MeetingService meetingService;
     @Autowired
     private SubjectRepository subjectRepository;
 
@@ -61,5 +66,14 @@ public class ProjectService {
         Team team = teamService.findBelongingTeam(user);
         if (team == null) return null;
         return team.getProject();
+    }
+
+    public void featureDiscoveredAtMeeting(Long projectId, Long meetingId, Long featureId) {
+        Meeting meeting = meetingRepository.findOne(meetingId);
+        meetingService.checkMeetingBelongsToProjectOrThrow(meeting, projectId);
+
+        Project project = projectRepository.findOne(projectId);
+
+        // TODO
     }
 }

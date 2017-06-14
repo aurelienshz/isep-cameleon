@@ -2,11 +2,31 @@ import React from 'react';
 
 import Button from 'material-ui/Button';
 import Grid from 'material-ui/Grid';
+import Dialog from 'material-ui/Dialog';
 import { formatFrenchDate, formatFrenchDateTime, formatFrenchDuration, formatExactFrenchDuration } from '../../../../../data/datetime';
 import ConfirmDialog from '../../../../../components/ConfirmDialog';
 import DatePicker from '../../../../../components/DatePicker';
 import { buildDownloadUrl } from '../../../../../data/document';
 import FileUploadDialog from "../../../../../components/FileUploadDialog";
+import colors from "../../../../../colors";
+
+import TextField from 'material-ui/TextField';
+import AppBar from 'material-ui/AppBar';
+import Toolbar from 'material-ui/Toolbar';
+import IconButton from 'material-ui/IconButton';
+import Typography from 'material-ui/Typography';
+import CloseIcon from 'material-ui-icons/Close';
+import Slide from 'material-ui/transitions/Slide';
+
+const STYLE_APPBAR = {
+  position: 'fixed',
+  height: 64,
+  backgroundColor: colors.ISEP_PRIMARY,
+};
+
+const STYLE_FLEX = {
+  flex: 1,
+};
 
 export default class MeetingDetails extends React.Component {
   state = {
@@ -19,6 +39,7 @@ export default class MeetingDetails extends React.Component {
     unsavedCommentEdit: null,
     unsavedAttendeesEdit: null,
     uploadMeetingReportDialogOpen: false,
+    featuresDiscoveryDialogOpen: false,
   };
 
   componentWillMount() {
@@ -138,6 +159,45 @@ export default class MeetingDetails extends React.Component {
           onCancel={this.closeDeleteConfirm}
           onConfirm={deleteMeeting} />
 
+        <Dialog
+          fullScreen
+          open={this.state.featuresDiscoveryDialogOpen}>
+
+          <AppBar style={STYLE_APPBAR}>
+            <Toolbar>
+              <IconButton contrast onClick={() => this.setState({ featuresDiscoveryDialogOpen: false })}>
+                <CloseIcon />
+              </IconButton>
+              <Typography type="title" colorInherit style={STYLE_FLEX}>Fonctionnalités</Typography>
+            </Toolbar>
+          </AppBar>
+
+          <div style={{ paddingTop: 64, overflowX: 'auto' }}>
+            <div style={{ padding: 20 }}>
+              <p>Pas d'inquiétude ! Vos modifications sont sauvegardées automatiquement !</p>
+
+              { this.props.project.subject.featureCategories.map(fc => {
+                return (
+                  <div>
+                    <h4>{ fc.name }</h4>
+                    <ul>
+                      {
+                        fc.features.map(feature => {
+                          console.log(feature);
+                          if (!feature) return null;
+                          return (<li>{feature.name} - <Button>Marquer comme découverte</Button></li>)
+                        })
+                      }
+                    </ul>
+                  </div>
+                )
+              }) }
+            </div>
+          </div>
+
+        </Dialog>
+
+
         {
           canUploadMeetingReport &&
             <FileUploadDialog
@@ -151,6 +211,7 @@ export default class MeetingDetails extends React.Component {
             <h3>Réunion du { date }</h3>
           </Grid>
 
+
           {
             canEditMeeting &&
             <Grid item xs={12} sm={6}>
@@ -158,24 +219,31 @@ export default class MeetingDetails extends React.Component {
                 {
                   this.state.editMode ?
                     <span>
-                      <Button onClick={this.saveChanges}>Enregistrer</Button>
-                      <Button onClick={this.cancelChanges}>Annuler</Button>
+                      <Button raised onClick={this.saveChanges}>Enregistrer</Button>
+                      <Button raised onClick={this.cancelChanges}>Annuler</Button>
                     </span>
                   :
-                    <Button onClick={this.switchToEditMode}>Modifier</Button>
+                    <Button raised onClick={this.switchToEditMode}>Modifier</Button>
                 }
                 {
-                  !this.state.editMode && <Button onClick={this.openDeleteConfirm}>Supprimer</Button>
+                  !this.state.editMode && <Button raised onClick={this.openDeleteConfirm}>Supprimer</Button>
                 }
               </div>
             </Grid>
           }
         </Grid>
 
+
         { !hasEnded &&
           <div>
             Réunion en cours
-            <Button onClick={ this.terminateMeeting }>Terminer la réunion</Button>
+            <Button raised onClick={ this.terminateMeeting }>Terminer la réunion</Button>
+          </div>
+        }
+
+        { canEditMeeting &&
+          <div style={{ padding: 10}}>
+            <Button raised onClick={() => this.setState({ featuresDiscoveryDialogOpen: true })}>Fonctionnalités</Button>
           </div>
         }
 
@@ -234,12 +302,12 @@ export default class MeetingDetails extends React.Component {
           Boolean(meeting.report) &&
             <span>
               Ajouté le { formatFrenchDateTime(meeting.report.uploadedAt) }
-              <a href={buildDownloadUrl(meeting.report)}><Button>Télécharger</Button></a>
+              <a href={buildDownloadUrl(meeting.report)}><Button raised>Télécharger</Button></a>
             </span>
         }
 
         { canUploadMeetingReport &&
-            <Button onClick={this.openUploadMeetingReportDialog}>
+            <Button raised onClick={this.openUploadMeetingReportDialog}>
               { meeting.report ? "Remplacer" : "Ajouter le compte-rendu" }
             </Button>
         }

@@ -36,10 +36,6 @@ public class Feature {
     @Column(name="feature_order")
     private Integer featureOrder;
 
-    @ManyToOne
-    @JoinColumn(name = "meeting_discovered_id")
-    private Meeting discoveredAtMeeting;
-
     private boolean expected;
 
     public void setId(Long id) {
@@ -73,14 +69,6 @@ public class Feature {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Meeting getDiscoveredAtMeeting() {
-        return discoveredAtMeeting;
-    }
-
-    public void setDiscoveredAtMeeting(Meeting discoveredAtMeeting) {
-        this.discoveredAtMeeting = discoveredAtMeeting;
     }
 
     public Integer getFeatureOrder() {

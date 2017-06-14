@@ -88,8 +88,6 @@ class ValidateEquipes extends React.Component {
 
   applyVisibilityFilter = (projects) => {
     const { profile } = this.props;
-
-    console.log(projects);
     if (userHasRole(profile, ROLE_CLIENT) && !userHasRole(profile, ROLE_TEACHER)) {
       return projects.filter(project => project.subject.client.id === profile.id);
     }

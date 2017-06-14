@@ -75,9 +75,6 @@ public class FeatureService {
         // Handle updates :
         feature.setName(featureDto.getName());
 
-        Meeting discoveredAtMeeting = meetingService.findMeeting(featureDto.getDiscoveredMeetingId());
-        feature.setDiscoveredAtMeeting(discoveredAtMeeting);
-
         FeatureCategory category = findFeatureCategory(featureDto.getCategoryId());
         feature.setCategory(category);
 
