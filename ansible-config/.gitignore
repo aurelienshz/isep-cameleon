@@ -1,4 +1,0 @@
-.idea
-*.retry
-ansible.cfg
-ansible_galaxy_roles/*
